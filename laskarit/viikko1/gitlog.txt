@@ -19,3 +19,5 @@ Date:   Mon Mar 13 12:28:56 2023 +0200
  tiedostoja/file2 | 0
  tiedostoja/file3 | 0
  3 files changed, 0 insertions(+), 0 deletions(-)
+
+täällä on lopussa turha rivi ristiriitaisuuksia
