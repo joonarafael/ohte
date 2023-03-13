@@ -14,3 +14,5 @@ Katsotaan toimiiko, tässä linkit
 [Komentorivi](laskarit/viikko1/komentorivi.txt)
 
 [Gitlog](laskarit/viikko1/gitlog.txt)
+
+Loppuun vielä yksi turha muutos
