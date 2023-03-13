@@ -9,6 +9,8 @@
 Markdown-notaatio on uusi asia
 > Tämän pitäisi olla siteeraus
 
-Katsotaan toimiiko
+Katsotaan toimiiko, tässä linkit
 
-[Contribution guidelines for this project](ot-1/laskarit/viikko1/komentorivi.txt)
+[Komentorivi](laskarit/viikko1/komentorivi.txt)
+
+[Gitlog](laskarit/viikko1/gitlog.txt)
