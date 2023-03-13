@@ -16,3 +16,5 @@ Katsotaan toimiiko, tässä linkit
 [Gitlog](laskarit/viikko1/gitlog.txt)
 
 Loppuun vielä yksi turha muutos
+
+nyt ajetaan homma jumiin epäsynkroonilla
