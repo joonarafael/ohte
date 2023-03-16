@@ -15,4 +15,4 @@ Katsotaan toimiiko, tässä linkit
 
 [Gitlog](laskarit/viikko1/gitlog.txt)
 
-testataan ssh-toimivuutta uudestaan
+SSH Connection established on home system March 16th 2023.
