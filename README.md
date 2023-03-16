@@ -1,6 +1,6 @@
-# Suurin otsikko
+# Ohjelmistotekniikka Spring 2023
 
-## Hieman pienempi otsikko
+## Week 1
 
 ##### Tosi pieni otsikko
 
