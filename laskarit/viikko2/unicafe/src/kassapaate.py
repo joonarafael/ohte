@@ -42,3 +42,9 @@ class Kassapaate:
             self.kassassa_rahaa += summa
         else:
             return
+
+    def __str__(self):
+        saldo_euroissa = round(self.kassassa_rahaa / 100, 2)
+        myydyt_lounaat = int(self.edulliset + self.maukkaat)
+
+        return f"Kassassa on rahaa {saldo_euroissa:0.2f} euroa, lounaita myyty {myydyt_lounaat} kappaletta."
