@@ -1,4 +1,4 @@
-# Software Requiremenets Specification
+# Software Requirements Specification
 
 ## Main Goal & Usage
 
