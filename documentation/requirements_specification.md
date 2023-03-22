@@ -4,7 +4,7 @@
 
 The Software is a casual one-player flag quiz game. It is intended to include every national flag and support a few different game modes.
 
-## Software core functionality & Interface
+## Software Core Functionality & Interface
 
 - Main langauge: Python.
 - Utilize the Tkinter library for graphics.
