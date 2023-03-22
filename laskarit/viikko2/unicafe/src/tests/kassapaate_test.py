@@ -60,3 +60,9 @@ class TestKassapaate(unittest.TestCase):
 
         self.assertEqual(str(self.kassapaate), "Kassassa on rahaa 1020.00 euroa, lounaita myyty 0 kappaletta.")
         self.assertEqual(str(self.maksukortti), "Kortilla on rahaa 30.00 euroa")
+
+    def test_lataus_kumotaan_jos_negatiivinen_syote(self):
+        self.kassapaate.lataa_rahaa_kortille(self.maksukortti, -70)
+
+        self.assertEqual(str(self.kassapaate), "Kassassa on rahaa 1000.00 euroa, lounaita myyty 0 kappaletta.")
+        self.assertEqual(str(self.maksukortti), "Kortilla on rahaa 10.00 euroa")
