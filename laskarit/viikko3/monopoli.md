@@ -1,27 +1,30 @@
----
-title: Animal example
----
+::: mermaid
 classDiagram
-    note "From Duck till Zebra"
-    Animal <|-- Duck
-    note for Duck "can fly\ncan swim\ncan dive\ncan help in debugging"
-    Animal <|-- Fish
-    Animal <|-- Zebra
-    Animal : +int age
-    Animal : +String gender
-    Animal: +isMammal()
-    Animal: +mate()
-    class Duck{
-        +String beakColor
-        +swim()
-        +quack()
-    }
-    class Fish{
-        -int sizeInFeet
-        -canEat()
-    }
-    class Zebra{
-        +bool is_wild
-        +run()
-    }
+    Monopoly *-- Board : composition
+    Monopoly <-- Player
+    Player -- PlayerPiece : link
+    Board <-- Square : association
+    Square <.. PlayerPiece : dependency
 
+    class Monopoly
+    Monopoly : +Integer(2-8) Player()
+    Monopoly : +Board()
+
+    class Board
+    Board : +Integer(39) Square()
+
+    class Square
+    Square : +String name
+    Square : +String action
+    Square : +String next_square
+
+    class Player
+    Player : +String name
+    Player : +PlayerPiece()
+
+    class PlayerPiece
+    PlayerPiece : +Integer(0-40) current sqaure
+
+
+
+:::
