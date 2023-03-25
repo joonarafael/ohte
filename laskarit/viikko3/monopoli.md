@@ -1,4 +1,4 @@
-::: mermaid
+```mermaid
 classDiagram
     Monopoly *-- Board : composition
     Monopoly <-- Player
@@ -24,7 +24,4 @@ classDiagram
 
     class PlayerPiece
     PlayerPiece : +Integer(0-40) current sqaure
-
-
-
-:::
+```
