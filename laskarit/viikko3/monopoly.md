@@ -10,9 +10,9 @@ classDiagram
     Chance And Community Chest o-- GetRandomCard : data request method
     GetRandomCard -- Random Card Database : database access
     Square <|-- Start : inherits Square class
-    Square <|-- Jail : these are some example squares
-    Square <|-- ExampleStreet : these are some exmample squares
-    Square <|-- Chance And Community Chest : these are some example squares
+    Square <|-- Jail : inherits Square class
+    Square <|-- ExampleStreet : inherits Square class
+    Square <|-- Chance And Community Chest : inherits Square class
 
     class Monopoly
     Monopoly : +int(range(2 to 8)) * Player()
@@ -36,7 +36,7 @@ classDiagram
     Player : +PlayerPiece()
 
     class PlayerPiece
-    PlayerPiece : +int(range(0 to 40)) current_square
+    PlayerPiece : +int(range(0 to 39)) current_square
 
     class Start
     Start : Square.id = 0
