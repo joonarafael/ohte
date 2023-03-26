@@ -1,3 +1,7 @@
+# Viikko3, Tehtävä 3: Sekvenssikaavio
+
+## Kaavio luotu Mermaid-syntaksilla
+
 ```mermaid
 sequenceDiagram
     main ->> Machine: __init__()
