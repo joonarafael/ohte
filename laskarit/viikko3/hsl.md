@@ -1,3 +1,5 @@
+#Viikko 3, Tehtävä 4: Laajempi sekvenssikaavio
+
 ```mermaid
 sequenceDiagram
     main -) laitehallinto: HKLLaitehallinto.__init__()
@@ -6,8 +8,17 @@ sequenceDiagram
     main -) bussi244: Lukijalaite.__init__()
 
     main ->> laitehallinto: lisaa_lataaja(rautatietori)
+    activate  laitehallinto
+    laitehallinto --> laitehallinto: _lataajat.append(rautatietori)
+    deactivate laitehallinto
     main ->> laitehallinto: lisaa_lukija(ratikka6)
+    activate  laitehallinto
+    laitehallinto --> laitehallinto: _lukijat.append(ratikka6)
+    deactivate laitehallinto
     main ->> laitehallinto: lisaa_lukija(bussi244)
+    activate  laitehallinto
+    laitehallinto --> laitehallinto: _lukijat.append(bussi244)
+    deactivate laitehallinto
 
     main -) lippu_luukku: Kioski.__init__()
 
@@ -42,6 +53,7 @@ sequenceDiagram
         main ->> bussi244: osta_lippu(kallen_kortti, 2)
         activate bussi244
         note right of bussi244: ticket type 2 = SEUTU
+        note right of bussi244: no function call made to kallen_kortti as arvo not enough
         bussi244 -->> main: False
         deactivate bussi244
     end
