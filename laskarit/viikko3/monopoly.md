@@ -1,7 +1,7 @@
 ```mermaid
 classDiagram
-    Monopoly *-- Board
-    Monopoly *-- Player
+    Monopoly *-- Board : consists of
+    Monopoly *-- Player : consists of
     Player -- PlayerPiece : linked
     Board <-- Square : associated
     Board <.. PlayerPiece : players located on the board
@@ -15,17 +15,17 @@ classDiagram
     Square <|-- Chance And Community Chest : inherits Square class
 
     class Monopoly
-    Monopoly : +int(range(2 to 8)) * Player()
+    Monopoly : +Player() * int(2-8)
     Monopoly : +Board()
 
     class Board
-    Board : list of all 39 squares
+    Board : lists all 40 squares
 
     class Square
     Square : +int id
     Square : +string name = GetStreet(name)
     Square : +string action = GetStreet(action)
-    Square : +int owner (if any)
+    Square : +int owner_id (if any)
     Square : +int house_amount
     Square : +int next_square = id + 1 (0 if 40)
 
@@ -36,30 +36,30 @@ classDiagram
     Player : +PlayerPiece()
 
     class PlayerPiece
-    PlayerPiece : +int(range(0 to 39)) current_square
+    PlayerPiece : +int(0-39) current_square
 
     class Start
     Start : Square.id = 0
     Start : Square.name = "Start"
-    Start : Square.owner = None
+    Start : Square.owner_id = None
     Start : Square.house_amount = None
-    Start : Square.action =  "game start" and "money +200 when passed"
+    Start : Square.action = ("game start" and "money +200 when passed")
     Start : Square.next_square = 1
 
     class Jail
     Jail : Square.id = 10
     Jail : Square.name = "Jail"
-    Jail : Square.owner = None
+    Jail : Square.owner_id = None
     Jail : Square.house_amount = None
-    Jail : Square.action =  "jail passing" or "jail serving"
+    Jail : Square.action = ("jail passing" or "jail serving")
     Jail : Square.next_square = 11
 
     class Chance And Community Chest
     Chance And Community Chest : Square.id = 2 or 7 or 17 or 22 or 33 or 36
     Chance And Community Chest : Square.name = "Chance" or "Community Chest"
-    Chance And Community Chest : Square.owner = None
+    Chance And Community Chest : Square.owner_id = None
     Chance And Community Chest : Square.house_amount = None
-    Chance And Community Chest : Square.action =  GetRandomCard()
+    Chance And Community Chest : Square.action = GetRandomCard()
     Chance And Community Chest : Square.next_square = 3 or 8 or 18 or 23 or 34 or 37 
 
     class GetStreet
@@ -90,8 +90,10 @@ classDiagram
     class ExampleStreet
     ExampleStreet : Square.id = 18
     ExampleStreet : Square.name = "Tennessee Avenue"
-    ExampleStreet : Square.action =  "pass" or "pay rent"
-    ExampleStreet : Square.owner = 5
+    ExampleStreet : Square.action = ("pass" or "pay rent")
+    ExampleStreet : Square.owner_id = 5
     ExampleStreet : Square.house_amount = 2
     ExampleStreet : Square.next_square = 19
+    
+    note for ExampleStreet "buy option removed from Square.action as the street has an owner already"
 ```
