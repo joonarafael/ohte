@@ -1,4 +1,6 @@
-#Viikko 3, Tehtävä 4: Laajempi sekvenssikaavio
+# Viikko 3, Tehtävä 4: Laajempi sekvenssikaavio
+
+## Kaavio luotu Mermaid-syntaksilla
 
 ```mermaid
 sequenceDiagram
