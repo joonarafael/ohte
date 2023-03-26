@@ -1,3 +1,7 @@
+# Viikko3, Tehtävä 2: Laajennettu Monopoli
+
+## Kaavio luotu Mermaid-syntaksilla
+
 ```mermaid
 classDiagram
     Monopoly *-- Board : consists of
