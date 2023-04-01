@@ -10,7 +10,8 @@ The Software is a casual one-player flag quiz game. It is intended to include ev
 - Utilize the Tkinter library for graphics.
 - Keep track of high scores and previous games in a separate history file stored on disk.
 - Game should be played with mouse pointer.
-- Game includes only one "Classic" game mode first and additional features and game modes are added in the future.
+- Game includes only one "Classic" game mode first.
+- Additional features and game modes are added in the future.
 
 ## Main Concerns
 
