@@ -1,5 +1,4 @@
-import flaghandler
 import gui
 
-flaghandler
+#call modules
 gui
