@@ -1,4 +1,5 @@
 import gui
 
-gui
+print("Program Start")
 
+gui

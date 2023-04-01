@@ -1,8 +1,12 @@
 from tkinter import *
 from tkinter import ttk
 import tkinter.messagebox
+import gamemode_classic
+
+print("Necessary libraries for GUI imported, drawing interface...")
 
 window = Tk()
+window.title("Flag Game")
 menu_bar = Menu(window)
 window.config(menu=menu_bar)
 
@@ -22,7 +26,10 @@ def onClick():
 
 about_menu.add_command(label="About...", command=onClick)
 
-gamemode_selection.add_command(label="Classic", command=None)
+def start_classic_game():
+    print("the fuck")
+
+gamemode_selection.add_command(label="Classic", command=start_classic_game)
 gamemode_selection.add_command(label="Advanced", command=None)
 gamemode_selection.add_command(label="Time Trial", command=None)
 gamemode_selection.add_command(label="One Life", command=None)
