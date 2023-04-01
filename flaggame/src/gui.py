@@ -3,6 +3,7 @@ from tkinter import ttk
 import tkinter.messagebox
 from PIL import Image, ImageTk
 import game_handler
+import flaghandler
 
 game_handler
 
@@ -57,7 +58,7 @@ notebook.pack(expand=True, fill="both")
 gameLabel = Label(tab0, text="Flag Game", font=("Arial", 12), background="#c3e0dd").grid(row=0, column=0, columnspan=2)
 
 #image (flags) processing, resizing and general handling
-img = Image.open("placeholder-image.png")
+img = Image.open(flaghandler.workingdir + "/placeholder-image.png")
 img.thumbnail((500, 500), Image.ANTIALIAS)
 im = ImageTk.PhotoImage(img)
 photoLabel = Label(tab0, image=im)
@@ -102,6 +103,7 @@ def nextbuttons(options: list):
     button3.configure(text=options[3])
 
 print("GUI generated and fully operational.")
+print()
 
 #Tkinter mainloop
 window.mainloop()

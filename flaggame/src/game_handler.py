@@ -83,6 +83,7 @@ class GameHandler():
         random.shuffle(self.buttons)
 
         print("DEBUGGING: Generated options", self.buttons, "out of which", self.current_flag.upper().replace("_", " "), "is correct.")
+        print()
 
         #update displayed buttons to player
         gui.nextbuttons(self.buttons)

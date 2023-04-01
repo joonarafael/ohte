@@ -4,7 +4,13 @@ from os import walk
 
 #determine current working directory
 workingdir = os.getcwd()
-print("SOURCE Path:", workingdir)
+
+if workingdir[-3:] == "src":
+    print("SOURCE Path:", workingdir)
+
+else:
+    workingdir = workingdir + "/src"
+    print("SOURCE Path:", workingdir)
 
 #establish path to flags
 flagdir = workingdir + "/flags"
@@ -18,3 +24,4 @@ for flags in reversed(completeFlagList):
         completeFlagList.remove(flags)
 
 print("Flags directory read, counted a total of", len(completeFlagList), "individual .png files.")
+print()
