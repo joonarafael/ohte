@@ -1,12 +1,16 @@
 from tkinter import *
 from tkinter import ttk
 import tkinter.messagebox
+from PIL import Image, ImageTk
+
 import gamemode_classic
 
 print("Necessary libraries for GUI imported, drawing interface...")
 
 window = Tk()
 window.title("Flag Game")
+window.geometry("525x600")
+
 menu_bar = Menu(window)
 window.config(menu=menu_bar)
 
@@ -46,9 +50,15 @@ notebook.pack(expand=True, fill="both")
 
 gameLabel = Label(tab0, text="Flag Game", font=("Arial", 12), background="#c3e0dd").grid(row=0, column=0, columnspan=2)
 
-button0 = Button(tab0, text="Option1").grid(row=1, column=0)
-button1 = Button(tab0, text="Option2").grid(row=1, column=1)
-button2 = Button(tab0, text="Option3").grid(row=2, column=0)
-button3 = Button(tab0, text="Option4").grid(row=2, column=1)
+photoPath = "placeholder-image.png"
+img = Image.open(photoPath)
+img.thumbnail((500, 500), Image.ANTIALIAS)
+im = ImageTk.PhotoImage(img)
+photoLabel = Label(tab0, image=im).grid(row=1, column=0, columnspan=2)
+
+button0 = Button(tab0, text="Option1").grid(row=2, column=0)
+button1 = Button(tab0, text="Option2").grid(row=2, column=1)
+button2 = Button(tab0, text="Option3").grid(row=3, column=0)
+button3 = Button(tab0, text="Option4").grid(row=3, column=1)
 
 window.mainloop()
