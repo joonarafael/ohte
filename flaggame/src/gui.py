@@ -27,6 +27,7 @@ def onClick():
 about_menu.add_command(label="About...", command=onClick)
 
 def start_classic_game():
+    gamemode_classic.new_game()
     print("the fuck")
 
 gamemode_selection.add_command(label="Classic", command=start_classic_game)

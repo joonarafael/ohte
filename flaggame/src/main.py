@@ -1,5 +1,5 @@
 import gui
+import flaghandler
 
-print("Program Start")
-
+flaghandler
 gui
