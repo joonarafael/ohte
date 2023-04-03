@@ -2,7 +2,7 @@
 import os
 from os import walk
 
-def flagImport():
+def flagImport(correctAmount):
     global workingdir
     global flagdir
     global completeFlagList
@@ -30,13 +30,13 @@ def flagImport():
     completeFlagList.sort()
 
     #check if found flags match the correct flag list
-    if completeFlagList != correctFlags:
+    if completeFlagList != correctFlags or len(completeFlagList) != correctAmount:
         print()
         print("ERROR")
         print("Error while trying to ensure integrity of flag image source files.")
 
-        if len(completeFlagList) != 198:
-            print("Found a total of", len(completeFlagList), "out of 198 .png files in", flagdir)
+        if len(completeFlagList) != correctAmount:
+            print(f"Found a total of {len(completeFlagList)} out of {correctAmount} .png files in {flagdir}.")
         
         print("Please see flags subdirectory within src directory to ensure every flag file is present and in .png format.")
         print("Software is trying to find a matching .png file for every 195 independent state listed at: https://www.worldometers.info/geography/how-many-countries-are-there-in-the-world/ and Taiwan, Western Sahara & Kosovo.")
@@ -57,4 +57,4 @@ def listEverything():
     for flags in completeFlagList:
         print(flags)
 
-flagImport()
+flagImport(198)

@@ -62,7 +62,7 @@ class GameHandler():
         print("Game Start!")
         self.nextround()
 
-    #initialize adnvanced game mode
+    #initialize advanced game mode
     def advanced(self):
         print("Launching Advanced Game...")
         gui.changeTitle("Advanced")
@@ -70,6 +70,18 @@ class GameHandler():
         self.reset()
         self.lives = 3
         self.gamemode = 1
+
+        print("Game Start!")
+        self.nextround()
+
+    #initialize free game mode
+    def free(self):
+        print("Launching Free Game...")
+        gui.changeTitle("Free Mode")
+
+        self.reset()
+        self.lives = -1
+        self.gamemode = 4
 
         print("Game Start!")
         self.nextround()
@@ -100,6 +112,10 @@ class GameHandler():
                 
                 pointsGained = pointsGained * (((1 / -self.streak) + 2) ** 1.5)
                 self.score += int(pointsGained)
+            
+            #free game mode
+            elif self.gamemode == 4:
+                self.score += 100
 
             if self.devstatusprint:
                 print("Correct! You have answered", self.streak, "times correct in a row!")

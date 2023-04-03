@@ -7,13 +7,14 @@ import flaghandler
 import timerlogic
 
 game_handler
+correctAmount = 198
 
 print("Necessary libraries for GUI imported, drawing interface...")
 
 #master window settings
 window = Tk()
 window.title("Flag Game")
-window.geometry("500x600")
+window.geometry("700x600")
 
 #define "are you sure" screen
 def exit_game():
@@ -45,7 +46,7 @@ def flagList():
     flaghandler.listEverything()
 
 def retryImport():
-    flaghandler.flagImport()
+    flaghandler.flagImport(correctAmount)
 
 def toggleStatusPrint():
     if game_handler.masterGameHandler.devstatusprint == True:
@@ -56,10 +57,22 @@ def toggleStatusPrint():
         print("Dev print game status enabled.")
         game_handler.masterGameHandler.devstatusprint = True
 
+def forceNepal():
+    nextflag(flaghandler.flagdir + '/nepal.png')
+
+def forceQatar():
+    nextflag(flaghandler.flagdir + '/qatar.png')
+
+def forceLongestOptions():
+    nextbuttons(["SAINT VINCENT AND THE GRENADINES", "DOMECRATIC REPUBLIC OF THE CONGO", "SAINT VINCENT AND THE GRENADINES", "DOMECRATIC REPUBLIC OF THE CONGO"])
+
 #define debug menu
 debug_menu.add_command(label="List flag source files to console", command=flagList)
 debug_menu.add_command(label="Retry flag import...", command=retryImport)
 debug_menu.add_command(label="Toggle 'Dev print game status to console'", command=toggleStatusPrint)
+debug_menu.add_command(label="View Nepal", command=forceNepal)
+debug_menu.add_command(label="View Qatar", command=forceQatar)
+debug_menu.add_command(label="Force longest options", command=forceLongestOptions)
 
 #define 'about' message
 def onClick():
@@ -69,19 +82,23 @@ about_menu.add_command(label="About...", command=onClick)
 
 #define game starts
 def start_classic_game():
-    if len(flaghandler.completeFlagList) == 198:
+    if len(flaghandler.completeFlagList) == correctAmount:
         game_handler.masterGameHandler.classic()
 
 def start_advanced_game():
-    if len(flaghandler.completeFlagList) == 198:
+    if len(flaghandler.completeFlagList) == correctAmount:
         game_handler.masterGameHandler.advanced()
+
+def start_free_game():
+    if len(flaghandler.completeFlagList) == correctAmount:
+        game_handler.masterGameHandler.free()
 
 #define game mode selection menu
 gamemode_selection.add_command(label="Classic", command=start_classic_game)
 gamemode_selection.add_command(label="Advanced", command=start_advanced_game)
 gamemode_selection.add_command(label="Time Trial", command=None)
 gamemode_selection.add_command(label="One Life", command=None)
-gamemode_selection.add_command(label="Free Mode", command=None)
+gamemode_selection.add_command(label="Free Mode", command=start_free_game)
 
 #define 'tab' system
 notebook = ttk.Notebook(window)
@@ -95,7 +112,7 @@ notebook.add(tab2, text="Learn")
 notebook.pack(expand=True, fill="both")
 
 #main title
-if len(flaghandler.completeFlagList) != 198:
+if len(flaghandler.completeFlagList) != correctAmount:
     gameLabel = Label(tab0, text="FLAG IMAGES IMPORT ERROR, SEE CONSOLE FOR DETAILS", font=("Arial", 12), background="#c3e0dd")
 
 else:
@@ -144,7 +161,7 @@ streakLabel.grid(row=1, column=4)
 
 #image (flags) processing, resizing and general handling
 img = Image.open(flaghandler.workingdir + "/placeholder-image.png")
-img.thumbnail((500, 500), Image.LANCZOS)
+img.thumbnail((600, 600), Image.LANCZOS)
 im = ImageTk.PhotoImage(img)
 photoLabel = Label(tab0, image=im)
 photoLabel.grid(row=2, column=0, columnspan=5)
@@ -152,7 +169,7 @@ photoLabel.grid(row=2, column=0, columnspan=5)
 #change flag
 def nextflag(path: str):
     img2 = Image.open(path)
-    img2.thumbnail((500, 500), Image.LANCZOS)
+    img2.thumbnail((450, 450), Image.LANCZOS)
     im2 = ImageTk.PhotoImage(img2)
     photoLabel.configure(image=im2)
     photoLabel.image = im2
@@ -190,7 +207,7 @@ def nextbuttons(options: list):
 #keep window dimensions locked, disable dynamic scaling on the grid element
 tab0.rowconfigure(0,weight=0, uniform='titles')
 tab0.rowconfigure(1,weight=0, uniform='titles')
-tab0.rowconfigure(2,weight=1, uniform='image')
+tab0.rowconfigure(2,weight=1, uniform='viewport')
 tab0.rowconfigure(3,weight=0, uniform='buttons')
 tab0.rowconfigure(4,weight=0, uniform='buttons')
 
