@@ -64,7 +64,7 @@ def forceQatar():
     nextflag(flaghandler.flagdir + '/qatar.png')
 
 def forceLongestOptions():
-    nextbuttons(["SAINT VINCENT AND THE GRENADINES", "DOMECRATIC REPUBLIC OF THE CONGO", "SAINT VINCENT AND THE GRENADINES", "DOMECRATIC REPUBLIC OF THE CONGO"])
+    nextbuttons(["SAINT VINCENT AND THE GRENADINES", "DOMECRATIC REPUBLIC OF THE CONGO", "DOMECRATIC REPUBLIC OF THE CONGO", "SAINT VINCENT AND THE GRENADINES"])
 
 #define debug menu
 debug_menu.add_command(label="List flag source files to console", command=flagList)
