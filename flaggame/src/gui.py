@@ -76,7 +76,7 @@ debug_menu.add_command(label="Force longest options", command=forceLongestOption
 
 #define 'about' message
 def onClick():
-    tkinter.messagebox.showinfo("About", "Joona Kettunen, github.com/joonarafael/ohte, Flag Game v. 0.1.3, Ohjelmistotekniikka K2023")
+    tkinter.messagebox.showinfo("About", "Joona Kettunen, github.com/joonarafael/ohte, Flag Game v. 0.1.4, Ohjelmistotekniikka K2023")
 
 about_menu.add_command(label="About...", command=onClick)
 
