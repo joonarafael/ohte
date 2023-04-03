@@ -1,8 +1,6 @@
-# Ohjelmistotekniikka Spring 2023
+# FLAG GAME QUIZ
 
-## FLAG GAME QUIZ
-
-# Important Notice Regarding Installation
+## Important Notice Regarding Installation
 
 My current build (0.1.4) is running fine on an Oracle VirtualBox Ubuntu installation and Cubbli computer provided by the school.
 
