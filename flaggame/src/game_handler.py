@@ -5,6 +5,7 @@ import gui
 
 flaghandler
 
+#GameHandler class is responsible for every game mode
 class GameHandler():
     def __init__(self):
         print("Initializing GameHandler...")
@@ -14,11 +15,15 @@ class GameHandler():
         self.lives = 0
         self.streak = 0
         self.gamemode = -1
+        self.devstatusprint = False
         self.all_flags = flaghandler.completeFlagList
     
+    #call next round
     def nextround(self):
-        print()
-        print("Current Round", self.round)
+        if self.devstatusprint:
+            print()
+            print("Current Round", self.round)
+
         gui.displayRound(self.round)
 
         #pick a random  flag, remove from remaining set
@@ -28,12 +33,13 @@ class GameHandler():
 
         #start timer if needed
         if self.gamemode == 1:
-            gui.timer()
+            gui.displayTimer()
             timerlogic.clock.runClassicTimer()
 
         #ask to update gui
         self.updateGUI()
     
+    #reset counters
     def reset(self):
         self.remaining_flags = set(self.all_flags)
         self.round = 1
@@ -44,6 +50,7 @@ class GameHandler():
         gui.displayStreak(self.streak)
         gui.displayLives(self.lives)
 
+    #initialize classic game mode
     def classic(self):
         print("Launching Classic Game...")
         gui.changeTitle("Classic")
@@ -55,6 +62,7 @@ class GameHandler():
         print("Game Start!")
         self.nextround()
 
+    #initialize adnvanced game mode
     def advanced(self):
         print("Launching Advanced Game...")
         gui.changeTitle("Advanced")
@@ -76,9 +84,11 @@ class GameHandler():
             self.streak += 1
 
             #change score depending on the game mode
+            #classic score
             if self.gamemode == 0:
                 self.score += 100
-            
+
+            #advanced score
             elif self.gamemode == 1:
                 roundtime = timerlogic.clock.readAccurate()
 
@@ -91,14 +101,20 @@ class GameHandler():
                 pointsGained = pointsGained * (((1 / -self.streak) + 2) ** 1.5)
                 self.score += int(pointsGained)
 
-            print("Correct! You have answered", self.streak, "times correct in a row!")
-      
+            if self.devstatusprint:
+                print("Correct! You have answered", self.streak, "times correct in a row!")
+
+        #wrong answer handling
         else:
             self.lives -= 1
             self.streak = 0
-            print("Wrong!", self.lives, "lives remaining.")
+
+            if self.devstatusprint:
+                print("Wrong!", self.lives, "lives remaining.")
         
-        print("Current score:", self.score)
+        if self.devstatusprint:
+            print("Current score:", self.score)
+
         gui.displayScore(self.score)
         gui.displayStreak(self.streak)
         gui.displayLives(self.lives)
@@ -106,8 +122,11 @@ class GameHandler():
         #check if game is over
         if self.lives == 0:
             self.gamemode = -1
-            print("Game over, you're out of lives! Start new game from File > New game.")
+
+            if self.devstatusprint:
+                print("Game over, you're out of lives! Start new game from File > New game.")
         
+        #launch next round
         else:
             self.round += 1
             self.nextround()
@@ -134,7 +153,8 @@ class GameHandler():
         
         random.shuffle(self.buttons)
 
-        print("DEBUGGING: Generated options", self.buttons, "out of which", self.current_flag.upper().replace("_", " "), "is correct.")
+        if self.devstatusprint:
+            print("Generated options", self.buttons, "out of which", self.current_flag.upper().replace("_", " "), "is correct.")
 
         #update displayed buttons to player
         gui.nextbuttons(self.buttons)

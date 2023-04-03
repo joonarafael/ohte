@@ -35,6 +35,7 @@ menu_bar.add_cascade(label="File", menu=file_menu)
 menu_bar.add_cascade(label="Debug", menu=debug_menu)
 menu_bar.add_cascade(label="About", menu=about_menu)
 
+#define file menu
 file_menu.add_cascade(label="New game", menu=gamemode_selection)
 file_menu.add_separator()
 file_menu.add_command(label="Exit", command=exit_game)
@@ -43,7 +44,22 @@ file_menu.add_command(label="Exit", command=exit_game)
 def flagList():
     flaghandler.listEverything()
 
+def retryImport():
+    flaghandler.flagImport()
+
+def toggleStatusPrint():
+    if game_handler.masterGameHandler.devstatusprint == True:
+        print("Dev print game status disabled.")
+        game_handler.masterGameHandler.devstatusprint = False
+    
+    else:
+        print("Dev print game status enabled.")
+        game_handler.masterGameHandler.devstatusprint = True
+
+#define debug menu
 debug_menu.add_command(label="List flag source files to console", command=flagList)
+debug_menu.add_command(label="Retry flag import...", command=retryImport)
+debug_menu.add_command(label="Toggle 'Dev print game status to console'", command=toggleStatusPrint)
 
 #define 'about' message
 def onClick():
@@ -53,13 +69,14 @@ about_menu.add_command(label="About...", command=onClick)
 
 #define game starts
 def start_classic_game():
-    if len(flaghandler.completeFlagList) == 200:
+    if len(flaghandler.completeFlagList) == 198:
         game_handler.masterGameHandler.classic()
 
 def start_advanced_game():
-    if len(flaghandler.completeFlagList) == 200:
+    if len(flaghandler.completeFlagList) == 198:
         game_handler.masterGameHandler.advanced()
 
+#define game mode selection menu
 gamemode_selection.add_command(label="Classic", command=start_classic_game)
 gamemode_selection.add_command(label="Advanced", command=start_advanced_game)
 gamemode_selection.add_command(label="Time Trial", command=None)
@@ -78,7 +95,7 @@ notebook.add(tab2, text="Learn")
 notebook.pack(expand=True, fill="both")
 
 #main title
-if len(flaghandler.completeFlagList) != 200:
+if len(flaghandler.completeFlagList) != 198:
     gameLabel = Label(tab0, text="FLAG IMAGES IMPORT ERROR, SEE CONSOLE FOR DETAILS", font=("Arial", 12), background="#c3e0dd")
 
 else:
@@ -90,18 +107,18 @@ gameLabel.grid(row=0, column=0, columnspan=5)
 def changeTitle(newtext):
     gameLabel.configure(text=newtext)
 
-#subtitles config
-def timer():
-    timerLabel.config(text=timerlogic.clock.readDisplayed())
-
-    if game_handler.masterGameHandler.gamemode != -1:
-        timerLabel.after(100, timer)
-
+#update game status
 def displayRound(round):
     roundLabel.config(text=f"Round: {round}")
 
 def displayScore(score):
     scoreLabel.config(text=f"Score: {score}")
+
+def displayTimer():
+    timerLabel.config(text=timerlogic.clock.readDisplayed())
+
+    if game_handler.masterGameHandler.gamemode != -1:
+        timerLabel.after(100, displayTimer)
 
 def displayLives(lives):
     livesLabel.config(text=f"Lives: {lives}")
@@ -127,7 +144,7 @@ streakLabel.grid(row=1, column=4)
 
 #image (flags) processing, resizing and general handling
 img = Image.open(flaghandler.workingdir + "/placeholder-image.png")
-img.thumbnail((500, 500), Image.ANTIALIAS)
+img.thumbnail((500, 500), Image.LANCZOS)
 im = ImageTk.PhotoImage(img)
 photoLabel = Label(tab0, image=im)
 photoLabel.grid(row=2, column=0, columnspan=5)
@@ -135,7 +152,7 @@ photoLabel.grid(row=2, column=0, columnspan=5)
 #change flag
 def nextflag(path: str):
     img2 = Image.open(path)
-    img2.thumbnail((500, 500), Image.ANTIALIAS)
+    img2.thumbnail((500, 500), Image.LANCZOS)
     im2 = ImageTk.PhotoImage(img2)
     photoLabel.configure(image=im2)
     photoLabel.image = im2
@@ -170,8 +187,14 @@ def nextbuttons(options: list):
     button2.configure(text=options[2])
     button3.configure(text=options[3])
 
+#keep window dimensions locked, disable dynamic scaling on the grid element
+tab0.rowconfigure(0,weight=0, uniform='titles')
+tab0.rowconfigure(1,weight=0, uniform='titles')
+tab0.rowconfigure(2,weight=1, uniform='image')
+tab0.rowconfigure(3,weight=0, uniform='buttons')
+tab0.rowconfigure(4,weight=0, uniform='buttons')
+
 print("GUI generated and fully operational.")
-print()
 
 #Tkinter mainloop
 window.mainloop()

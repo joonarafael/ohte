@@ -1,6 +1,4 @@
 import timeit
-import time
-#import gui
 
 class MasterClock():
     def __init__(self):
