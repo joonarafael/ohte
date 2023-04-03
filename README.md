@@ -1,5 +1,7 @@
 # FLAG GAME QUIZ
 
+current ver 0.1.4 (2.4.2023)
+
 ## Important Notice Regarding Installation
 
 My current build (0.1.4) is running fine on an Oracle VirtualBox Ubuntu installation and Cubbli computer provided by the school.
