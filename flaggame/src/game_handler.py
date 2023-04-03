@@ -1,6 +1,6 @@
 import random
-import timeit
 import flaghandler
+import timerlogic
 import gui
 
 flaghandler
@@ -8,34 +8,60 @@ flaghandler
 class GameHandler():
     def __init__(self):
         print("Initializing GameHandler...")
+
         self.score = 0
         self.round = 0
         self.lives = 0
-        self.timer = 0
+        self.streak = 0
         self.gamemode = -1
         self.all_flags = flaghandler.completeFlagList
     
     def nextround(self):
+        print()
         print("Current Round", self.round)
+        gui.displayRound(self.round)
+
         #pick a random  flag, remove from remaining set
         self.current_flag = random.choice(list(self.remaining_flags))
         self.remaining_flags.remove(self.current_flag)
-
         self.current_flag = self.current_flag[:-4]
+
+        #start timer if needed
+        if self.gamemode == 1:
+            gui.timer()
+            timerlogic.clock.runClassicTimer()
 
         #ask to update gui
         self.updateGUI()
     
+    def reset(self):
+        self.remaining_flags = set(self.all_flags)
+        self.round = 1
+        self.score = 0
+        self.streak = 0
+        
+        gui.displayScore(self.score)
+        gui.displayStreak(self.streak)
+        gui.displayLives(self.lives)
+
     def classic(self):
         print("Launching Classic Game...")
-        #reset scores
-        self.round = 0
-        self.score = 0
+        gui.changeTitle("Classic")
+
+        self.reset()
         self.lives = 3
         self.gamemode = 0
 
-        #reset & randomize flag queue 
-        self.remaining_flags = set(self.all_flags)
+        print("Game Start!")
+        self.nextround()
+
+    def advanced(self):
+        print("Launching Advanced Game...")
+        gui.changeTitle("Advanced")
+
+        self.reset()
+        self.lives = 3
+        self.gamemode = 1
 
         print("Game Start!")
         self.nextround()
@@ -47,18 +73,44 @@ class GameHandler():
         
         #check if answer was correct
         if self.buttons[btn] == self.current_flag.upper().replace("_", " "):
-            self.round += 1
+            self.streak += 1
 
             #change score depending on the game mode
             if self.gamemode == 0:
                 self.score += 100
-                print("Correct! Your current score is:", self.score)
-        
+            
+            elif self.gamemode == 1:
+                roundtime = timerlogic.clock.readAccurate()
+
+                if roundtime < 5:
+                    pointsGained = 100 + (20 * (5 - roundtime))
+                
+                else:
+                    pointsGained = 100
+                
+                pointsGained = pointsGained * (((1 / -self.streak) + 2) ** 1.5)
+                self.score += int(pointsGained)
+
+            print("Correct! You have answered", self.streak, "times correct in a row!")
+      
         else:
             self.lives -= 1
+            self.streak = 0
             print("Wrong!", self.lives, "lives remaining.")
         
-        self.nextround()
+        print("Current score:", self.score)
+        gui.displayScore(self.score)
+        gui.displayStreak(self.streak)
+        gui.displayLives(self.lives)
+        
+        #check if game is over
+        if self.lives == 0:
+            self.gamemode = -1
+            print("Game over, you're out of lives! Start new game from File > New game.")
+        
+        else:
+            self.round += 1
+            self.nextround()
 
     def updateGUI(self):
         #read new flag
@@ -83,7 +135,6 @@ class GameHandler():
         random.shuffle(self.buttons)
 
         print("DEBUGGING: Generated options", self.buttons, "out of which", self.current_flag.upper().replace("_", " "), "is correct.")
-        print()
 
         #update displayed buttons to player
         gui.nextbuttons(self.buttons)
