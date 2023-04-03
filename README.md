@@ -1,17 +1,9 @@
 # Ohjelmistotekniikka Spring 2023
 
-## Week 1
+## FLAG GAME QUIZ
 
-Links to week 1 excerises:
+# Important Notice Regarding Installation
 
-[Komentorivi](laskarit/viikko1/komentorivi.txt)
+My current build (0.1.4) is running fine on an Oracle VirtualBox Ubuntu installation and Cubbli computer provided by the school.
 
-[Gitlog](laskarit/viikko1/gitlog.txt)
-
-## Week 2
-
-Link to Software Requirements Specification & Working Hours Record for the final course project:
-
-[Software Requirements Specification](documentation/requirements_specification.md)
-
-[Working Hours Record](documentation/working_hours_record.md)
+When run through the VMware Horizon, poetry fails due to the "dev" group in pyproject.toml. If this error occurs, move the dependencies from dev group to the "regular" group.
