@@ -1,6 +1,7 @@
 # FLAG QUIZ GAME
 
 current ver 0.1.4 (2.4.2023)
+built with python3 poetry
 
 ## IMPORTANT NOTICE ABOUT INSTALLATION
 
