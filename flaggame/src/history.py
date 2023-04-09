@@ -1,8 +1,17 @@
 # system imported for file handling
 import sys
+from os import getcwd
 from datetime import datetime
 
-print("Opening (creating if it doesn't exist) the game history file 'history.txt'...")
+
+# determine directory for history file
+workingdir = getcwd()
+
+if workingdir[-3:] != "src":
+    workingdir = workingdir + "/src"
+    print(workingdir)
+
+historyPath = workingdir + "/history.txt"
 
 # current time is read with minutes accuracy
 
@@ -11,13 +20,15 @@ def curr_time():
     return datetime.now().isoformat(sep=" ", timespec="minutes")
 
 
+print("Opening (creating if it doesn't exist) the game history file 'history.txt'...")
+
 # check history file
 try:
-    f = open('history.txt', 'r+', encoding="utf-8")
+    f = open(historyPath, 'r+', encoding="utf-8")
     fileLen = len(f.readlines())
     f.close()
 
-    f = open('history.txt', 'a+', encoding="utf-8")
+    f = open(historyPath, 'a+', encoding="utf-8")
 
     if fileLen == 0:
         f.write(
@@ -29,10 +40,19 @@ try:
 
     f.close()
 
+except FileNotFoundError:
+    f = open(historyPath, 'w+', encoding="utf-8")
+
+    f.write(
+        f"/// /// /// /// /// /// /// ///\nNEW SESSION AT {curr_time()}")
+
+    f.close()
+
 # if history file cannot be read at launch, software launch is terminated
 # no history will be recorded anyway
-except:
+except Exception as e:
     print("ERROR while opening 'history.txt.':")
+    print(e)
     print("Please ensure file integrity or create it manually before continuing.")
     print("You may have to close the file before running the software again.")
     sys.exit(1)
@@ -40,7 +60,7 @@ except:
 
 def clear_history():
     print("Deleting all progress and history permantently.")
-    f = open('history.txt', 'w+', encoding="utf-8")
+    f = open(historyPath, 'w+', encoding="utf-8")
     f.close()
     print("Closing program...")
     sys.exit(1)
@@ -50,7 +70,7 @@ def clear_history():
 
 def console_print():
     print("Contents of file 'history.txt':")
-    with open('history.txt', 'r', encoding="utf-8") as f:
+    with open(historyPath, 'r', encoding="utf-8") as f:
         print(f.read())
 
 # game_handler calls history changes
@@ -58,14 +78,14 @@ def console_print():
 
 
 def gameStart(mode: str):
-    with open('history.txt', 'a+', encoding="utf-8") as f:
+    with open(historyPath, 'a+', encoding="utf-8") as f:
         f.write(f"\n\n{mode} Game start off at {curr_time()}.")
 
 # game is over, game info & score recorded
 
 
 def gameOver(info: list):
-    with open('history.txt', 'a+', encoding="utf-8") as f:
+    with open(historyPath, 'a+', encoding="utf-8") as f:
         if info[0] == 0:
             mode = "Classic"
 
@@ -82,7 +102,7 @@ def gameOver(info: list):
 
 
 def terminated(info: list):
-    with open('history.txt', 'a+', encoding="utf-8") as f:
+    with open(historyPath, 'a+', encoding="utf-8") as f:
         if info[0] == 0:
             mode = "Classic"
 
@@ -106,5 +126,14 @@ def terminated(info: list):
 
 
 def update():
-    with open('history.txt', 'r') as f:
+    with open(historyPath, 'r') as f:
         return f.read().splitlines()
+
+
+def print_directories():
+    print("Main working directory path received from os.getcwd():")
+    print(getcwd())
+    print("Source folder path:")
+    print(workingdir)
+    print("History file path:")
+    print(historyPath)

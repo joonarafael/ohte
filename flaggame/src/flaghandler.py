@@ -62,9 +62,3 @@ def listEverything():
 
     for flags in completeFlagList:
         print(flags)
-
-
-# import flags
-# PLACE (1/2) TO CHANGE CORRECT FLAG AMOUNT !!!
-# Other place is in gui module, row 12.
-flagImport(198)

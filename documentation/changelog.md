@@ -1,3 +1,4 @@
+
 # Flag Game Changelog
 
 | date  | ver  | desc |
@@ -8,3 +9,4 @@
 | 3.4. | 0.1.4 | free game mode launch functional, new debugging options, first invoke tests implemented |
 | 9.4. | 0.1.5 | history file creation & reading + basic functionality |
 | 9.4. | 0.1.6 | more polishing, fixed game logic and rules, pylint code review system implemented |
+| 9.4. | 0.1.65 | fixed history reading and writing logic, polished game code |

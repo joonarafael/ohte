@@ -10,4 +10,5 @@
 | 3.4. | 2    | free game mode added, invoke added, more debugging |
 | 9.4. | 2    | implemented first version of history tracking |
 | 9.4. | 2    | pylint implemented, more software polishing and debugging |
-| total | 15   | |
+| 9.4. | 1    | critical history file bug fixed |
+| total | 16   | |

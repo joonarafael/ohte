@@ -1,15 +1,19 @@
+import game_handler
 from tkinter import *
 from tkinter import ttk
 import tkinter.messagebox
 from PIL import Image, ImageTk
-import game_handler
 import flaghandler
 import timerlogic
 import history
 
-# PLACE (2/2) TO CHANGE CORRECT FLAG AMOUNT !!!
-# Other place is in flaghandler module, row 70.
+# THIS IS THE PLACE TO CHANGE CORRECT FLAG AMOUNT !!!
 CORRECT_AMOUNT = 198
+
+# call to import flags for the first time
+flaghandler.flagImport(CORRECT_AMOUNT)
+
+# game handler called only after flags have been imported successfully
 
 print("Necessary libraries for GUI imported, drawing interface...")
 
@@ -73,6 +77,13 @@ file_menu.add_command(label="Exit", command=exit_game)
 # define debug menu commands
 
 
+def directories():
+    print("CRITICAL DIRECTORIES:")
+    history.print_directories()
+    print("Flag Directory:")
+    print(flaghandler.flagdir)
+
+
 def flag_list():
     flaghandler.listEverything()
 
@@ -97,6 +108,8 @@ def flag_slide_show():
 
 # define debug menu
 debug_menu.add_command(
+    label="List critical directory paths to console", command=directories)
+debug_menu.add_command(
     label="List flag source files to console", command=flag_list)
 debug_menu.add_command(label="Retry flag import...", command=retry_import)
 debug_menu.add_command(
@@ -108,7 +121,7 @@ debug_menu.add_command(label="Free flag browsing", command=flag_slide_show)
 
 def show_about():
     tkinter.messagebox.showinfo(
-        "About", "Joona Kettunen, github.com/joonarafael/ohte, Flag Game v. 0.1.6, Ohjelmistotekniikka K2023")
+        "About", "Joona Kettunen, github.com/joonarafael/ohte, Flag Game v. 0.1.65, Ohjelmistotekniikka K2023")
 
 
 # define about menu
