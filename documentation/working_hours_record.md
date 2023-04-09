@@ -9,4 +9,5 @@
 | 3.4. | 2    | more game logic added, advanced game mode; round, score, lives, streak and timer now visible to player |
 | 3.4. | 2    | free game mode added, invoke added, more debugging |
 | 9.4. | 2    | implemented first version of history tracking |
-| total | 13   | |
+| 9.4. | 2    | pylint implemented, more software polishing and debugging |
+| total | 15   | |

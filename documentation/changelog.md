@@ -7,3 +7,4 @@
 | 3.4. | 0.1.3 | advanced game mode launch functional, game statistics now visible to player |
 | 3.4. | 0.1.4 | free game mode launch functional, new debugging options, first invoke tests implemented |
 | 9.4. | 0.1.5 | history file creation & reading + basic functionality |
+| 9.4. | 0.1.6 | more polishing, fixed game logic and rules, pylint code review system implemented |
