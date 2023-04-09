@@ -1,6 +1,9 @@
 print("Software start")
 
-import gui
+#check history
+import history
+history
 
-#call gui
+#gui
+import gui
 gui

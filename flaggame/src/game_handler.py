@@ -2,6 +2,7 @@ import random
 import flaghandler
 import timerlogic
 import gui
+import history
 
 flaghandler
 
@@ -14,9 +15,14 @@ class GameHandler():
         self.round = 0
         self.lives = 0
         self.streak = 0
+        self.highestStreak = 0
         self.gamemode = -1
         self.devstatusprint = False
         self.all_flags = flaghandler.completeFlagList
+        self.freeIndex = 0
+    
+    def __str__(self):
+        return f"GameHandler Status: Game Mode {self.gamemode}; Round {self.round}; Score {self.score}; Lives {self.lives}; Streak {self.streak}; DevPrint {self.devstatusprint}."
     
     #call next round
     def nextround(self):
@@ -45,6 +51,7 @@ class GameHandler():
         self.round = 1
         self.score = 0
         self.streak = 0
+        self.highestStreak = 0
         
         gui.displayScore(self.score)
         gui.displayStreak(self.streak)
@@ -54,6 +61,8 @@ class GameHandler():
     def classic(self):
         print("Launching Classic Game...")
         gui.changeTitle("Classic")
+        history.gameStart("Classic")
+        gui.historyUpdate()
 
         self.reset()
         self.lives = 3
@@ -66,6 +75,8 @@ class GameHandler():
     def advanced(self):
         print("Launching Advanced Game...")
         gui.changeTitle("Advanced")
+        gui.historyUpdate()
+        history.gameStart("Advanced")
 
         self.reset()
         self.lives = 3
@@ -78,6 +89,8 @@ class GameHandler():
     def free(self):
         print("Launching Free Game...")
         gui.changeTitle("Free Mode")
+        gui.historyUpdate()
+        history.gameStart("Free")
 
         self.reset()
         self.lives = -1
@@ -91,9 +104,17 @@ class GameHandler():
         if self.gamemode == -1:
             return
         
+        #debug option
+        elif self.gamemode == -2:
+            self.flagSlideShow()
+            return
+        
         #check if answer was correct
         if self.buttons[btn] == self.current_flag.upper().replace("_", " "):
             self.streak += 1
+
+            if self.streak > self.highestStreak:
+                self.highestStreak = self.streak
 
             #change score depending on the game mode
             #classic score
@@ -135,8 +156,11 @@ class GameHandler():
         gui.displayStreak(self.streak)
         gui.displayLives(self.lives)
         
-        #check if game is over
+        #check if game is over, ask to record history
         if self.lives == 0:
+            history.gameOver([self.gamemode, self.score, self.highestStreak])
+            gui.historyUpdate()
+            gui.changeTitle("Flag Game")
             self.gamemode = -1
 
             if self.devstatusprint:
@@ -157,14 +181,16 @@ class GameHandler():
 
         #generate 4 options
         self.buttons = [self.current_flag.upper().replace("_", " ")]
+        picked = [self.current_flag]
         
         for _ in range(3):
             wrong_answer = self.current_flag
             
-            while wrong_answer == self.current_flag:
+            while wrong_answer == self.current_flag or wrong_answer in picked:
                 wrong_answer = random.choice(self.all_flags)
                 wrong_answer = wrong_answer[:-4]
             
+            picked.append(wrong_answer)
             self.buttons.append(wrong_answer.upper().replace("_", " "))
         
         random.shuffle(self.buttons)
@@ -173,6 +199,23 @@ class GameHandler():
             print("Generated options", self.buttons, "out of which", self.current_flag.upper().replace("_", " "), "is correct.")
 
         #update displayed buttons to player
+        gui.nextbuttons(self.buttons)
+    
+    def flagSlideShow(self):
+        self.gamemode = -2
+        flagPath = flaghandler.flagdir
+
+        curr_flag = self.all_flags[self.freeIndex]
+        photoPath = flagPath + '/' + curr_flag
+
+        gui.nextflag(photoPath)
+        self.freeIndex += 1
+
+        if self.freeIndex == len(self.all_flags) - 1:
+            self.freeIndex == 0
+
+        self.buttons = ["NEXT FLAG", "NEXT FLAG", "NEXT FLAG", "NEXT FLAG"]
+
         gui.nextbuttons(self.buttons)
 
 masterGameHandler = GameHandler()

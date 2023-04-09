@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 import game_handler
 import flaghandler
 import timerlogic
+import history
 
 game_handler
 correctAmount = 198
@@ -36,12 +37,26 @@ menu_bar.add_cascade(label="File", menu=file_menu)
 menu_bar.add_cascade(label="Debug", menu=debug_menu)
 menu_bar.add_cascade(label="About", menu=about_menu)
 
+#define file menu commands
+def historyPrint():
+    history.consolePrint()
+
+def clearHistory():
+    result = tkinter.messagebox.askyesno("Are you sure?", "Are You sure you wish to clear all history from file and exit program? All progress will be lost permanently.")
+
+    if not result:
+        return
+    
+    history.clearHistory()
+
 #define file menu
 file_menu.add_cascade(label="New game", menu=gamemode_selection)
+file_menu.add_command(label="Print history to console", command=historyPrint)
+file_menu.add_command(label="Clear history...", command=clearHistory)
 file_menu.add_separator()
 file_menu.add_command(label="Exit", command=exit_game)
 
-#define debug options
+#define debug menu commands
 def flagList():
     flaghandler.listEverything()
 
@@ -57,27 +72,24 @@ def toggleStatusPrint():
         print("Dev print game status enabled.")
         game_handler.masterGameHandler.devstatusprint = True
 
-def forceNepal():
-    nextflag(flaghandler.flagdir + '/nepal.png')
-
-def forceQatar():
-    nextflag(flaghandler.flagdir + '/qatar.png')
-
 def forceLongestOptions():
-    nextbuttons(["SAINT VINCENT AND THE GRENADINES", "DOMECRATIC REPUBLIC OF THE CONGO", "DOMECRATIC REPUBLIC OF THE CONGO", "SAINT VINCENT AND THE GRENADINES"])
+    nextbuttons(["DOMECRATIC REPUBLIC OF THE CONGO", "DOMECRATIC REPUBLIC OF THE CONGO", "DOMECRATIC REPUBLIC OF THE CONGO", "DOMECRATIC REPUBLIC OF THE CONGO"])
+
+def flagSlideShow():
+    game_handler.masterGameHandler.flagSlideShow()
 
 #define debug menu
 debug_menu.add_command(label="List flag source files to console", command=flagList)
 debug_menu.add_command(label="Retry flag import...", command=retryImport)
-debug_menu.add_command(label="Toggle 'Dev print game status to console'", command=toggleStatusPrint)
-debug_menu.add_command(label="View Nepal", command=forceNepal)
-debug_menu.add_command(label="View Qatar", command=forceQatar)
-debug_menu.add_command(label="Force longest options", command=forceLongestOptions)
+debug_menu.add_command(label="Toggle Dev print game status to console", command=toggleStatusPrint)
+debug_menu.add_command(label="View longest buttons", command=forceLongestOptions)
+debug_menu.add_command(label="Free flag browsing", command=flagSlideShow)
 
-#define 'about' message
+#define about menu commands
 def onClick():
     tkinter.messagebox.showinfo("About", "Joona Kettunen, github.com/joonarafael/ohte, Flag Game v. 0.1.4, Ohjelmistotekniikka K2023")
 
+#define about menu
 about_menu.add_command(label="About...", command=onClick)
 
 #define game starts
@@ -102,9 +114,9 @@ gamemode_selection.add_command(label="Free Mode", command=start_free_game)
 
 #define 'tab' system
 notebook = ttk.Notebook(window)
-tab0 = Frame(notebook, background="#c3e0dd")
-tab1 = Frame(notebook, background="#cbe0c3")
-tab2 = Frame(notebook, background="#cce0f2")
+tab0 = Frame(notebook, bg="#333333")
+tab1 = Frame(notebook, bg="#cbe0c3")
+tab2 = Frame(notebook, bg="#cce0f2")
 
 notebook.add(tab0, text="Game")
 notebook.add(tab1, text="History")
@@ -113,10 +125,10 @@ notebook.pack(expand=True, fill="both")
 
 #main title
 if len(flaghandler.completeFlagList) != correctAmount:
-    gameLabel = Label(tab0, text="FLAG IMAGES IMPORT ERROR, SEE CONSOLE FOR DETAILS", font=("Arial", 12), background="#c3e0dd")
+    gameLabel = Label(tab0, text="FLAG IMAGES IMPORT ERROR, SEE CONSOLE FOR DETAILS", font=("Arial", 12), fg="#e6e6e6", bg="#333333")
 
 else:
-    gameLabel = Label(tab0, text="Flag Game", font=("Arial", 12), background="#c3e0dd")
+    gameLabel = Label(tab0, text="Flag Game", font=("Arial", 14), fg="#e6e6e6", bg="#333333")
 
 gameLabel.grid(row=0, column=0, columnspan=5)
 
@@ -144,19 +156,19 @@ def displayStreak(streak):
     streakLabel.config(text=f"Streak: {streak}")
 
 #timer, round, score, lives
-roundLabel = Label(tab0, text="Round", font=("Arial", 12), background="#c3e0dd")
+roundLabel = Label(tab0, text="Round", font=("Arial", 12), fg="#e6e6e6", bg="#333333")
 roundLabel.grid(row=1, column=0)
 
-scoreLabel = Label(tab0, text="Score", font=("Arial", 12), background="#c3e0dd")
+scoreLabel = Label(tab0, text="Score", font=("Arial", 12), fg="#e6e6e6", bg="#333333")
 scoreLabel.grid(row=1, column=1)
 
-timerLabel = Label(tab0, text="Timer", font=("Arial", 12), background="#c3e0dd")
+timerLabel = Label(tab0, text="Timer", font=("Arial", 12), fg="#e6e6e6", bg="#333333")
 timerLabel.grid(row=1, column=2)
 
-livesLabel = Label(tab0, text="Lives", font=("Arial", 12), background="#c3e0dd")
+livesLabel = Label(tab0, text="Lives", font=("Arial", 12), fg="#e6e6e6", bg="#333333")
 livesLabel.grid(row=1, column=3)
 
-streakLabel = Label(tab0, text="Streak", font=("Arial", 12), background="#c3e0dd")
+streakLabel = Label(tab0, text="Streak", font=("Arial", 12), fg="#e6e6e6", bg="#333333")
 streakLabel.grid(row=1, column=4)
 
 #image (flags) processing, resizing and general handling
@@ -188,13 +200,13 @@ def button3Function():
     game_handler.masterGameHandler.playerAnswered(3)
 
 #generate buttons
-button0 = Button(tab0, text="OPTION 1", command=button0Function)
+button0 = Button(tab0, text="OPTION 1", width=34, pady=10, padx=10, relief="groove", command=button0Function)
 button0.grid(row=3, column=0, columnspan=2)
-button1 = Button(tab0, text="OPTION 2", command=button1Function)
+button1 = Button(tab0, text="OPTION 2", width=34, pady=10, padx=10, relief="groove", command=button1Function)
 button1.grid(row=3, column=3, columnspan=2)
-button2 = Button(tab0, text="OPTION 3", command=button2Function)
+button2 = Button(tab0, text="OPTION 3", width=34, pady=10, padx=10, relief="groove", command=button2Function)
 button2.grid(row=4, column=0, columnspan=2)
-button3 = Button(tab0, text="OPTION 4", command=button3Function)
+button3 = Button(tab0, text="OPTION 4", width=34, pady=10, padx=10, relief="groove", command=button3Function)
 button3.grid(row=4, column=3, columnspan=2)
 
 #update buttons
@@ -211,6 +223,16 @@ tab0.rowconfigure(2,weight=1, uniform='viewport')
 tab0.rowconfigure(3,weight=0, uniform='buttons')
 tab0.rowconfigure(4,weight=0, uniform='buttons')
 
+#history view
+historyText = Label(tab1, font=("Arial", 12), background="#c3e0dd", justify=LEFT, padx=2, pady=2, width=90)
+
+#history view update
+def historyUpdate():
+    content = history.update()
+    historyText.configure(text=content)
+    historyText.pack(fill="none", expand=True)
+
+historyUpdate()
 print("GUI generated and fully operational.")
 
 #Tkinter mainloop
