@@ -87,7 +87,7 @@ debug_menu.add_command(label="Free flag browsing", command=flagSlideShow)
 
 #define about menu commands
 def onClick():
-    tkinter.messagebox.showinfo("About", "Joona Kettunen, github.com/joonarafael/ohte, Flag Game v. 0.1.4, Ohjelmistotekniikka K2023")
+    tkinter.messagebox.showinfo("About", "Joona Kettunen, github.com/joonarafael/ohte, Flag Game v. 0.1.5, Ohjelmistotekniikka K2023")
 
 #define about menu
 about_menu.add_command(label="About...", command=onClick)
