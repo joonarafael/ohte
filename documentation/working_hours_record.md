@@ -8,4 +8,5 @@
 | 1.4. | 3    | image importing and displaying implemented, started to implement classic game mode |
 | 3.4. | 2    | more game logic added, advanced game mode; round, score, lives, streak and timer now visible to player |
 | 3.4. | 2    | free game mode added, invoke added, more debugging |
-| total | 11   | |
+| 9.4. | 2    | implemented first version of history tracking |
+| total | 13   | |
