@@ -1,6 +1,6 @@
 import unittest
 import pytest
-import game_handler
+import gamehandler
 
 # utilize the capsys to capture terminal output
 
@@ -13,7 +13,7 @@ class TestGameHandler(unittest.TestCase):
 
     # flaghandler prints that everything is okay if the flags found equal to 198.
     def test_game_handler_init(self):
-        self.game = game_handler.GameHandler()
+        self.game = gamehandler.GameHandler()
 
         self.assertEqual(str(
             self.game), "GameHandler Status: Game Mode -1; Round 0; Score 0; Lives 0; Streak 0; DevPrint False.")

@@ -4,61 +4,70 @@ from os import walk
 
 # flag import is a function for debugging purposes (can be called from in-game menus)
 
+# PLACE TO CHANGE CORRECT FLAG AMOUNT
+CORRECT_AMOUNT = 198
 
-def flagImport(correctAmount):
-    global workingdir
-    global flagdir
-    global completeFlagList
+# determine current working directory
+WORKING_DIR = os.getcwd()
 
-    # determine current working directory
-    workingdir = os.getcwd()
+if WORKING_DIR[-3:] != "src":
+    WORKING_DIR = WORKING_DIR + "/src"
 
-    if workingdir[-3:] != "src":
-        workingdir = workingdir + "/src"
+# establish path to flags
+FLAG_DIR = WORKING_DIR + "/flags"
 
+# ask os to list every file inside flag directory, remove any non -.png files
+COMPLETE_FLAG_LIST = next(walk(FLAG_DIR), (None, None, []))[2]
+
+for flags in reversed(COMPLETE_FLAG_LIST):
+    if not flags.endswith(".png"):
+        COMPLETE_FLAG_LIST.remove(flags)
+
+COMPLETE_FLAG_LIST.sort()
+
+# define the flag import function to enable later importing for debugging purposes
+
+
+def flag_import(correct_amount):
     # add correct flag list to memory
-    with open(workingdir + "/correctFlags.txt", 'r') as f:
-        correctFlags = [line.strip() for line in f]
-
-    # establish path to flags
-    flagdir = workingdir + "/flags"
-
-    # ask os to list every file inside flag directory, remove any non -.png files
-    completeFlagList = next(walk(flagdir), (None, None, []))[2]
-
-    for flags in reversed(completeFlagList):
-        if not (flags.endswith(".png")):
-            completeFlagList.remove(flags)
-
-    completeFlagList.sort()
+    with open(WORKING_DIR + "/correctFlags.txt", 'r', encoding="utf-8") as flag_file:
+        correct_flags = [line.strip() for line in flag_file]
 
     # check if found flags match the correct flag list
-    if completeFlagList != correctFlags or len(completeFlagList) != correctAmount:
+    if COMPLETE_FLAG_LIST != correct_flags or len(COMPLETE_FLAG_LIST) != correct_amount:
         print()
         print("ERROR")
         print("Error while trying to ensure integrity of flag image source files.")
 
-        if len(completeFlagList) != correctAmount:
-            print(
-                f"Found a total of {len(completeFlagList)} out of {correctAmount} .png files in {flagdir}.")
+        if len(COMPLETE_FLAG_LIST) != correct_amount:
+            print((
+                f"Found a total of {len(COMPLETE_FLAG_LIST)} out of {correct_amount}"
+                f" .png files in {FLAG_DIR}."))
 
-        print("Please see flags subdirectory within src directory to ensure every flag file is present and in .png format.")
-        print("Software is trying to find a matching .png file for every 195 independent state listed at: https://www.worldometers.info/geography/how-many-countries-are-there-in-the-world/ and Taiwan, Western Sahara & Kosovo.")
+        print(("Please see flags subdirectory within src directory to ensure"
+               " every flag file is present and in .png format."))
+
+        print("Software is trying to find a .png file for every 195 independent state listed at:"
+              " https://www.worldometers.info/geography/how-many-countries-are-there-in-the-world/"
+              " and Taiwan, Western Sahara & Kosovo.")
 
     else:
         print("All 198 flags have been found.")
 
+
+flag_import(CORRECT_AMOUNT)
+
 # debugging option
 
 
-def listEverything():
+def list_every_flag():
     print("Debugging information about flag source files:")
-    print("SOURCE Path:", workingdir)
-    print("FLAGS  Path:", flagdir)
-    print("Amount of flags counted:", len(completeFlagList))
+    print("SOURCE Path:", WORKING_DIR)
+    print("FLAGS  Path:", FLAG_DIR)
+    print("Amount of flags counted:", len(COMPLETE_FLAG_LIST))
     print("Complete list:")
 
-    completeFlagList.sort()
+    COMPLETE_FLAG_LIST.sort()
 
-    for flags in completeFlagList:
-        print(flags)
+    for individual_flag in COMPLETE_FLAG_LIST:
+        print(individual_flag)

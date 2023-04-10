@@ -5,13 +5,13 @@ from datetime import datetime
 
 
 # determine directory for history file
-workingdir = getcwd()
+WORKING_DIR = getcwd()
+MASTER_ERROR = False
 
-if workingdir[-3:] != "src":
-    workingdir = workingdir + "/src"
-    print(workingdir)
+if WORKING_DIR[-3:] != "src":
+    WORKING_DIR = WORKING_DIR + "/src"
 
-historyPath = workingdir + "/history.txt"
+HISTORY_PATH = WORKING_DIR + "/history.txt"
 
 # current time is read with minutes accuracy
 
@@ -24,116 +24,123 @@ print("Opening (creating if it doesn't exist) the game history file 'history.txt
 
 # check history file
 try:
-    f = open(historyPath, 'r+', encoding="utf-8")
-    fileLen = len(f.readlines())
-    f.close()
+    with open(HISTORY_PATH, 'r+', encoding="utf-8") as launch_file:
+        file_len = len(launch_file.readlines())
 
-    f = open(historyPath, 'a+', encoding="utf-8")
+    with open(HISTORY_PATH, 'a+', encoding="utf-8") as launch_file:
+        if file_len == 0:
+            launch_file.write(
+                f"/// /// /// /// /// /// /// ///\nNEW SESSION AT {curr_time()}")
 
-    if fileLen == 0:
-        f.write(
-            f"/// /// /// /// /// /// /// ///\nNEW SESSION AT {curr_time()}")
-
-    else:
-        f.write(
-            f"\n\n/// /// /// /// /// /// /// ///\nNEW SESSION AT {curr_time()}")
-
-    f.close()
+        else:
+            launch_file.write(
+                f"\n\n/// /// /// /// /// /// /// ///\nNEW SESSION AT {curr_time()}")
 
 except FileNotFoundError:
-    f = open(historyPath, 'w+', encoding="utf-8")
+    with open(HISTORY_PATH, 'w+', encoding="utf-8") as launch_file:
 
-    f.write(
-        f"/// /// /// /// /// /// /// ///\nNEW SESSION AT {curr_time()}")
+        launch_file.write(
+            f"/// /// /// /// /// /// /// ///\nNEW SESSION AT {curr_time()}")
 
-    f.close()
-
-# if history file cannot be read at launch, software launch is terminated
-# no history will be recorded anyway
+# if no history file can be established, history will not be recorded
 except Exception as e:
+    MASTER_ERROR = True
     print("ERROR while opening 'history.txt.':")
     print(e)
     print("Please ensure file integrity or create it manually before continuing.")
-    print("You may have to close the file before running the software again.")
-    sys.exit(1)
+    print("If continuing, no history will be recorded.")
+    print("Software relaunch is required to record history again.")
 
 
 def clear_history():
-    print("Deleting all progress and history permantently.")
-    f = open(historyPath, 'w+', encoding="utf-8")
-    f.close()
-    print("Closing program...")
-    sys.exit(1)
+    if not MASTER_ERROR:
+        print("Deleting all progress and history permantently.")
+        with open(HISTORY_PATH, 'w+', encoding="utf-8"):
+            print("Closing program...")
+
+        sys.exit(1)
 
 # debug option to print history file
 
 
 def console_print():
-    print("Contents of file 'history.txt':")
-    with open(historyPath, 'r', encoding="utf-8") as f:
-        print(f.read())
+    if not MASTER_ERROR:
+        print("Contents of file 'history.txt':")
+
+        with open(HISTORY_PATH, 'r', encoding="utf-8") as file:
+            print(file.read())
 
 # game_handler calls history changes
 # game start recorded
 
 
-def gameStart(mode: str):
-    with open(historyPath, 'a+', encoding="utf-8") as f:
-        f.write(f"\n\n{mode} Game start off at {curr_time()}.")
+def game_start(mode: str):
+    if not MASTER_ERROR:
+        with open(HISTORY_PATH, 'a+', encoding="utf-8") as game_start_file:
+            game_start_file.write(
+                f"\n\n{mode} Game start off at {curr_time()}.")
 
 # game is over, game info & score recorded
 
 
-def gameOver(info: list):
-    with open(historyPath, 'a+', encoding="utf-8") as f:
-        if info[0] == 0:
-            mode = "Classic"
+def game_over(info: list):
+    if not MASTER_ERROR:
+        with open(HISTORY_PATH, 'a+', encoding="utf-8") as game_over_file:
+            if info[0] == 0:
+                mode = "Classic"
 
-        elif info[0] == 1:
-            mode = "Advanced"
+            elif info[0] == 1:
+                mode = "Advanced"
 
-        elif info[0] == 4:
-            mode = "Free"
+            elif info[0] == 4:
+                mode = "Free"
 
-        f.write(f"\n{mode} Game completed at {curr_time()}:")
-        f.write(f"\nScore: {info[1]} - Longest Continuous Streak: {info[2]}.")
+            game_over_file.write(f"\n{mode} Game completed at {curr_time()}:")
+            game_over_file.write(
+                f"\nScore: {info[1]} - Longest Continuous Streak: {info[2]}.")
 
 # game is terminated, game info & score recorded
 
 
-def terminated(info: list):
-    with open(historyPath, 'a+', encoding="utf-8") as f:
-        if info[0] == 0:
-            mode = "Classic"
+def game_terminated(info: list):
+    if not MASTER_ERROR:
+        with open(HISTORY_PATH, 'a+', encoding="utf-8") as game_terminated_file:
+            if info[0] == 0:
+                mode = "Classic"
 
-        elif info[0] == 1:
-            mode = "Advanced"
+            elif info[0] == 1:
+                mode = "Advanced"
 
-        elif info[0] == 4:
-            mode = "Free"
+            elif info[0] == 4:
+                mode = "Free"
 
-        f.write(f"\n{mode} Game cancelled at {curr_time()}:")
+            game_terminated_file.write(
+                f"\n{mode} Game cancelled at {curr_time()}:")
 
-        if mode == "Free":
-            f.write(
-                f"\nScore: {info[1]} - Longest Continuous Streak: {info[2]}.")
+            if mode == "Free":
+                game_terminated_file.write(
+                    f"\nScore: {info[1]} - Longest Continuous Streak: {info[2]}.")
 
-        else:
-            f.write(
-                f"\nScore: {info[1]} - Longest Continuous Streak: {info[2]}. Still {info[3]} lives left at termination.")
+            else:
+                game_terminated_file.write((
+                    f"\nScore: {info[1]} - Longest Continuous Streak: {info[2]}."
+                    f" Still {info[3]} lives left at termination."))
 
 # reading the history from file and returning for gui
 
 
 def update():
-    with open(historyPath, 'r') as f:
-        return f.read().splitlines()
+    if not MASTER_ERROR:
+        with open(HISTORY_PATH, 'r', encoding="utf-8") as update_file:
+            return update_file.read().splitlines()
+
+    return None
 
 
 def print_directories():
     print("Main working directory path received from os.getcwd():")
     print(getcwd())
     print("Source folder path:")
-    print(workingdir)
+    print(WORKING_DIR)
     print("History file path:")
-    print(historyPath)
+    print(HISTORY_PATH)

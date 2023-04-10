@@ -11,4 +11,5 @@
 | 9.4. | 2    | implemented first version of history tracking |
 | 9.4. | 2    | pylint implemented, more software polishing and debugging |
 | 9.4. | 1    | critical history file bug fixed |
-| total | 16   | |
+| 10.4. | 2    | code rewritten to pylint standards, installed autopep8 |
+| total | 18   | |

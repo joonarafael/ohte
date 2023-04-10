@@ -1,21 +1,19 @@
-import game_handler
-from tkinter import *
-from tkinter import ttk
+# FOR PRACTICAL REASONS AND OWN MENTAL WELL-BEING I WANT TO IMPORT
+# ALL TKINTER LIBRARIES, PYLINT DISABLE ADDED TO IGNORRE THESE !!!
+
+from tkinter import *  # pylint: disable=wildcard-import disable=unused-wildcard-import
+from tkinter import ttk  # pylint: disable=unused-import
 import tkinter.messagebox
 from PIL import Image, ImageTk
 import flaghandler
 import timerlogic
 import history
-
-# THIS IS THE PLACE TO CHANGE CORRECT FLAG AMOUNT !!!
-CORRECT_AMOUNT = 198
-
-# call to import flags for the first time
-flaghandler.flagImport(CORRECT_AMOUNT)
-
-# game handler called only after flags have been imported successfully
+import gamehandler
 
 print("Necessary libraries for GUI imported, drawing interface...")
+
+CURRENT_VERSION = "0.1.7"
+
 
 # master window settings
 window = Tk()
@@ -29,10 +27,11 @@ window.maxsize(660, 600)
 
 def exit_game():
     ans = tkinter.messagebox.askyesno(
-        "Exit?", "Are you sure you want to exit? Any unsaved progress will be lost.")
+        "Exit?", ("Are You sure You want to exit?"
+                  " Any ongoing game will be terminated."))
 
     if ans:
-        game_handler.masterGameHandler.terminatedGame()
+        gamehandler.MASTER_GAME_HANDLER.terminated_game()
         print("Program exit...")
         window.destroy()
 
@@ -44,7 +43,7 @@ window.config(menu=menu_bar)
 file_menu = Menu(menu_bar, tearoff=0)
 debug_menu = Menu(menu_bar, tearoff=0)
 about_menu = Menu(menu_bar, tearoff=0)
-gamemode_selection = Menu(file_menu, tearoff=0)
+game_mode_selection = Menu(file_menu, tearoff=0)
 
 menu_bar.add_cascade(label="File", menu=file_menu)
 menu_bar.add_cascade(label="Debug", menu=debug_menu)
@@ -59,7 +58,8 @@ def history_print():
 
 def clear_history():
     result = tkinter.messagebox.askyesno(
-        "Are you sure?", "Are You sure you wish to clear all history from file and exit program? All progress will be lost permanently.")
+        "Sure?", ("Are You sure You wish to clear all history from file and exit program?"
+                  " All progress will be lost permanently."))
 
     if not result:
         return
@@ -68,7 +68,7 @@ def clear_history():
 
 
 # define file menu
-file_menu.add_cascade(label="New game", menu=gamemode_selection)
+file_menu.add_cascade(label="New game", menu=game_mode_selection)
 file_menu.add_command(label="Print history to console", command=history_print)
 file_menu.add_command(label="Clear history...", command=clear_history)
 file_menu.add_separator()
@@ -81,29 +81,30 @@ def directories():
     print("CRITICAL DIRECTORIES:")
     history.print_directories()
     print("Flag Directory:")
-    print(flaghandler.flagdir)
+    print(flaghandler.FLAG_DIR)
 
 
 def flag_list():
-    flaghandler.listEverything()
+    flaghandler.list_every_flag()
 
 
 def retry_import():
-    flaghandler.flagImport(CORRECT_AMOUNT)
+    flaghandler.flag_import(flaghandler.CORRECT_AMOUNT)
 
 
 def toggle_status_print():
-    if game_handler.masterGameHandler.devstatusprint:
+    if gamehandler.MASTER_GAME_HANDLER.dev_status_print:
         print("Dev print game status disabled.")
-        game_handler.masterGameHandler.devstatusprint = False
+        gamehandler.MASTER_GAME_HANDLER.dev_status_print = False
 
     else:
         print("Dev print game status enabled.")
-        game_handler.masterGameHandler.devstatusprint = True
+        gamehandler.MASTER_GAME_HANDLER.dev_status_print = True
 
 
 def flag_slide_show():
-    game_handler.masterGameHandler.flagSlideShow()
+    if len(flaghandler.COMPLETE_FLAG_LIST) == flaghandler.CORRECT_AMOUNT:
+        gamehandler.MASTER_GAME_HANDLER.flag_slide_show(1)
 
 
 # define debug menu
@@ -121,7 +122,10 @@ debug_menu.add_command(label="Free flag browsing", command=flag_slide_show)
 
 def show_about():
     tkinter.messagebox.showinfo(
-        "About", "Joona Kettunen, github.com/joonarafael/ohte, Flag Game v. 0.1.65, Ohjelmistotekniikka K2023")
+        "About", ("Joona Kettunen"
+                  " github.com/joonarafael/ohte"
+                  f" Flag Game v. {CURRENT_VERSION}"
+                  " Ohjelmistotekniikka K2023"))
 
 
 # define about menu
@@ -131,26 +135,26 @@ about_menu.add_command(label="About...", command=show_about)
 
 
 def start_classic_game():
-    if len(flaghandler.completeFlagList) == CORRECT_AMOUNT:
-        game_handler.masterGameHandler.classic()
+    if len(flaghandler.COMPLETE_FLAG_LIST) == flaghandler.CORRECT_AMOUNT:
+        gamehandler.MASTER_GAME_HANDLER.classic()
 
 
 def start_advanced_game():
-    if len(flaghandler.completeFlagList) == CORRECT_AMOUNT:
-        game_handler.masterGameHandler.advanced()
+    if len(flaghandler.COMPLETE_FLAG_LIST) == flaghandler.CORRECT_AMOUNT:
+        gamehandler.MASTER_GAME_HANDLER.advanced()
 
 
 def start_free_game():
-    if len(flaghandler.completeFlagList) == CORRECT_AMOUNT:
-        game_handler.masterGameHandler.free()
+    if len(flaghandler.COMPLETE_FLAG_LIST) == flaghandler.CORRECT_AMOUNT:
+        gamehandler.MASTER_GAME_HANDLER.free()
 
 
 # define game mode selection menu
-gamemode_selection.add_command(label="Classic", command=start_classic_game)
-gamemode_selection.add_command(label="Advanced", command=start_advanced_game)
-gamemode_selection.add_command(label="Time Trial", command=None)
-gamemode_selection.add_command(label="One Life", command=None)
-gamemode_selection.add_command(label="Free Mode", command=start_free_game)
+game_mode_selection.add_command(label="Classic", command=start_classic_game)
+game_mode_selection.add_command(label="Advanced", command=start_advanced_game)
+game_mode_selection.add_command(label="Time Trial", command=None)
+game_mode_selection.add_command(label="One Life", command=None)
+game_mode_selection.add_command(label="Free Mode", command=start_free_game)
 
 # define 'tab' system
 notebook = ttk.Notebook(window)
@@ -164,7 +168,7 @@ notebook.add(tab2, text="Learn")
 notebook.pack(expand=True, fill="both")
 
 # main title
-if len(flaghandler.completeFlagList) != CORRECT_AMOUNT:
+if len(flaghandler.COMPLETE_FLAG_LIST) != flaghandler.CORRECT_AMOUNT:
     gameLabel = Label(tab0, text="FLAG IMAGES IMPORT ERROR, SEE CONSOLE FOR DETAILS", font=(
         "Arial", 12), fg="#e6e6e6", bg="#333333")
 
@@ -180,38 +184,38 @@ gameLabel.grid(row=0, column=0, columnspan=5)
 def change_title(newtext):
     gameLabel.configure(text=newtext)
 
-    if game_handler.masterGameHandler.gamemode == 0:
+    if gamehandler.MASTER_GAME_HANDLER.game_mode == 0:
         timerLabel.config(text="Timer")
 
-    elif game_handler.masterGameHandler.gamemode == 4:
+    elif gamehandler.MASTER_GAME_HANDLER.game_mode == 4:
         timerLabel.config(text="Timer")
 
 # update game status
 
 
-def display_round(round):
-    roundLabel.config(text=f"Round: {round}")
+def display_round(current_round):
+    roundLabel.config(text=f"Round: {current_round}")
 
 
-def display_score(score):
+def display_score(score: int):
     scoreLabel.config(text=f"Score: {score}")
 
 
-def displayTimer():
-    if game_handler.masterGameHandler.gamemode == 1:
-        timerLabel.config(text=timerlogic.clock.readDisplayed())
-        timerLabel.after(100, displayTimer)
+def display_timer():
+    if gamehandler.MASTER_GAME_HANDLER.game_mode == 1:
+        timerLabel.config(text=timerlogic.clock.read_displayed())
+        timerLabel.after(100, display_timer)
 
 
-def displayLives(lives):
+def display_lives(lives):
     if lives < 0:
-        livesLabel.config(text=f"Lives: Inf")
+        livesLabel.config(text="Lives: Inf")
 
     else:
         livesLabel.config(text=f"Lives: {lives}")
 
 
-def displayStreak(streak):
+def display_streak(streak):
     streakLabel.config(text=f"Streak: {streak}")
 
 
@@ -237,7 +241,7 @@ streakLabel = Label(tab0, text="Streak", font=(
 streakLabel.grid(row=1, column=4)
 
 # set size for flag display
-img = Image.open(flaghandler.workingdir + "/placeholder-image.png")
+img = Image.open(flaghandler.WORKING_DIR + "/placeholder-image.png")
 img.thumbnail((600, 600), Image.LANCZOS)
 im = ImageTk.PhotoImage(img)
 photoLabel = Label(tab0, image=im)
@@ -246,7 +250,7 @@ photoLabel.grid(row=2, column=0, columnspan=5)
 # change flag
 
 
-def nextflag(path: str):
+def next_flag(path: str):
     img2 = Image.open(path)
     img2.thumbnail((450, 450), Image.LANCZOS)
     im2 = ImageTk.PhotoImage(img2)
@@ -256,40 +260,40 @@ def nextflag(path: str):
 # define button functions
 
 
-def button0Function():
-    game_handler.masterGameHandler.playerAnswered(0)
+def button_0_function():
+    gamehandler.MASTER_GAME_HANDLER.player_answered(0)
 
 
-def button1Function():
-    game_handler.masterGameHandler.playerAnswered(1)
+def button_1_function():
+    gamehandler.MASTER_GAME_HANDLER.player_answered(1)
 
 
-def button2Function():
-    game_handler.masterGameHandler.playerAnswered(2)
+def button_2_function():
+    gamehandler.MASTER_GAME_HANDLER.player_answered(2)
 
 
-def button3Function():
-    game_handler.masterGameHandler.playerAnswered(3)
+def button_3_function():
+    gamehandler.MASTER_GAME_HANDLER.player_answered(3)
 
 
 # generate buttons
 button0 = Button(tab0, text="OPTION 1", width=34, pady=10,
-                 padx=10, relief="groove", command=button0Function)
+                 padx=10, relief="groove", command=button_0_function)
 button0.grid(row=3, column=0, columnspan=2)
 button1 = Button(tab0, text="OPTION 2", width=34, pady=10,
-                 padx=10, relief="groove", command=button1Function)
+                 padx=10, relief="groove", command=button_1_function)
 button1.grid(row=3, column=3, columnspan=2)
 button2 = Button(tab0, text="OPTION 3", width=34, pady=10,
-                 padx=10, relief="groove", command=button2Function)
+                 padx=10, relief="groove", command=button_2_function)
 button2.grid(row=4, column=0, columnspan=2)
 button3 = Button(tab0, text="OPTION 4", width=34, pady=10,
-                 padx=10, relief="groove", command=button3Function)
+                 padx=10, relief="groove", command=button_3_function)
 button3.grid(row=4, column=3, columnspan=2)
 
 # def button update function
 
 
-def nextbuttons(options: list):
+def next_buttons(options: list):
     button0.configure(text=options[0])
     button1.configure(text=options[1])
     button2.configure(text=options[2])
@@ -317,21 +321,22 @@ historyScroll.grid(row=0, column=1, sticky=NSEW)
 # history view update
 
 
-def historyUpdate():
+def history_update():
     historyText.config(state='normal')
     historyText.delete('1.0', END)
     content = history.update()
 
-    for x in content:
-        historyText.insert(END, f"{x}\n")
+    for row in content:
+        historyText.insert(END, f"{row}\n")
 
     historyText.config(state='disabled')
 
 
 # function called to update history at launch
-historyUpdate()
+history_update()
 
 print("GUI generated and fully operational.")
+print("Game ready.")
 
 # Tkinter mainloop
 window.mainloop()

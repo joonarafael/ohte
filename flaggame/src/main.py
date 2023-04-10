@@ -6,4 +6,7 @@
 # WILL RAISE AN CIRCULAR ERROR
 # WITHOUT THIS MAIN FILE!
 
-import gui
+# PYLINT FALSELY RAISES AN UNUSED IMPORT
+# NOTICE HERE
+
+import gui  # pylint: disable=unused-import

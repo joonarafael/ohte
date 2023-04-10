@@ -10,3 +10,5 @@
 | 9.4. | 0.1.5 | history file creation & reading + basic functionality |
 | 9.4. | 0.1.6 | more polishing, fixed game logic and rules, pylint code review system implemented |
 | 9.4. | 0.1.65 | fixed history reading and writing logic, polished game code |
+| 10.4. | 0.1.7 | code rewritten to pylint standards, a ton of quality improvements to game logic, general bug fixes |
+
