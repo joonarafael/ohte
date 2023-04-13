@@ -3,6 +3,7 @@
 # ANY KIND OF ERROR DURING SOFTWARE EXECUTION
 
 import random
+from math import log
 import flaghandler
 import timerlogic
 import history
@@ -40,15 +41,28 @@ class GameHandler():
 
         gui.display_round(self.round)
 
-        # pick a random  flag, remove from remaining set
+        # reset flag queue if needed
+        if len(self.remaining_flags) == 0:
+            if self.game_mode == 2:
+                self.remaining_flags = list(self.all_flags)
+
+            else:
+                self.remaining_flags = set(self.all_flags)
+
+        # pick a random flag
         self.current_flag = random.choice(list(self.remaining_flags))
-        self.remaining_flags.remove(self.current_flag)
+
+        # time trial has purely random flags
+        # otherwise remove from remaining set
+        if self.game_mode != 2:
+            self.remaining_flags.remove(self.current_flag)
+
         self.current_flag = self.current_flag[:-4]
 
         # start timer if needed
-        if self.game_mode == 1:
-            gui.display_timer()
+        if self.game_mode in (1, 2):
             timerlogic.clock.run_classic_timer()
+            gui.display_timer()
 
         # ask to update GUI
         self.update_gui()
@@ -56,6 +70,8 @@ class GameHandler():
     # if new game is launched while old one still running (or window is destroyed)
     # ask to record previous to history
     def terminated_game(self):
+        gui.change_status(0)
+
         if self.game_mode >= 0:
             history.game_terminated(
                 [self.game_mode, self.score, self.highest_streak, self.lives])
@@ -66,7 +82,14 @@ class GameHandler():
     def reset(self, desired_lives: int):
         self.terminated_game()
 
-        self.remaining_flags = set(self.all_flags)
+        # time trial purely random flags
+        # other game modes flag set is curated (full rotations)
+        if self.game_mode == 2:
+            self.remaining_flags = list(self.all_flags)
+
+        else:
+            self.remaining_flags = set(self.all_flags)
+
         self.round = 1
         self.score = 0
         self.streak = 0
@@ -80,39 +103,55 @@ class GameHandler():
 
     # initialize classic game mode
     def classic(self):
-        print("Launching Classic Game...")
         gui.change_title("Classic")
 
         self.reset(3)
         self.game_mode = 0
 
-        print("Game Start!")
         history.game_start("Classic")
         gui.history_update()
         self.next_round()
 
     # initialize advanced game mode
     def advanced(self):
-        print("Launching Advanced Game...")
         gui.change_title("Advanced")
 
         self.reset(3)
         self.game_mode = 1
 
-        print("Game Start!")
         history.game_start("Advanced")
+        gui.history_update()
+        self.next_round()
+
+    # initialize time trial game mode
+    def time_trial(self):
+        gui.change_title("Time Trial")
+
+        self.reset(3)
+        self.game_mode = 2
+
+        history.game_start("Time Trial")
+        gui.history_update()
+        self.next_round()
+
+    # initialize one life game mode
+    def one_life(self):
+        gui.change_title("One Life")
+
+        self.reset(1)
+        self.game_mode = 3
+
+        history.game_start("One Life")
         gui.history_update()
         self.next_round()
 
     # initialize free game mode
     def free(self):
-        print("Launching Free Game...")
         gui.change_title("Free Mode")
 
         self.reset(-1)
         self.game_mode = 4
 
-        print("Game Start!")
         history.game_start("Free")
         gui.history_update()
         self.next_round()
@@ -122,7 +161,7 @@ class GameHandler():
         if self.game_mode == -1:
             return
 
-        # debug option
+        # debug option (free flag browsing)
         if self.game_mode == -2:
             if button in (0, 2):
                 self.flag_slide_show(-1)
@@ -139,26 +178,37 @@ class GameHandler():
                 self.highest_streak = self.streak
 
             # change score depending on the game mode
-            # classic score
-            if self.game_mode == 0:
-                self.score += 100
-
             # advanced score
-            elif self.game_mode == 1:
+            if self.game_mode == 1:
+                gui.change_status("correct")
                 round_time = timerlogic.clock.read_accurate()
 
-                if round_time < 5:
-                    points_gained = 100 + (20 * (5 - round_time))
+                if round_time < 5.0000:
+                    points_gained = 180 + ((-4 * (round_time ** 2)) / 1.25)
 
                 else:
                     points_gained = 100
 
-                points_gained = points_gained * \
-                    (((1 / -self.streak) + 2) ** 1.5)
+                points_gained = points_gained * (log(self.streak, 20) + 1)
                 self.score += int(points_gained)
 
-            # free game mode
-            elif self.game_mode == 4:
+            # time trial score
+            elif self.game_mode == 2:
+                round_time = timerlogic.clock.read_accurate()
+
+                # time trial game ends if round took more than 5 seconds
+                if round_time <= 5.0000:
+                    gui.change_status("correct")
+                    points_gained = 180 + ((-4 * (round_time ** 2)) / 1.25)
+                    self.score += int(points_gained)
+
+                else:
+                    gui.change_status("time's up")
+                    self.lives = 0
+
+            # classic, one life and free mode score
+            else:
+                gui.change_status("correct")
                 self.score += 100
 
             # developer print
@@ -168,8 +218,18 @@ class GameHandler():
 
         # wrong answer handling
         else:
+            gui.change_status(self.current_flag.upper().replace("_", " "))
             self.lives -= 1
             self.streak = 0
+
+            # time trial ends in a wrong answer too
+            # if elapsed time exceeds 5 seconds
+            if self.game_mode == 2:
+                round_time = timerlogic.clock.read_accurate()
+
+                if round_time > 5.0000:
+                    gui.change_status("time's up")
+                    self.lives = 0
 
             if self.dev_status_print:
                 print("Wrong!", self.lives, "lives remaining.")
@@ -186,7 +246,7 @@ class GameHandler():
         if self.lives == 0:
             history.game_over(
                 [self.game_mode, self.score, self.highest_streak])
-            gui.change_title("Flag Game")
+            gui.change_title("Game Over!")
             self.game_mode = -1
 
             if self.dev_status_print:
@@ -194,6 +254,7 @@ class GameHandler():
                     "Game over, you're out of lives! Start new game from File > New game.")
 
             gui.history_update()
+            gui.inactive_buttons()
 
         # launch next round
         else:

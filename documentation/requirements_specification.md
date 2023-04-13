@@ -6,24 +6,19 @@ The Software is a casual one-player flag quiz game. It is intended to include ev
 
 ## Software Core Functionality & Interface
 
-- Main langauge: Python.
-- Utilize the Tkinter library for graphics.
-- Keep track of high scores and previous games in a separate history file stored on disk.
-- Game should be played with mouse pointer.
-- Game includes only one "Classic" game mode first.
-- Additional features and game modes are added in the future.
-
-## Main Concerns
-
-- Dependency on graphical interface, game is completely unplayable without a working UI. However, software testing should not pose any issues as game core functionality can still be tested with Pytest.
-- Amount of data (approx. 200 pictures of flags).
+- [x] Main langauge: Python.
+- [x] Utilize the Tkinter library for graphics.
+- [x] Keep track of high scores and previous games in a separate history file stored on disk.
+- [x] Game should be played with mouse pointer.
+- [x] Game includes only one "Classic" game mode first.
+- [x] Additional features and game modes are added in the future.
 
 ## Future Ideas & Game Modes to Implement
 
 After the main functionalities and the core application is up and running, these are the future ideas and game modes to be included in the game:
 
-- Advanced Mode: Complex pointing system to give points for quick time and running streaks. Three lives.
-- Free Mode: Unlimited lives & time to practice purposes
-- Time Trial: Three lives with continious time pressure, game ends if time runs out.
-- One Life: Just one life but unlimited time
-- Custom Mode: Player can determine the game settings self
+- [x] Advanced Mode: Complex pointing system to give points for quick time and running streaks. Three lives.
+- [x] Free Mode: Unlimited lives & time to practice purposes
+- [x] Time Trial: Three lives with continious time pressure, game ends if time runs out.
+- [x] One Life: Just one life but unlimited time
+- [ ] Custom Mode: Player can determine the game settings self

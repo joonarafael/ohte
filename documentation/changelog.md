@@ -11,4 +11,4 @@
 | 9.4. | 0.1.6 | more polishing, fixed game logic and rules, pylint code review system implemented |
 | 9.4. | 0.1.65 | fixed history reading and writing logic, polished game code |
 | 10.4. | 0.1.7 | code rewritten to pylint standards, a ton of quality improvements to game logic, general bug fixes |
-
+| 13.4. | 0.1.8 | game rule book added, all game modes now functional, player now notified what was the correct answer |

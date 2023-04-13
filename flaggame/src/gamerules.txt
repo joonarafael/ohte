@@ -1,0 +1,60 @@
+RULEBOOK
+
+
+CLASSIC
+- 3 lives
+- No time constraints
+- Curated flag rotation (no duplicated flags in a single rotation)
+- Correct answer grants 100 points.
+
+
+ADVANCED
+- 3 lives
+- No time limit, but extra points gained for fast answer speed (up until 5 seconds)
+- Curated flag rotation (no duplicated flags in a single rotation)
+- Correct answer grants 100 points + extra points gained from fast speed
+
+    time    points gained
+    1.00    176.8
+    2.00    167.2
+    3.00    151.2
+    4.00    128.8
+    5.00    100
+
+- Points awarded for extra round are additionally multiplied by logarithm base 20 of current streak plus 1.
+
+    streak  multiplier
+    1       1
+    2       1.23
+    3       1.37
+    4       1.46
+    ...
+    20      2
+
+
+TIME TRIAL
+- 3 lives
+- 5 second time limit each round, game over if time exceeded (so just answer anything in order to continue game!)
+- Flag rotation not curated (any flag can appear any time, purely random picks)
+- Correct answer grants 100 points + extra points gained from fast speed
+
+    time    points gained
+    1.00    176.8
+    2.00    167.2
+    3.00    151.2
+    4.00    128.8
+    5.00    100
+
+
+ONE LIFE
+- 1 life
+- No time constraints
+- Curated flag rotation (no duplicated flags in a single rotation)
+- Correct answer grants 100 points.
+
+
+FREE MODE
+- Infinite lives
+- No time constraints
+- Curated flag rotation (no duplicated flags in a single rotation)
+- Correct answer grants 100 points.

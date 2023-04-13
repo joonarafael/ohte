@@ -92,6 +92,12 @@ def game_over(info: list):
             elif info[0] == 1:
                 mode = "Advanced"
 
+            elif info[0] == 2:
+                mode = "Time Trial"
+
+            elif info[0] == 3:
+                mode = "One Life"
+
             elif info[0] == 4:
                 mode = "Free"
 
@@ -110,6 +116,12 @@ def game_terminated(info: list):
 
             elif info[0] == 1:
                 mode = "Advanced"
+
+            elif info[0] == 2:
+                mode = "Time Trial"
+
+            elif info[0] == 3:
+                mode = "One Life"
 
             elif info[0] == 4:
                 mode = "Free"

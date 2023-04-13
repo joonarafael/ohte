@@ -12,4 +12,5 @@
 | 9.4. | 2    | pylint implemented, more software polishing and debugging |
 | 9.4. | 1    | critical history file bug fixed |
 | 10.4. | 2    | code rewritten to pylint standards, installed autopep8 |
-| total | 18   | |
+| 13.4. | 2    | wrote rulebook, more game logic and functionality |
+| total | 20   | |

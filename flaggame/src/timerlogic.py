@@ -13,7 +13,6 @@ class MasterClock():
     # timer start marked for self.start
     def run_classic_timer(self):
         self.start = timeit.default_timer()
-        self.read_displayed()
 
     # one decimal point display for player
     def read_displayed(self):
