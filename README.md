@@ -3,6 +3,18 @@
 current ver 0.2.0 (16.4.2023)
 built with python3 poetry
 
+## INSTALLATION & RUNNING THE GAME
+
+1. Clone this github repository to your local machine.
+
+2. Navigate to /ohte/flaggame
+
+3. Resolve poetry dependicies.
+
+4. Run the game from /ohte/flaggame by executing 'poetry run invoke start' in terminal (command line).
+
+- Software is also functional if run from /ohte/flaggame/src by executing 'python3 main.py' in terminal.
+
 ## IMPORTANT NOTICES ABOUT INSTALLATION
 
 - My current build (0.2.0) is running fine on an Oracle VirtualBox Ubuntu installation and Cubbli laptop provided by the school.
