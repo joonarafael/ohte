@@ -16,4 +16,4 @@ class TestGameHandler(unittest.TestCase):
         self.game = gamehandler.GameHandler()
 
         self.assertEqual(str(
-            self.game), "GameHandler Status: Game Mode -1; Round 0; Score 0; Lives 0; Streak 0; DevPrint False.")
+            self.game), "GameHandler Status: Game Mode -1; Round 0; Score 0; Lives 0; Streak 0")

@@ -13,4 +13,5 @@
 | 9.4. | 1    | critical history file bug fixed |
 | 10.4. | 2    | code rewritten to pylint standards, installed autopep8 |
 | 13.4. | 2    | wrote rulebook, more game logic and functionality |
-| total | 20   | |
+| 16.4. | 3    | wrote more game logic, fixed scaling issues, window resolution can be locked / unlocked |
+| total | 23   | |

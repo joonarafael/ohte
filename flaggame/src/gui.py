@@ -13,15 +13,17 @@ import gamehandler
 
 print("Necessary libraries for GUI imported, drawing interface...")
 
-CURRENT_VERSION = "0.1.8"
+CURRENT_VERSION = "0.2.0"
 
+LAUNCH_RESOLUTION = (663, 700)
+RESOLUTION_LOCKED = True
 
 # master window settings
 window = Tk()
 window.title("Flag Game")
-window.geometry("660x750")
-window.minsize(660, 750)
-window.maxsize(660, 750)
+window.geometry(f"{LAUNCH_RESOLUTION[0]}x{LAUNCH_RESOLUTION[1]}")
+window.minsize(LAUNCH_RESOLUTION[0], LAUNCH_RESOLUTION[1])
+window.maxsize(LAUNCH_RESOLUTION[0], LAUNCH_RESOLUTION[1])
 
 # define "are you sure" screen
 
@@ -53,6 +55,29 @@ menu_bar.add_cascade(label="About", menu=about_menu)
 # define file menu commands
 
 
+def unlock_resolution():
+    global RESOLUTION_LOCKED
+
+    if RESOLUTION_LOCKED:
+        RESOLUTION_LOCKED = False
+        print("Window resolution unlocked.")
+
+        window.minsize(0, 0)
+        window.maxsize(0, 0)
+
+        return
+
+    lock_height = window.winfo_height()
+    lock_width = window.winfo_width()
+
+    print(f"Window resolution locked to {lock_width}x{lock_height}.")
+
+    window.minsize(lock_width, lock_height)
+    window.maxsize(lock_width, lock_height)
+
+    RESOLUTION_LOCKED = True
+
+
 def history_print():
     history.console_print()
 
@@ -70,9 +95,11 @@ def clear_history():
 
 # define file menu
 file_menu.add_cascade(label="New game", menu=game_mode_selection)
+file_menu.add_command(label="Lock / Unlock resolution",
+                      command=unlock_resolution)
 file_menu.add_command(label="Print history to console", command=history_print)
-file_menu.add_command(label="Clear history...", command=clear_history)
 file_menu.add_separator()
+file_menu.add_command(label="Clear history...", command=clear_history)
 file_menu.add_command(label="Exit", command=exit_game)
 
 # define debug menu commands
@@ -81,6 +108,8 @@ file_menu.add_command(label="Exit", command=exit_game)
 def directories():
     print("CRITICAL DIRECTORIES:")
     history.print_directories()
+    print("Rulebook Directory:")
+    print(rules.GAME_RULES_PATH)
     print("Flag Directory:")
     print(flaghandler.FLAG_DIR)
 
@@ -91,16 +120,6 @@ def flag_list():
 
 def retry_import():
     flaghandler.flag_import(flaghandler.CORRECT_AMOUNT)
-
-
-def toggle_status_print():
-    if gamehandler.MASTER_GAME_HANDLER.dev_status_print:
-        print("Dev print game status disabled.")
-        gamehandler.MASTER_GAME_HANDLER.dev_status_print = False
-
-    else:
-        print("Dev print game status enabled.")
-        gamehandler.MASTER_GAME_HANDLER.dev_status_print = True
 
 
 def flag_slide_show():
@@ -114,8 +133,6 @@ debug_menu.add_command(
 debug_menu.add_command(
     label="List flag source files to console", command=flag_list)
 debug_menu.add_command(label="Retry flag import...", command=retry_import)
-debug_menu.add_command(
-    label="Toggle Dev print game status to console", command=toggle_status_print)
 debug_menu.add_command(label="Free flag browsing", command=flag_slide_show)
 
 # define about menu commands
@@ -169,9 +186,12 @@ game_mode_selection.add_command(label="Free Mode", command=start_free_game)
 
 # define 'tab' system
 notebook = ttk.Notebook(window)
-tab0 = Frame(notebook, bg="#333333")
-tab1 = Frame(notebook, bg="#cbe0c3")
-tab2 = Frame(notebook, bg="#cce0f2")
+tab0 = Frame(notebook, bg="#333333", relief="flat",
+             borderwidth=0, highlightthickness=0)
+tab1 = Frame(notebook, bg="#333333", relief="flat",
+             borderwidth=0, highlightthickness=0)
+tab2 = Frame(notebook, bg="#333333", relief="flat",
+             borderwidth=0, highlightthickness=0)
 
 notebook.add(tab0, text="Game")
 notebook.add(tab1, text="History")
@@ -195,16 +215,10 @@ gameLabel.grid(row=0, column=0, columnspan=5)
 def change_title(new_text):
     gameLabel.configure(text=new_text)
 
-    if gamehandler.MASTER_GAME_HANDLER.game_mode == 0:
-        timerLabel.config(text="Timer")
-
-    elif gamehandler.MASTER_GAME_HANDLER.game_mode == 4:
-        timerLabel.config(text="Timer")
-
 
 # correct / wrong answer display
 
-answerLabel = Label(tab0, text="", font=(
+answerLabel = Label(tab0, text="Start a new game from File > New Game.", font=(
     "Arial", 12), fg="#e6e6e6", bg="#333333")
 
 answerLabel.grid(row=1, column=0, columnspan=5)
@@ -228,7 +242,8 @@ def change_status(status):
         answerLabel.configure(
             text=f"WRONG - CORRECT ANSWER: {status}", fg="#ff7c78")
 
-# update game status
+
+# update game statistics for player
 
 
 def display_round(current_round):
@@ -240,19 +255,28 @@ def display_score(score: int):
 
 
 def display_timer():
+    # timer counts up for advanced game
     if gamehandler.MASTER_GAME_HANDLER.game_mode == 1:
         timerLabel.config(text=timerlogic.clock.read_displayed())
         timerLabel.after(100, display_timer)
 
+    # timer counts down for time trial
     elif gamehandler.MASTER_GAME_HANDLER.game_mode == 2:
         timer = timerlogic.clock.read_accurate()
 
-        if timer >= 5.1:
+        # if more than 5 seconds has elapsed, dummy answer is forced
+        if timer >= 5.001:
             gamehandler.MASTER_GAME_HANDLER.player_answered(0)
 
         else:
-            timerLabel.config(text=timerlogic.clock.read_displayed())
+            displayed_time = round(5.0 - timerlogic.clock.read_displayed(), 1)
+            displayed_time = max(displayed_time, 0.0)
+
+            timerLabel.config(text=displayed_time)
             timerLabel.after(100, display_timer)
+
+    else:
+        timerLabel.config(text="Timer")
 
 
 def display_lives(lives):
@@ -292,7 +316,8 @@ streakLabel.grid(row=2, column=4)
 img = Image.open(flaghandler.WORKING_DIR + "/placeholder-image.png")
 img.thumbnail((600, 600), Image.LANCZOS)
 im = ImageTk.PhotoImage(img)
-photoLabel = Label(tab0, image=im)
+photoLabel = Label(tab0, image=im, borderwidth=0,
+                   highlightthickness=0, relief="flat")
 photoLabel.grid(row=3, column=0, columnspan=5)
 
 # change flag
@@ -326,16 +351,20 @@ def button_3_function():
 
 # generate buttons
 button0 = Button(tab0, text="OPTION 1", state=DISABLED, width=34, pady=10,
-                 padx=10, relief="groove", command=button_0_function)
+                 padx=10, relief="groove", borderwidth=0, highlightthickness=0,
+                 command=button_0_function)
 button0.grid(row=4, column=0, columnspan=2)
 button1 = Button(tab0, text="OPTION 2", state=DISABLED, width=34, pady=10,
-                 padx=10, relief="groove", command=button_1_function)
+                 padx=10, relief="groove", borderwidth=0, highlightthickness=0,
+                 command=button_1_function)
 button1.grid(row=4, column=3, columnspan=2)
 button2 = Button(tab0, text="OPTION 3", state=DISABLED, width=34, pady=10,
-                 padx=10, relief="groove", command=button_2_function)
+                 padx=10, relief="groove", borderwidth=0, highlightthickness=0,
+                 command=button_2_function)
 button2.grid(row=5, column=0, columnspan=2)
 button3 = Button(tab0, text="OPTION 4", state=DISABLED, width=34, pady=10,
-                 padx=10, relief="groove", command=button_3_function)
+                 padx=10, relief="groove", borderwidth=0, highlightthickness=0,
+                 command=button_3_function)
 button3.grid(row=5, column=3, columnspan=2)
 
 # define button update function
@@ -366,53 +395,77 @@ tab0.rowconfigure(3, weight=1, uniform='viewport')
 tab0.rowconfigure(4, weight=0, uniform='buttons')
 tab0.rowconfigure(5, weight=0, uniform='buttons')
 
-# define the history tab, Label and Text modules used to achieve proper visibility
-historyLabel = Label(tab1)
-historyLabel.grid()
 
-historyText = Text(historyLabel, state="disabled")
-historyText.grid(row=0, column=0)
+# define the history tab
+# Label and Text modules used to achieve proper visibility
 
-historyScroll = Scrollbar(historyLabel, command=historyText.yview)
-historyText.config(yscrollcommand=historyScroll.set)
-historyScroll.grid(row=0, column=1, sticky=NSEW)
+
+history_label = Label(tab1, relief="flat", borderwidth=0, highlightthickness=0)
+history_label.grid(sticky="NSEW")
+history_label.grid_rowconfigure(0, weight=1)
+
+history_text = Text(history_label, state="disabled", fg="#ffffff", bg="#333333",
+                    relief="flat", borderwidth=0, highlightthickness=0)
+history_text.grid(row=0, column=1, sticky="NSEW")
+
+history_scroll = Scrollbar(history_label, command=history_text.yview)
+history_text.config(yscrollcommand=history_scroll.set)
+history_scroll.grid(row=0, column=0, sticky="ns")
+
+# fill entire available vertical space
+tab1.columnconfigure(1, weight=1)
+tab1.columnconfigure(0, minsize=20)
+tab1.rowconfigure(0, weight=1)
 
 # history view update
 
 
 def history_update():
-    historyText.config(state='normal')
-    historyText.delete('1.0', END)
+    history_text.config(state='normal')
+    history_text.delete('1.0', END)
     content = history.update()
 
     for row in content:
-        historyText.insert(END, f"{row}\n")
+        history_text.insert(END, f"{row}\n")
 
-    historyText.config(state='disabled')
+    history_text.config(state='disabled')
 
 
 # function called to update history at launch
 history_update()
 
-# define the learn tab, Label and Text modules used to achieve proper visibility
-learnRulesLabel = Label(tab2)
-learnRulesLabel.grid()
+# define the learn tab
+# Label and Text modules used to achieve proper visibility
 
-learnRulesText = Text(learnRulesLabel, state="disabled")
-learnRulesText.grid(row=0, column=0)
+rules_label = Label(tab2, relief="flat", borderwidth=0, highlightthickness=0)
+rules_label.grid(sticky="NSEW")
+rules_label.grid_rowconfigure(0, weight=1)
 
-learnRulesScroll = Scrollbar(learnRulesLabel, command=learnRulesText.yview)
-learnRulesText.config(yscrollcommand=learnRulesScroll.set)
-learnRulesScroll.grid(row=0, column=1, sticky=NSEW)
+rules_text = Text(rules_label, state="disabled", fg="#ffffff", bg="#333333",
+                  relief="flat", borderwidth=0, highlightthickness=0)
+rules_text.grid(row=0, column=1, sticky="NSEW")
 
-learnRulesText.config(state='normal')
-learnRulesText.delete('1.0', END)
+rules_scroll = Scrollbar(rules_label, command=rules_text.yview)
+rules_text.config(yscrollcommand=rules_scroll.set)
+rules_scroll.grid(row=0, column=0, sticky="ns")
+
+# fill entire available vertical space
+tab2.columnconfigure(1, weight=1)
+tab2.columnconfigure(0, minsize=20)
+tab2.rowconfigure(0, weight=1)
+
+rules_text.config(state='normal')
+rules_text.delete('1.0', END)
 rules_content = rules.update()
 
-for rows in rules_content:
-    learnRulesText.insert(END, f"{rows}\n")
+if rules_content is not None:
+    for rows in rules_content:
+        rules_text.insert(END, f"{rows}\n")
 
-learnRulesText.config(state='disabled')
+else:
+    rules_text.insert(END, "RULEBOOK IMPORT ERROR")
+
+rules_text.config(state='disabled')
 
 print("GUI generated and fully operational.")
 print("Game ready.")

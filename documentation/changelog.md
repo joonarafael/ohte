@@ -12,3 +12,4 @@
 | 9.4. | 0.1.65 | fixed history reading and writing logic, polished game code |
 | 10.4. | 0.1.7 | code rewritten to pylint standards, a ton of quality improvements to game logic, general bug fixes |
 | 13.4. | 0.1.8 | game rule book added, all game modes now functional, player now notified what was the correct answer |
+| 16.4. | 0.2.0 | more window scaling issues fixed, all general game logic finished, time trial clock counts down |

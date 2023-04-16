@@ -23,7 +23,6 @@ class GameHandler():
         self.streak = 0
         self.highest_streak = 0
         self.game_mode = -1
-        self.dev_status_print = False
         self.all_flags = flaghandler.COMPLETE_FLAG_LIST
         self.remaining_flags = None
         self.free_index = -1
@@ -31,14 +30,10 @@ class GameHandler():
 
     def __str__(self):
         return (f"GameHandler Status: Game Mode {self.game_mode}; Round {self.round};"
-                f" Score {self.score}; Lives {self.lives}; Streak {self.streak};"
-                f" DevPrint {self.dev_status_print}.")
+                f" Score {self.score}; Lives {self.lives}; Streak {self.streak}")
 
     # call next round
     def next_round(self):
-        if self.dev_status_print:
-            print("Current Round", self.round)
-
         gui.display_round(self.round)
 
         # reset flag queue if needed
@@ -62,7 +57,9 @@ class GameHandler():
         # start timer if needed
         if self.game_mode in (1, 2):
             timerlogic.clock.run_classic_timer()
-            gui.display_timer()
+
+        # timer function also called for resetting the view
+        gui.display_timer()
 
         # ask to update GUI
         self.update_gui()
@@ -156,6 +153,7 @@ class GameHandler():
         gui.history_update()
         self.next_round()
 
+    # button press triggers answer function
     def player_answered(self, button: int):
         # if no game yet launched, skip function
         if self.game_mode == -1:
@@ -163,11 +161,18 @@ class GameHandler():
 
         # debug option (free flag browsing)
         if self.game_mode == -2:
-            if button in (0, 2):
+            if button == 0:
                 self.flag_slide_show(-1)
-                return
 
-            self.flag_slide_show(1)
+            elif button == 1:
+                self.flag_slide_show(1)
+
+            elif button == 2:
+                self.flag_slide_show(-10)
+
+            else:
+                self.flag_slide_show(10)
+
             return
 
         # check if answer was correct
@@ -211,11 +216,6 @@ class GameHandler():
                 gui.change_status("correct")
                 self.score += 100
 
-            # developer print
-            if self.dev_status_print:
-                print("Correct! You have answered",
-                      self.streak, "times correct in a row!")
-
         # wrong answer handling
         else:
             gui.change_status(self.current_flag.upper().replace("_", " "))
@@ -231,12 +231,6 @@ class GameHandler():
                     gui.change_status("time's up")
                     self.lives = 0
 
-            if self.dev_status_print:
-                print("Wrong!", self.lives, "lives remaining.")
-
-        if self.dev_status_print:
-            print("Current score:", self.score)
-
         # round is over, update game status for player
         gui.display_score(self.score)
         gui.display_streak(self.streak)
@@ -249,10 +243,6 @@ class GameHandler():
             gui.change_title("Game Over!")
             self.game_mode = -1
 
-            if self.dev_status_print:
-                print(
-                    "Game over, you're out of lives! Start new game from File > New game.")
-
             gui.history_update()
             gui.inactive_buttons()
 
@@ -261,6 +251,7 @@ class GameHandler():
             self.round += 1
             self.next_round()
 
+    # general function to ask for gui updates
     def update_gui(self):
         # read new flag
         flag_path = flaghandler.FLAG_DIR
@@ -286,10 +277,6 @@ class GameHandler():
         # shuffle buttons
         random.shuffle(self.buttons)
 
-        if self.dev_status_print:
-            print("Generated options", self.buttons, "out of which",
-                  self.current_flag.upper().replace("_", " "), "is correct.")
-
         # update displayed buttons to player
         gui.next_buttons(self.buttons)
 
@@ -300,19 +287,20 @@ class GameHandler():
         self.free_index = self.free_index + direction
         self.game_mode = -2
 
-        if self.free_index == 198:
-            self.free_index = 0
+        if self.free_index > 197:
+            self.free_index = self.free_index - 198
 
-        if self.free_index == -1:
-            self.free_index = 197
+        if self.free_index < 0:
+            self.free_index = 198 - abs(self.free_index)
 
         flag_path = flaghandler.FLAG_DIR
         curr_flag = self.all_flags[self.free_index]
 
         gui.next_flag(flag_path + '/' + curr_flag)
+        gui.change_title(curr_flag[:-4].upper().replace("_", " "))
 
         self.buttons = ["PREVIOUS FLAG", "NEXT FLAG",
-                        "PREVIOUS FLAG", "NEXT FLAG"]
+                        "MOVE TEN BACK", "MOVE TEN FORWARD"]
 
         gui.next_buttons(self.buttons)
 

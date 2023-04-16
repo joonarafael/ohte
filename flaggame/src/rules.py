@@ -18,7 +18,7 @@ try:
     with open(GAME_RULES_PATH, 'r+', encoding="utf-8") as launch_file:
         file_len = len(launch_file.readlines())
 
-        if file_len != 60:
+        if file_len != 70:
             MASTER_ERROR = True
             print("Game rule book file 'gamerules.txt' integrity compromised.")
             print(f"Please replace {GAME_RULES_PATH} with correct file.")
