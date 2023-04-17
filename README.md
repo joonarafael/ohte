@@ -9,9 +9,30 @@ built with python3 poetry
 
 2. Navigate to /ohte/flaggame.
 
-3. Resolve poetry dependicies by executing 'poetry install' in terminal (command line)..
+3. Resolve poetry dependicies by executing:
 
-4. Run the game from /ohte/flaggame by executing 'poetry run invoke start' in terminal.
+```bash
+poetry install
+```
+
+4. Run the game from /ohte/flaggame by executing:
+
+```bash
+poetry run invoke start
+```
+5. Every machine has a local history file, thus history.txt in gitignore.
+
+6. Pytests and pylint review can be executed with:
+
+```bash
+poetry run invoke test
+```
+
+and
+
+```bash
+poetry run invoke lint
+```
 
 ## IMPORTANT NOTICES ABOUT INSTALLATION
 
