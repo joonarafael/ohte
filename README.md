@@ -9,9 +9,9 @@ built with python3 poetry
 
 2. Navigate to /ohte/flaggame.
 
-3. Resolve poetry dependicies.
+3. Resolve poetry dependicies by executing 'poetry install' in terminal (command line)..
 
-4. Run the game from /ohte/flaggame by executing 'poetry run invoke start' in terminal (command line).
+4. Run the game from /ohte/flaggame by executing 'poetry run invoke start' in terminal.
 
 ## IMPORTANT NOTICES ABOUT INSTALLATION
 
