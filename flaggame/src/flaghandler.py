@@ -2,8 +2,6 @@
 import os
 from os import walk
 
-# flag import is a function for debugging purposes (can be called from in-game menus)
-
 # PLACE TO CHANGE CORRECT FLAG AMOUNT
 CORRECT_AMOUNT = 198
 
@@ -16,7 +14,7 @@ if WORKING_DIR[-3:] != "src":
 # establish path to flags
 FLAG_DIR = WORKING_DIR + "/flags"
 
-# ask os to list every file inside flag directory, remove any non -.png files
+# ask os to list every file inside flag directory, remove any non .png files
 COMPLETE_FLAG_LIST = next(walk(FLAG_DIR), (None, None, []))[2]
 
 for flags in reversed(COMPLETE_FLAG_LIST):
@@ -30,7 +28,7 @@ COMPLETE_FLAG_LIST.sort()
 
 def flag_import(correct_amount):
     # add correct flag list to memory
-    with open(WORKING_DIR + "/correctFlags.txt", 'r', encoding="utf-8") as flag_file:
+    with open(WORKING_DIR + "/correctflags.txt", 'r', encoding="utf-8") as flag_file:
         correct_flags = [line.strip() for line in flag_file]
 
     # check if found flags match the correct flag list
@@ -51,10 +49,14 @@ def flag_import(correct_amount):
               " https://www.worldometers.info/geography/how-many-countries-are-there-in-the-world/"
               " and Taiwan, Western Sahara & Kosovo.")
 
+        print("Ensure directory integrity by fetching flags again from"
+              " github.com/joonarafael/ohte/flaggamee/src/flags.")
+
     else:
         print("All 198 flags have been found.")
 
 
+# call function immediately at launch
 flag_import(CORRECT_AMOUNT)
 
 # debugging option

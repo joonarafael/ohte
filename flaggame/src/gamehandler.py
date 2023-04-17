@@ -4,10 +4,11 @@
 
 import random
 from math import log
+from copy import deepcopy
 import flaghandler
 import timerlogic
 import history
-import gui  # pylint: disable=cyclic-import
+import gui # pylint: disable=cyclic-import
 
 # Game Handler class is responsible for every game mode
 
@@ -38,11 +39,7 @@ class GameHandler():
 
         # reset flag queue if needed
         if len(self.remaining_flags) == 0:
-            if self.game_mode == 2:
-                self.remaining_flags = list(self.all_flags)
-
-            else:
-                self.remaining_flags = set(self.all_flags)
+            self.remaining_flags = set(self.all_flags)
 
         # pick a random flag
         self.current_flag = random.choice(list(self.remaining_flags))
@@ -52,23 +49,26 @@ class GameHandler():
         if self.game_mode != 2:
             self.remaining_flags.remove(self.current_flag)
 
+        # remove .png suffix
         self.current_flag = self.current_flag[:-4]
 
         # start timer if needed
         if self.game_mode in (1, 2):
             timerlogic.clock.run_classic_timer()
 
-        # timer function also called for resetting the view
+        # timer function called anyway as it also resets the view
+        # (reverts back to plain text "Timer")
         gui.display_timer()
 
-        # ask to update GUI
+        # ask own class function to send gui update requests
         self.update_gui()
 
     # if new game is launched while old one still running (or window is destroyed)
-    # ask to record previous to history
+    # ask to record history
     def terminated_game(self):
         gui.change_status(0)
 
+        # free flag browsing or debug modes won't record history
         if self.game_mode >= 0:
             history.game_terminated(
                 [self.game_mode, self.score, self.highest_streak, self.lives])
@@ -79,13 +79,7 @@ class GameHandler():
     def reset(self, desired_lives: int):
         self.terminated_game()
 
-        # time trial purely random flags
-        # other game modes flag set is curated (full rotations)
-        if self.game_mode == 2:
-            self.remaining_flags = list(self.all_flags)
-
-        else:
-            self.remaining_flags = set(self.all_flags)
+        self.remaining_flags = set(self.all_flags)
 
         self.round = 1
         self.score = 0
@@ -100,7 +94,7 @@ class GameHandler():
 
     # initialize classic game mode
     def classic(self):
-        gui.change_title("Classic")
+        gui.change_title("CLASSIC")
 
         self.reset(3)
         self.game_mode = 0
@@ -111,7 +105,7 @@ class GameHandler():
 
     # initialize advanced game mode
     def advanced(self):
-        gui.change_title("Advanced")
+        gui.change_title("ADVANCED")
 
         self.reset(3)
         self.game_mode = 1
@@ -122,7 +116,7 @@ class GameHandler():
 
     # initialize time trial game mode
     def time_trial(self):
-        gui.change_title("Time Trial")
+        gui.change_title("TIME TRIAL")
 
         self.reset(3)
         self.game_mode = 2
@@ -133,7 +127,7 @@ class GameHandler():
 
     # initialize one life game mode
     def one_life(self):
-        gui.change_title("One Life")
+        gui.change_title("ONE LIFE")
 
         self.reset(1)
         self.game_mode = 3
@@ -144,7 +138,7 @@ class GameHandler():
 
     # initialize free game mode
     def free(self):
-        gui.change_title("Free Mode")
+        gui.change_title("FREE MODE")
 
         self.reset(-1)
         self.game_mode = 4
@@ -153,8 +147,9 @@ class GameHandler():
         gui.history_update()
         self.next_round()
 
-    # button press triggers answer function
+    # button press event triggers answer function
     def player_answered(self, button: int):
+        # fail-safe mechanism:
         # if no game yet launched, skip function
         if self.game_mode == -1:
             return
@@ -183,7 +178,7 @@ class GameHandler():
                 self.highest_streak = self.streak
 
             # change score depending on the game mode
-            # advanced score
+            # advanced score (details in rulebook)
             if self.game_mode == 1:
                 gui.change_status("correct")
                 round_time = timerlogic.clock.read_accurate()
@@ -197,11 +192,13 @@ class GameHandler():
                 points_gained = points_gained * (log(self.streak, 20) + 1)
                 self.score += int(points_gained)
 
-            # time trial score
+            # time trial score (details in rulebook)
             elif self.game_mode == 2:
                 round_time = timerlogic.clock.read_accurate()
 
                 # time trial game ends if round took more than 5 seconds
+                # gui forces any dummy answer, round time checked nonetheless
+                # here once again for accurate and fair gameplay
                 if round_time <= 5.0000:
                     gui.change_status("correct")
                     points_gained = 180 + ((-4 * (round_time ** 2)) / 1.25)
@@ -211,7 +208,7 @@ class GameHandler():
                     gui.change_status("time's up")
                     self.lives = 0
 
-            # classic, one life and free mode score
+            # classic, one life and free mode score (details in rulebook)
             else:
                 gui.change_status("correct")
                 self.score += 100
@@ -251,9 +248,9 @@ class GameHandler():
             self.round += 1
             self.next_round()
 
-    # general function to ask for gui updates
+    # general function to ask for gui updates every round
     def update_gui(self):
-        # read new flag
+        # find path for the new flag
         flag_path = flaghandler.FLAG_DIR
         photo_path = flag_path + '/' + self.current_flag + ".png"
 
@@ -262,17 +259,14 @@ class GameHandler():
 
         # generate 4 options with 3 dummies
         self.buttons = [self.current_flag.upper().replace("_", " ")]
-        picked = [self.current_flag]
 
-        for _ in range(3):
-            wrong_answer = self.current_flag
+        excluding_set = deepcopy(self.all_flags)
+        excluding_set.remove(f"{self.current_flag}.png")
 
-            while wrong_answer == self.current_flag or wrong_answer in picked:
-                wrong_answer = random.choice(self.all_flags)
-                wrong_answer = wrong_answer[:-4]
+        dummy_picks = random.sample(excluding_set, 3)
 
-            picked.append(wrong_answer)
-            self.buttons.append(wrong_answer.upper().replace("_", " "))
+        for dummy in dummy_picks:
+            self.buttons.append(dummy.upper().replace("_", " ")[:-4])
 
         # shuffle buttons
         random.shuffle(self.buttons)
@@ -282,17 +276,20 @@ class GameHandler():
 
     # debugging to scroll through every flag
     def flag_slide_show(self, direction: int):
+        # terminate any ongoing game
         self.terminated_game()
 
-        self.free_index = self.free_index + direction
         self.game_mode = -2
+        self.free_index = self.free_index + direction
 
+        # handle overflow
         if self.free_index > 197:
             self.free_index = self.free_index - 198
 
         if self.free_index < 0:
             self.free_index = 198 - abs(self.free_index)
 
+        # display flag to player
         flag_path = flaghandler.FLAG_DIR
         curr_flag = self.all_flags[self.free_index]
 
@@ -305,4 +302,5 @@ class GameHandler():
         gui.next_buttons(self.buttons)
 
 
+# launch the Master Game Handler
 MASTER_GAME_HANDLER = GameHandler()

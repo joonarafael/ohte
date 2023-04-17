@@ -4,9 +4,9 @@ from os import getcwd
 from datetime import datetime
 
 
-# determine directory for history file
+# determine directory for the history file
 WORKING_DIR = getcwd()
-MASTER_ERROR = False
+MASTER_ERROR = True
 
 if WORKING_DIR[-3:] != "src":
     WORKING_DIR = WORKING_DIR + "/src"
@@ -36,20 +36,23 @@ try:
             launch_file.write(
                 f"\n\n/// /// /// /// /// /// /// ///\nNEW SESSION AT {curr_time()}")
 
+    MASTER_ERROR = False
+
 except FileNotFoundError:
     with open(HISTORY_PATH, 'w+', encoding="utf-8") as launch_file:
 
         launch_file.write(
             f"/// /// /// /// /// /// /// ///\nNEW SESSION AT {curr_time()}")
 
-# if no history file can be established, history will not be recorded
-except Exception as e:
-    MASTER_ERROR = True
+    MASTER_ERROR = False
+
+if MASTER_ERROR:
     print("ERROR while opening 'history.txt.':")
-    print(e)
     print("Please ensure file integrity or create it manually before continuing.")
     print("If continuing, no history will be recorded.")
     print("Software relaunch is required to record history again.")
+
+# define a function to clear all history
 
 
 def clear_history():
@@ -60,7 +63,7 @@ def clear_history():
 
         sys.exit(1)
 
-# debug option to print history file
+# define a function to print history file to console (debug option)
 
 
 def console_print():
@@ -70,7 +73,7 @@ def console_print():
         with open(HISTORY_PATH, 'r', encoding="utf-8") as file:
             print(file.read())
 
-# game_handler calls history changes
+# Master Game Handler calls all history changes
 # game start recorded
 
 
@@ -138,7 +141,8 @@ def game_terminated(info: list):
                     f"\nScore: {info[1]} - Longest Continuous Streak: {info[2]}."
                     f" Still {info[3]} lives left at termination."))
 
-# reading the history from file and returning for gui
+# define a function to read the history and return it for the gui
+# to display it visually for the player
 
 
 def update():
@@ -148,6 +152,8 @@ def update():
 
     return None
 
+
+# define a function to print history file directories (debug option)
 
 def print_directories():
     print("Main working directory path received from os.getcwd():")

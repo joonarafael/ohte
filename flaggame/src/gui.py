@@ -13,19 +13,20 @@ import gamehandler
 
 print("Necessary libraries for GUI imported, drawing interface...")
 
-CURRENT_VERSION = "0.2.0"
+CURRENT_VERSION = "0.2.1"
 
+# select most optimal resolution and lock it
 LAUNCH_RESOLUTION = (663, 700)
 RESOLUTION_LOCKED = True
 
 # master window settings
 window = Tk()
-window.title("Flag Game")
+window.title("Flag Quiz Game")
 window.geometry(f"{LAUNCH_RESOLUTION[0]}x{LAUNCH_RESOLUTION[1]}")
 window.minsize(LAUNCH_RESOLUTION[0], LAUNCH_RESOLUTION[1])
 window.maxsize(LAUNCH_RESOLUTION[0], LAUNCH_RESOLUTION[1])
 
-# define "are you sure" screen
+# define exit screen ("are you sure?")
 
 
 def exit_game():
@@ -39,10 +40,11 @@ def exit_game():
         window.destroy()
 
 
-# create menubar
+# create menu bar
 menu_bar = Menu(window)
 window.config(menu=menu_bar)
 
+# add file, debug & about menus
 file_menu = Menu(menu_bar, tearoff=0)
 debug_menu = Menu(menu_bar, tearoff=0)
 about_menu = Menu(menu_bar, tearoff=0)
@@ -53,6 +55,30 @@ menu_bar.add_cascade(label="Debug", menu=debug_menu)
 menu_bar.add_cascade(label="About", menu=about_menu)
 
 # define file menu commands
+
+
+def history_print():
+    history.console_print()
+
+
+def clear_history():
+    result = tkinter.messagebox.askyesno(
+        "Sure?", ("Are You sure You wish to clear all history from file and exit program?"
+                  " All progress will be permanently lost."))
+
+    if not result:
+        return
+
+    history.clear_history()
+
+
+# define file menu
+file_menu.add_cascade(label="New game", menu=game_mode_selection)
+file_menu.add_command(label="Print history to console", command=history_print)
+file_menu.add_command(label="Clear history...", command=clear_history)
+file_menu.add_command(label="Exit", command=exit_game)
+
+# define debug menu commands
 
 
 def unlock_resolution():
@@ -78,33 +104,6 @@ def unlock_resolution():
     RESOLUTION_LOCKED = True
 
 
-def history_print():
-    history.console_print()
-
-
-def clear_history():
-    result = tkinter.messagebox.askyesno(
-        "Sure?", ("Are You sure You wish to clear all history from file and exit program?"
-                  " All progress will be permanently lost."))
-
-    if not result:
-        return
-
-    history.clear_history()
-
-
-# define file menu
-file_menu.add_cascade(label="New game", menu=game_mode_selection)
-file_menu.add_command(label="Lock / Unlock resolution",
-                      command=unlock_resolution)
-file_menu.add_command(label="Print history to console", command=history_print)
-file_menu.add_separator()
-file_menu.add_command(label="Clear history...", command=clear_history)
-file_menu.add_command(label="Exit", command=exit_game)
-
-# define debug menu commands
-
-
 def directories():
     print("CRITICAL DIRECTORIES:")
     history.print_directories()
@@ -128,6 +127,8 @@ def flag_slide_show():
 
 
 # define debug menu
+debug_menu.add_command(label="Lock / Unlock resolution",
+                       command=unlock_resolution)
 debug_menu.add_command(
     label="List critical directory paths to console", command=directories)
 debug_menu.add_command(
@@ -177,14 +178,15 @@ def start_free_game():
         gamehandler.MASTER_GAME_HANDLER.free()
 
 
-# define game mode selection menu
+# define game mode selection drop down menu
 game_mode_selection.add_command(label="Classic", command=start_classic_game)
 game_mode_selection.add_command(label="Advanced", command=start_advanced_game)
 game_mode_selection.add_command(label="Time Trial", command=start_time_game)
 game_mode_selection.add_command(label="One Life", command=start_one_life_game)
 game_mode_selection.add_command(label="Free Mode", command=start_free_game)
 
-# define 'tab' system
+# define 'tab' system within the master window
+# utlizing the Tkinter built-in notebook
 notebook = ttk.Notebook(window)
 tab0 = Frame(notebook, bg="#333333", relief="flat",
              borderwidth=0, highlightthickness=0)
@@ -198,139 +200,163 @@ notebook.add(tab1, text="History")
 notebook.add(tab2, text="Rules")
 notebook.pack(expand=True, fill="both")
 
-# main title
+# adjust & configure the visual layout of the game tab
+# keep window dimensions locked, disable dynamic scaling on the grid element
+tab0.rowconfigure(0, weight=0, uniform='titles')
+tab0.rowconfigure(1, weight=0, uniform='titles')
+tab0.rowconfigure(2, weight=0, uniform='titles')
+tab0.rowconfigure(3, weight=1, uniform='viewport')
+tab0.rowconfigure(4, weight=0, uniform='buttons')
+tab0.rowconfigure(5, weight=0, uniform='buttons')
+
+# define the main title for the game tab
 if len(flaghandler.COMPLETE_FLAG_LIST) != flaghandler.CORRECT_AMOUNT:
-    gameLabel = Label(tab0, text="FLAG IMAGES IMPORT ERROR, SEE CONSOLE FOR DETAILS", font=(
-        "Arial", 12), fg="#e6e6e6", bg="#333333")
+    game_label = Label(tab0, text="FLAG IMAGES IMPORT ERROR, SEE CONSOLE FOR DETAILS", font=(
+        "Arial", 12, 'bold'), fg="#e6e6e6", bg="#333333")
 
 else:
-    gameLabel = Label(tab0, text="Flag Game", font=(
-        "Arial", 14), fg="#e6e6e6", bg="#333333")
+    game_label = Label(tab0, text="FLAG QUIZ GAME", font=(
+        "Arial", 14, 'bold'), fg="#e6e6e6", bg="#333333")
 
-gameLabel.grid(row=0, column=0, columnspan=5)
+game_label.grid(row=0, column=0, columnspan=5)
 
-# change title
+# function to change title to any new text
 
 
 def change_title(new_text):
-    gameLabel.configure(text=new_text)
+    game_label.configure(text=new_text)
 
 
-# correct / wrong answer display
+# correct / wrong answer display underneath main title
 
-answerLabel = Label(tab0, text="Start a new game from File > New Game.", font=(
+answer_label = Label(tab0, text="Start a new game from File > New Game.", font=(
     "Arial", 12), fg="#e6e6e6", bg="#333333")
 
-answerLabel.grid(row=1, column=0, columnspan=5)
+answer_label.grid(row=1, column=0, columnspan=5)
 
-# change status based on correct / wrong answer
+# function to change status based on correct / wrong answer
 
 
 def change_status(status):
     if status == "correct":
-        answerLabel.configure(text="CORRECT!", fg="#bbff78")
+        answer_label.configure(text="CORRECT!", fg="#bbff78")
 
     elif status == 0:
-        answerLabel.configure(text="")
+        answer_label.configure(text="")
 
     elif status == "time's up":
         correct_flag = gamehandler.MASTER_GAME_HANDLER.current_flag.upper().replace("_", " ")
-        answerLabel.configure(
-            text=f"TIME'S UP - CORRECT ANSWER WAS: {correct_flag}", fg="#ff7c78")
+
+        answer_label.configure(
+            text=f"TIME'S UP! CORRECT ANSWER WAS {correct_flag}", fg="#ff7c78")
 
     else:
-        answerLabel.configure(
-            text=f"WRONG - CORRECT ANSWER: {status}", fg="#ff7c78")
+        answer_label.configure(
+            text=f"WRONG! CORRECT ANSWER WAS {status}", fg="#ff7c78")
 
 
-# update game statistics for player
+# functions to update game statistics for player
+# including round, score, timer, lives & streak
 
 
 def display_round(current_round):
-    roundLabel.config(text=f"Round: {current_round}")
+    round_label.config(text=f"Round: {current_round}")
 
 
 def display_score(score: int):
-    scoreLabel.config(text=f"Score: {score}")
+    score_label.config(text=f"Score: {score}")
 
 
 def display_timer():
-    # timer counts up for advanced game
+    # timer counts UP for advanced game
     if gamehandler.MASTER_GAME_HANDLER.game_mode == 1:
-        timerLabel.config(text=timerlogic.clock.read_displayed())
-        timerLabel.after(100, display_timer)
+        timer_label.config(
+            text=timerlogic.clock.read_displayed(), fg="#ffffff")
+        # function calls itself again after 100 ms
+        timer_label.after(100, display_timer)
 
-    # timer counts down for time trial
+    # timer counts DOWN for time trial
     elif gamehandler.MASTER_GAME_HANDLER.game_mode == 2:
-        timer = timerlogic.clock.read_accurate()
-
         # if more than 5 seconds has elapsed, dummy answer is forced
-        if timer >= 5.001:
+        # to end the game
+        if timerlogic.clock.read_accurate() >= 5.001:
             gamehandler.MASTER_GAME_HANDLER.player_answered(0)
 
         else:
             displayed_time = round(5.0 - timerlogic.clock.read_displayed(), 1)
             displayed_time = max(displayed_time, 0.0)
 
-            timerLabel.config(text=displayed_time)
-            timerLabel.after(100, display_timer)
+            if displayed_time <= 1.5:
+                timer_label.config(text=displayed_time, fg="#ff6e6e")
 
+            else:
+                timer_label.config(text=displayed_time, fg="#ffffff")
+
+            # function calls itself again after 100 ms
+            timer_label.after(100, display_timer)
+
+    # function is also called to change the displayed text back to "Timer"
+    # for other game modes
     else:
-        timerLabel.config(text="Timer")
+        timer_label.config(text="Timer", fg="#ffffff")
 
 
 def display_lives(lives):
     if lives < 0:
-        livesLabel.config(text="Lives: Inf")
+        lives_label.config(text="Lives: Inf", fg="#cfffd1")
+
+    elif lives == 1:
+        lives_label.config(text="Lives: 1", fg="#ff6e6e")
 
     else:
-        livesLabel.config(text=f"Lives: {lives}")
+        lives_label.config(text=f"Lives: {lives}", fg="#ffffff")
 
 
 def display_streak(streak):
-    streakLabel.config(text=f"Streak: {streak}")
+    streak_label.config(text=f"Streak: {streak}")
 
 
-# 'timer', 'round', 'score' and 'lives' labels for player
-roundLabel = Label(tab0, text="Round", font=(
+# define 'timer', 'round', 'score' and 'lives' labels for player
+round_label = Label(tab0, text="Round", font=(
     "Arial", 12), fg="#e6e6e6", bg="#333333")
-roundLabel.grid(row=2, column=0)
+round_label.grid(row=2, column=0)
 
-scoreLabel = Label(tab0, text="Score", font=(
+score_label = Label(tab0, text="Score", font=(
     "Arial", 12), fg="#e6e6e6", bg="#333333")
-scoreLabel.grid(row=2, column=1)
+score_label.grid(row=2, column=1)
 
-timerLabel = Label(tab0, text="Timer", font=(
+timer_label = Label(tab0, text="Timer", font=(
     "Arial", 12), fg="#e6e6e6", bg="#333333")
-timerLabel.grid(row=2, column=2)
+timer_label.grid(row=2, column=2)
 
-livesLabel = Label(tab0, text="Lives", font=(
+lives_label = Label(tab0, text="Lives", font=(
     "Arial", 12), fg="#e6e6e6", bg="#333333")
-livesLabel.grid(row=2, column=3)
+lives_label.grid(row=2, column=3)
 
-streakLabel = Label(tab0, text="Streak", font=(
+streak_label = Label(tab0, text="Streak", font=(
     "Arial", 12), fg="#e6e6e6", bg="#333333")
-streakLabel.grid(row=2, column=4)
+streak_label.grid(row=2, column=4)
 
-# set size for flag display
+# set size for flag display port
 img = Image.open(flaghandler.WORKING_DIR + "/placeholder-image.png")
-img.thumbnail((600, 600), Image.LANCZOS)
+img.thumbnail((500, 500), Image.LANCZOS)
 im = ImageTk.PhotoImage(img)
-photoLabel = Label(tab0, image=im, borderwidth=0,
-                   highlightthickness=0, relief="flat")
-photoLabel.grid(row=3, column=0, columnspan=5)
+photo_label = Label(tab0, image=im, borderwidth=0,
+                    highlightthickness=0, relief="flat")
+photo_label.grid(row=3, column=0, columnspan=5)
 
-# change flag
+# define a function to change flag
 
 
 def next_flag(path: str):
     img2 = Image.open(path)
     img2.thumbnail((450, 450), Image.LANCZOS)
     im2 = ImageTk.PhotoImage(img2)
-    photoLabel.configure(image=im2)
-    photoLabel.image = im2
+    photo_label.configure(image=im2)
+    photo_label.image = im2
 
 # define button functions
+# buttons send the signal straight to gamehandler
 
 
 def button_0_function():
@@ -349,25 +375,25 @@ def button_3_function():
     gamehandler.MASTER_GAME_HANDLER.player_answered(3)
 
 
-# generate buttons
-button0 = Button(tab0, text="OPTION 1", state=DISABLED, width=34, pady=10,
+# define the buttons
+button0 = Button(tab0, text="OPTION 1", state=DISABLED, width=36, pady=10,
                  padx=10, relief="groove", borderwidth=0, highlightthickness=0,
                  command=button_0_function)
 button0.grid(row=4, column=0, columnspan=2)
-button1 = Button(tab0, text="OPTION 2", state=DISABLED, width=34, pady=10,
+button1 = Button(tab0, text="OPTION 2", state=DISABLED, width=36, pady=10,
                  padx=10, relief="groove", borderwidth=0, highlightthickness=0,
                  command=button_1_function)
 button1.grid(row=4, column=3, columnspan=2)
-button2 = Button(tab0, text="OPTION 3", state=DISABLED, width=34, pady=10,
+button2 = Button(tab0, text="OPTION 3", state=DISABLED, width=36, pady=10,
                  padx=10, relief="groove", borderwidth=0, highlightthickness=0,
                  command=button_2_function)
 button2.grid(row=5, column=0, columnspan=2)
-button3 = Button(tab0, text="OPTION 4", state=DISABLED, width=34, pady=10,
+button3 = Button(tab0, text="OPTION 4", state=DISABLED, width=36, pady=10,
                  padx=10, relief="groove", borderwidth=0, highlightthickness=0,
                  command=button_3_function)
 button3.grid(row=5, column=3, columnspan=2)
 
-# define button update function
+# define a function to update buttons every round
 
 
 def next_buttons(options: list):
@@ -377,7 +403,7 @@ def next_buttons(options: list):
     button3.configure(text=options[3], state=NORMAL)
 
 
-# define button grey out function after game end
+# define a function to grey out and disable the buttons after game termination
 
 
 def inactive_buttons():
@@ -387,37 +413,30 @@ def inactive_buttons():
     button3.configure(text="OPTION 4", state=DISABLED)
 
 
-# keep window dimensions locked, disable dynamic scaling on the grid element
-tab0.rowconfigure(0, weight=0, uniform='titles')
-tab0.rowconfigure(1, weight=0, uniform='titles')
-tab0.rowconfigure(2, weight=0, uniform='titles')
-tab0.rowconfigure(3, weight=1, uniform='viewport')
-tab0.rowconfigure(4, weight=0, uniform='buttons')
-tab0.rowconfigure(5, weight=0, uniform='buttons')
-
-
 # define the history tab
 # Label and Text modules used to achieve proper visibility
 
-
+# history_label contains all content within the tab
 history_label = Label(tab1, relief="flat", borderwidth=0, highlightthickness=0)
 history_label.grid(sticky="NSEW")
 history_label.grid_rowconfigure(0, weight=1)
 
+# text element is used to display the actual content
 history_text = Text(history_label, state="disabled", fg="#ffffff", bg="#333333",
                     relief="flat", borderwidth=0, highlightthickness=0)
 history_text.grid(row=0, column=1, sticky="NSEW")
 
+# scrollbar added to navigate the page
 history_scroll = Scrollbar(history_label, command=history_text.yview)
 history_text.config(yscrollcommand=history_scroll.set)
 history_scroll.grid(row=0, column=0, sticky="ns")
 
-# fill entire available vertical space
+# fill the entire available vertical space
 tab1.columnconfigure(1, weight=1)
 tab1.columnconfigure(0, minsize=20)
 tab1.rowconfigure(0, weight=1)
 
-# history view update
+# define a function to update the history
 
 
 def history_update():
@@ -431,29 +450,34 @@ def history_update():
     history_text.config(state='disabled')
 
 
-# function called to update history at launch
+# function called immediately to update history at launch
 history_update()
 
 # define the learn tab
 # Label and Text modules used to achieve proper visibility
 
+# rules_label contains all content within the tab
 rules_label = Label(tab2, relief="flat", borderwidth=0, highlightthickness=0)
 rules_label.grid(sticky="NSEW")
 rules_label.grid_rowconfigure(0, weight=1)
 
+# text element is used to display the actual content
 rules_text = Text(rules_label, state="disabled", fg="#ffffff", bg="#333333",
                   relief="flat", borderwidth=0, highlightthickness=0)
 rules_text.grid(row=0, column=1, sticky="NSEW")
 
+# scrollbar added to navigate the page
 rules_scroll = Scrollbar(rules_label, command=rules_text.yview)
 rules_text.config(yscrollcommand=rules_scroll.set)
 rules_scroll.grid(row=0, column=0, sticky="ns")
 
-# fill entire available vertical space
+# fill the entire available vertical space
 tab2.columnconfigure(1, weight=1)
 tab2.columnconfigure(0, minsize=20)
 tab2.rowconfigure(0, weight=1)
 
+# rules won't change
+# they can be just once written out at launch
 rules_text.config(state='normal')
 rules_text.delete('1.0', END)
 rules_content = rules.update()
@@ -467,6 +491,7 @@ else:
 
 rules_text.config(state='disabled')
 
+# inform finally to console these 500 lines have been executed successfully
 print("GUI generated and fully operational.")
 print("Game ready.")
 

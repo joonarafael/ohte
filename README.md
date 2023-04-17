@@ -1,6 +1,6 @@
 # FLAG QUIZ GAME
 
-current ver 0.2.0 (16.4.2023)
+current ver 0.2.1 (17.4.2023)
 built with python3 poetry
 
 ## INSTALLATION & RUNNING THE GAME
@@ -17,7 +17,7 @@ built with python3 poetry
 
 ## IMPORTANT NOTICES ABOUT INSTALLATION
 
-- My current build (0.2.0) is running fine on an Oracle VirtualBox Ubuntu installation and Cubbli laptop provided by the school.
+- My current build (0.2.1) is running fine on an Oracle VirtualBox Ubuntu installation and Cubbli laptop provided by the school.
 
 - Just running the game requires only the Pillow library. All other libraries are for dev group.
 
