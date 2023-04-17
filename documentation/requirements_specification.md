@@ -19,6 +19,7 @@ After the main functionalities and the core application is up and running, these
 
 - [x] Advanced Mode: Complex pointing system to give points for quick time and running streaks. Three lives.
 - [x] Free Mode: Unlimited lives & time to practice purposes
-- [x] Time Trial: Three lives with continious time pressure, game ends if time runs out.
+- [x] Time Trial: Three lives with continious time pressure, game ends if time runs out
 - [x] One Life: Just one life but unlimited time
 - [ ] Custom Mode: Player can determine the game settings self
+- [ ] Player Lifetime Statistics: Keep track of lifetime statistics, amount of games, accuracy, etc. ...
