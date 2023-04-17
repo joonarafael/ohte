@@ -7,13 +7,11 @@ built with python3 poetry
 
 1. Clone this github repository to your local machine.
 
-2. Navigate to /ohte/flaggame
+2. Navigate to /ohte/flaggame.
 
 3. Resolve poetry dependicies.
 
 4. Run the game from /ohte/flaggame by executing 'poetry run invoke start' in terminal (command line).
-
-- Software is also functional if run from /ohte/flaggame/src by executing 'python3 main.py' in terminal.
 
 ## IMPORTANT NOTICES ABOUT INSTALLATION
 
