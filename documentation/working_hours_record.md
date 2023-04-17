@@ -15,4 +15,4 @@
 | 13.4. | 2    | wrote rulebook, more game logic and functionality |
 | 16.4. | 3    | wrote more game logic, fixed scaling issues, window resolution can be locked / unlocked |
 | 17.4. | 2    | polishing game, wrote more tests for pytest, improved code clarity and added comments |
-| total | 23   | |
+| total | 25   | |
