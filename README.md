@@ -22,16 +22,18 @@ poetry run invoke start
 ```
 5. Every machine has a local history file, thus history.txt in gitignore.
 
-6. Pytests and pylint review can be executed with:
+6. Pytest & pylint and coverage review can be executed with:
 
 ```bash
 poetry run invoke test
 ```
 
-and
-
 ```bash
 poetry run invoke lint
+```
+
+```bash
+poetry run invoke coverage-report
 ```
 
 ## IMPORTANT NOTICES ABOUT INSTALLATION
