@@ -1,52 +1,80 @@
 # FLAG QUIZ GAME
 
-current ver 0.2.1 (17.4.2023)
+current ver **0.2.1** (*18.4.2023*)
 
-built with python3 poetry
+## DOCUMENTATION
 
 (suoritan kurssia suomeksi mutta dokumentaatio on englanniksi)
 
-## INSTALLATION & RUNNING THE GAME
+- [Software Requirements Specification](./documentation/requirements_specification.md)
 
-1. Clone this github repository to your local machine by executing:
+- [Software Architecture Layout](./documentation/architecture.md)
+
+- [Changelog](./documentation/changelog.md)
+
+- [Working Hours Record](./documentation/working_hours_record.md)
+
+- [Game Rules](./flaggame/src/gamerules.txt)
+
+## VERSIONS
+
+Flag Quiz Game has been built with **Python 3.10** and **Poetry 1.4.0**. Software might not run on other versions. Installation guide provides possible solutions for two common errors encountered with other Poetry versions.
+
+## INSTALLATION GUIDE
+
+### 1. Clone this github repository to your local machine by executing:
 
 ```bash
 git clone https://github.com/joonarafael/ohte.git
 ```
 
-2. Navigate to /ohte/flaggame.
+### 2. Navigate to `./flaggame/`.
 
-3. Resolve poetry dependicies by executing:
+This folder is the root folder for the Poetry project. Not the github repository `/ohte/` folder.
+
+### 3. Resolve Poetry dependencies by executing:
 
 ```bash
 poetry install
 ```
 
-4. Run the game from /ohte/flaggame by executing:
+### TROUBLESHOOTING SOME POSSIBLE POETRY ERRORS
+
+**PROBLEM A**: *The Poetry configuration is invalid: Additional properties are not allowed ('group' was unexpected)*
+
+**SOLUTION A**: Manually edit the `pyproject.toml` at `./flaggame/pyproject.toml` by moving all "dev dependencies" to the regular group. You may also just remove them altogether if you don't need developer dependencies (developer dependencies include e.g. pylint and pytest).
+
+**PROBLEM B**: *The lock file is not compatible with the current version of Poetry. Upgrade Poetry to be able to read the lock file or, alternatively, regenerate the lock file with the `poetry lock` command.*
+
+**SOLUTION B**: Your Poetry installation is too old/new. Lock file has been generated with Poetry version 1.4.0. First, remove `poetry.lock` file entirely and regenerate it again by executing:
+
+```bash
+poetry lock --no-update
+```
+
+This command regenerates a new working `poetry.lock` file for your system without changing the actual dependencies and their corresponding versions within the `pyproject.toml`.
+
+### 4. Run the game in Poetry project master folder `./flaggame/` by executing:
 
 ```bash
 poetry run invoke start
 ```
-5. Every machine has a local history file, thus history.txt in gitignore.
 
-6. Pytest & pylint and coverage review can be executed with:
+## PYTEST, PYLINT & COVERAGE
+
+Pytest ignores `./flaggame/src/tests` folder as well as `main` and `gui` modules. Main module is almost empty (only dodging the cirular import error), and `gui` is responsible for the graphical interface:
 
 ```bash
 poetry run invoke test
 ```
+To run the code review algorithm with parameters defined in [pylintrc](./flaggame/.pylintrc), execute:
 
 ```bash
 poetry run invoke lint
 ```
 
+To generate the Pytest coverage report (web browser version) for your local machine, execute:
+
 ```bash
 poetry run invoke coverage-report
 ```
-
-## IMPORTANT NOTICES ABOUT INSTALLATION
-
-- My current build (0.2.1) is running fine on an Oracle VirtualBox Ubuntu installation and Cubbli laptop provided by the school.
-
-- Just running the game requires only the Pillow library (excluding built-ins like math, timeit, etc.). All other libraries are for dev group.
-
-- 2to3 library has been added to the poetry dependicies due to weird errors I run into with autopep8.
