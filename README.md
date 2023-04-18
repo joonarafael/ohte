@@ -42,7 +42,7 @@ poetry install
 
 **PROBLEM A**: *The Poetry configuration is invalid: Additional properties are not allowed ('group' was unexpected)*
 
-**SOLUTION A**: Manually edit the `pyproject.toml` at `./flaggame/pyproject.toml` by moving all "dev dependencies" to the regular group. You may also just remove them altogether if you don't need developer dependencies (e.g. pylint and pytest).
+**SOLUTION A**: Manually edit the `pyproject.toml` at `./flaggame/pyproject.toml` by moving all developer dependencies to the "regular" group. You may also just remove them altogether if you don't need developer dependencies (e.g. pylint and pytest).
 
 **PROBLEM B**: *The lock file is not compatible with the current version of Poetry. Upgrade Poetry to be able to read the lock file or, alternatively, regenerate the lock file with the `poetry lock` command.*
 
