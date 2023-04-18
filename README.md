@@ -46,7 +46,7 @@ poetry install
 
 **PROBLEM B**: *The lock file is not compatible with the current version of Poetry. Upgrade Poetry to be able to read the lock file or, alternatively, regenerate the lock file with the `poetry lock` command.*
 
-**SOLUTION B**: Your Poetry installation is too old/new. Lock file has been generated with Poetry version 1.4.0. First, remove `poetry.lock` file entirely and regenerate it again by executing:
+**SOLUTION B**: Your Poetry installation is too old/new. Lock file has been generated with Poetry version 1.4.0. You could try to match your Poetry version, but this issue can be also resolved by first removing `poetry.lock` file entirely, and then regenerating it again by executing:
 
 ```bash
 poetry lock --no-update
@@ -62,19 +62,20 @@ poetry run invoke start
 
 ## PYTEST, PYLINT & COVERAGE
 
-Pytest ignores `./flaggame/src/tests` folder as well as `main` and `gui` modules. Main module is almost empty (only dodging the cirular import error), and `gui` is responsible for the graphical interface:
+Pytest ignores `main` and `gui` modules. Main module is almost empty (only dodging the cirular import error), and `gui` is responsible for the graphical interface:
 
 ```bash
 poetry run invoke test
-```
-To run the code review algorithm with parameters defined in [pylintrc](./flaggame/.pylintrc), execute:
-
-```bash
-poetry run invoke lint
 ```
 
 To generate the Pytest coverage report (web browser version) for your local machine, execute:
 
 ```bash
 poetry run invoke coverage-report
+```
+
+To run the code review algorithm with parameters defined in [pylintrc](./flaggame/.pylintrc), execute:
+
+```bash
+poetry run invoke lint
 ```
