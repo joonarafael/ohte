@@ -1,7 +1,9 @@
 # FLAG QUIZ GAME
 
 current ver 0.2.1 (17.4.2023)
+
 built with python3 poetry
+
 (suoritan kurssia suomeksi mutta dokumentaatio on englanniksi)
 
 ## INSTALLATION & RUNNING THE GAME
