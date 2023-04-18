@@ -8,7 +8,11 @@ built with python3 poetry
 
 ## INSTALLATION & RUNNING THE GAME
 
-1. Clone this github repository to your local machine.
+1. Clone this github repository to your local machine by executing:
+
+```bash
+git clone https://github.com/joonarafael/ohte.git
+```
 
 2. Navigate to /ohte/flaggame.
 
