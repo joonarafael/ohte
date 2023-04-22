@@ -14,3 +14,4 @@
 | 13.4. | 0.1.8 | game rule book added, all game modes now functional, player now notified what was the correct answer |
 | 16.4. | 0.2.0 | more window scaling issues fixed, all general game logic finished, time trial clock counts down |
 | 17.4. | 0.2.1 | 1 life and time running out now highlighted in red, more bug fixes, game logic improved and software polished |
+| 22.4. | 0.2.2 | first implemention of stats functionality, BETA, needs still a lot of polishing |

@@ -9,11 +9,14 @@ import flaghandler
 import timerlogic
 import history
 import rules
-import gamehandler
+from circularimport import send_terminated_game, send_flag_slide_show
+from circularimport import send_input, read_current_flag, send_reset
+from circularimport import read_current_game_mode, send_launch
+import csvhandler
 
 print("Necessary libraries for GUI imported, drawing interface...")
 
-CURRENT_VERSION = "0.2.1"
+CURRENT_VERSION = "0.2.2"
 
 # select most optimal resolution and lock it
 LAUNCH_RESOLUTION = (663, 700)
@@ -35,7 +38,7 @@ def exit_game():
                   " Any ongoing game will be terminated."))
 
     if ans:
-        gamehandler.MASTER_GAME_HANDLER.terminated_game()
+        send_terminated_game()
         print("Program exit...")
         window.destroy()
 
@@ -49,6 +52,8 @@ file_menu = Menu(menu_bar, tearoff=0)
 debug_menu = Menu(menu_bar, tearoff=0)
 about_menu = Menu(menu_bar, tearoff=0)
 game_mode_selection = Menu(file_menu, tearoff=0)
+clear_memory = Menu(file_menu, tearoff=0)
+print_selection = Menu(debug_menu, tearoff=0)
 
 menu_bar.add_cascade(label="File", menu=file_menu)
 menu_bar.add_cascade(label="Debug", menu=debug_menu)
@@ -57,29 +62,50 @@ menu_bar.add_cascade(label="About", menu=about_menu)
 # define file menu commands
 
 
-def history_print():
-    history.console_print()
+def reset_gamehandler():
+    send_reset()
 
 
 def clear_history():
     result = tkinter.messagebox.askyesno(
         "Sure?", ("Are You sure You wish to clear all history from file and exit program?"
+                  " Recoreded history will be permanently lost."))
+
+    if not result:
+        return
+
+    history.clear_history(False)
+
+
+def clear_stats():
+    result = tkinter.messagebox.askyesno(
+        "Sure?", ("Are You sure You wish to clear all history"
+                  " and recorded statistics from file and exit program?"
                   " All progress will be permanently lost."))
 
     if not result:
         return
 
-    history.clear_history()
+    history.clear_history(True)
+
+
+def flag_slide_show():
+    if len(flaghandler.COMPLETE_FLAG_LIST) == flaghandler.CORRECT_AMOUNT:
+        send_flag_slide_show(0)
 
 
 # define file menu
 file_menu.add_cascade(label="New game", menu=game_mode_selection)
-file_menu.add_command(label="Print history to console", command=history_print)
-file_menu.add_command(label="Clear history...", command=clear_history)
+file_menu.add_command(label="Cancel game", command=reset_gamehandler)
+file_menu.add_command(label="Free flag browsing", command=flag_slide_show)
+file_menu.add_cascade(label="Clear memory...", menu=clear_memory)
 file_menu.add_command(label="Exit", command=exit_game)
 
-# define debug menu commands
+clear_memory.add_command(label="Clear history only", command=clear_history)
+clear_memory.add_command(label="Clear history & stats", command=clear_stats)
 
+
+# define debug menu commands
 
 def unlock_resolution():
     global RESOLUTION_LOCKED
@@ -105,12 +131,13 @@ def unlock_resolution():
 
 
 def directories():
+    print()
     print("CRITICAL DIRECTORIES:")
     history.print_directories()
+    print("Flag Directory:")
+    print(flaghandler.FLAG_DIR + "/")
     print("Rulebook Directory:")
     print(rules.GAME_RULES_PATH)
-    print("Flag Directory:")
-    print(flaghandler.FLAG_DIR)
 
 
 def flag_list():
@@ -121,20 +148,34 @@ def retry_import():
     flaghandler.flag_import(flaghandler.CORRECT_AMOUNT)
 
 
-def flag_slide_show():
-    if len(flaghandler.COMPLETE_FLAG_LIST) == flaghandler.CORRECT_AMOUNT:
-        gamehandler.MASTER_GAME_HANDLER.flag_slide_show(1)
+def history_print():
+    history.console_print()
+
+
+def rounds_print():
+    csvhandler.rounds_console_print()
+
+
+def stats_print():
+    csvhandler.stats_console_print()
 
 
 # define debug menu
 debug_menu.add_command(label="Lock / Unlock resolution",
                        command=unlock_resolution)
-debug_menu.add_command(
-    label="List critical directory paths to console", command=directories)
-debug_menu.add_command(
-    label="List flag source files to console", command=flag_list)
+debug_menu.add_cascade(label="Print to console...", menu=print_selection)
 debug_menu.add_command(label="Retry flag import...", command=retry_import)
-debug_menu.add_command(label="Free flag browsing", command=flag_slide_show)
+
+print_selection.add_command(
+    label="Recored history 'history.txt'", command=history_print)
+print_selection.add_command(
+    label="Recorded rounds 'rounds.csv'", command=rounds_print)
+print_selection.add_command(
+    label="Recorded stats 'stats.csv'", command=stats_print)
+print_selection.add_command(
+    label="Critical directory paths", command=directories)
+print_selection.add_command(label="Flag source files", command=flag_list)
+
 
 # define about menu commands
 
@@ -155,27 +196,27 @@ about_menu.add_command(label="About...", command=show_about)
 
 def start_classic_game():
     if len(flaghandler.COMPLETE_FLAG_LIST) == flaghandler.CORRECT_AMOUNT:
-        gamehandler.MASTER_GAME_HANDLER.classic()
+        send_launch(0)
 
 
 def start_advanced_game():
     if len(flaghandler.COMPLETE_FLAG_LIST) == flaghandler.CORRECT_AMOUNT:
-        gamehandler.MASTER_GAME_HANDLER.advanced()
+        send_launch(1)
 
 
 def start_time_game():
     if len(flaghandler.COMPLETE_FLAG_LIST) == flaghandler.CORRECT_AMOUNT:
-        gamehandler.MASTER_GAME_HANDLER.time_trial()
+        send_launch(2)
 
 
 def start_one_life_game():
     if len(flaghandler.COMPLETE_FLAG_LIST) == flaghandler.CORRECT_AMOUNT:
-        gamehandler.MASTER_GAME_HANDLER.one_life()
+        send_launch(3)
 
 
 def start_free_game():
     if len(flaghandler.COMPLETE_FLAG_LIST) == flaghandler.CORRECT_AMOUNT:
-        gamehandler.MASTER_GAME_HANDLER.free()
+        send_launch(4)
 
 
 # define game mode selection drop down menu
@@ -194,10 +235,13 @@ tab1 = Frame(notebook, bg="#333333", relief="flat",
              borderwidth=0, highlightthickness=0)
 tab2 = Frame(notebook, bg="#333333", relief="flat",
              borderwidth=0, highlightthickness=0)
+tab3 = Frame(notebook, bg="#333333", relief="flat",
+             borderwidth=0, highlightthickness=0)
 
 notebook.add(tab0, text="Game")
-notebook.add(tab1, text="History")
-notebook.add(tab2, text="Rules")
+notebook.add(tab1, text="Stats")
+notebook.add(tab2, text="History")
+notebook.add(tab3, text="Rules")
 notebook.pack(expand=True, fill="both")
 
 # adjust & configure the visual layout of the game tab
@@ -244,8 +288,11 @@ def change_status(status):
     elif status == 0:
         answer_label.configure(text="")
 
+    elif status == "Start a new game from File > New Game.":
+        answer_label.configure(text="Start a new game from File > New Game.")
+
     elif status == "time's up":
-        correct_flag = gamehandler.MASTER_GAME_HANDLER.current_flag.upper().replace("_", " ")
+        correct_flag = read_current_flag()
 
         answer_label.configure(
             text=f"TIME'S UP! CORRECT ANSWER WAS {correct_flag}", fg="#ff7c78")
@@ -268,19 +315,21 @@ def display_score(score: int):
 
 
 def display_timer():
+    game_mode = read_current_game_mode()
+
     # timer counts UP for advanced game
-    if gamehandler.MASTER_GAME_HANDLER.game_mode == 1:
+    if game_mode == 1:
         timer_label.config(
             text=timerlogic.clock.read_displayed(), fg="#ffffff")
         # function calls itself again after 100 ms
         timer_label.after(100, display_timer)
 
     # timer counts DOWN for time trial
-    elif gamehandler.MASTER_GAME_HANDLER.game_mode == 2:
+    elif game_mode == 2:
         # if more than 5 seconds has elapsed, dummy answer is forced
         # to end the game
         if timerlogic.clock.read_accurate() >= 5.001:
-            gamehandler.MASTER_GAME_HANDLER.player_answered(0)
+            send_input(0)
 
         else:
             displayed_time = round(5.0 - timerlogic.clock.read_displayed(), 1)
@@ -360,19 +409,19 @@ def next_flag(path: str):
 
 
 def button_0_function():
-    gamehandler.MASTER_GAME_HANDLER.player_answered(0)
+    send_input(0)
 
 
 def button_1_function():
-    gamehandler.MASTER_GAME_HANDLER.player_answered(1)
+    send_input(1)
 
 
 def button_2_function():
-    gamehandler.MASTER_GAME_HANDLER.player_answered(2)
+    send_input(2)
 
 
 def button_3_function():
-    gamehandler.MASTER_GAME_HANDLER.player_answered(3)
+    send_input(3)
 
 
 # define the buttons
@@ -413,11 +462,51 @@ def inactive_buttons():
     button3.configure(text="OPTION 4", state=DISABLED)
 
 
+# define the stats tab
+# Label and Text modules used to achieve proper visibility
+
+# stats_label contains all content within the tab
+stats_label = Label(tab1, relief="flat", borderwidth=0, highlightthickness=0)
+stats_label.grid(sticky="NSEW")
+stats_label.grid_rowconfigure(0, weight=1)
+
+# text element is used to display the actual content
+stats_text = Text(stats_label, state="disabled", fg="#ffffff", bg="#333333",
+                  relief="flat", borderwidth=0, highlightthickness=0)
+stats_text.grid(row=0, column=1, sticky="NSEW")
+
+# scrollbar added to navigate the page
+stats_scroll = Scrollbar(stats_label, command=stats_text.yview)
+stats_text.config(yscrollcommand=stats_scroll.set)
+stats_scroll.grid(row=0, column=0, sticky="ns")
+
+# fill the entire available vertical space
+tab1.columnconfigure(1, weight=1)
+tab1.columnconfigure(0, minsize=20)
+tab1.rowconfigure(0, weight=1)
+
+# define a function to update the stats
+
+
+def stats_update():
+    stats_text.config(state='normal')
+    stats_text.delete('1.0', END)
+    content = csvhandler.update()
+
+    for row in content:
+        stats_text.insert(END, f"{row}\n")
+
+    stats_text.config(state='disabled')
+
+
+# function called immediately to update history at launch
+stats_update()
+
 # define the history tab
 # Label and Text modules used to achieve proper visibility
 
 # history_label contains all content within the tab
-history_label = Label(tab1, relief="flat", borderwidth=0, highlightthickness=0)
+history_label = Label(tab2, relief="flat", borderwidth=0, highlightthickness=0)
 history_label.grid(sticky="NSEW")
 history_label.grid_rowconfigure(0, weight=1)
 
@@ -432,9 +521,9 @@ history_text.config(yscrollcommand=history_scroll.set)
 history_scroll.grid(row=0, column=0, sticky="ns")
 
 # fill the entire available vertical space
-tab1.columnconfigure(1, weight=1)
-tab1.columnconfigure(0, minsize=20)
-tab1.rowconfigure(0, weight=1)
+tab2.columnconfigure(1, weight=1)
+tab2.columnconfigure(0, minsize=20)
+tab2.rowconfigure(0, weight=1)
 
 # define a function to update the history
 
@@ -457,7 +546,7 @@ history_update()
 # Label and Text modules used to achieve proper visibility
 
 # rules_label contains all content within the tab
-rules_label = Label(tab2, relief="flat", borderwidth=0, highlightthickness=0)
+rules_label = Label(tab3, relief="flat", borderwidth=0, highlightthickness=0)
 rules_label.grid(sticky="NSEW")
 rules_label.grid_rowconfigure(0, weight=1)
 
@@ -472,9 +561,9 @@ rules_text.config(yscrollcommand=rules_scroll.set)
 rules_scroll.grid(row=0, column=0, sticky="ns")
 
 # fill the entire available vertical space
-tab2.columnconfigure(1, weight=1)
-tab2.columnconfigure(0, minsize=20)
-tab2.rowconfigure(0, weight=1)
+tab3.columnconfigure(1, weight=1)
+tab3.columnconfigure(0, minsize=20)
+tab3.rowconfigure(0, weight=1)
 
 # rules won't change
 # they can be just once written out at launch
@@ -494,6 +583,9 @@ rules_text.config(state='disabled')
 # inform finally to console these 500 lines have been executed successfully
 print("GUI generated and fully operational.")
 print("Game ready.")
+
+# set protocol for sudden user quit event
+window.protocol("WM_DELETE_WINDOW", exit_game)
 
 # Tkinter mainloop
 window.mainloop()

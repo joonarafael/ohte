@@ -1,16 +1,13 @@
-# PYLINT WILL NOTIFY FOR CYCLIC IMPORT HERE EVEN IF
-# IT IS CRUCIAL FOR GAME LOGIC AND DOES NOT PRODUCE
-# ANY KIND OF ERROR DURING SOFTWARE EXECUTION
-
 import random
 from math import log
 from copy import deepcopy
 import flaghandler
 import timerlogic
 import history
+import csvhandler
 import gui # pylint: disable=cyclic-import
 
-# Game Handler class is responsible for every game mode
+# GameHandler class is responsible for every game mode
 
 
 class GameHandler():
@@ -26,7 +23,22 @@ class GameHandler():
         self.game_mode = -1
         self.all_flags = flaghandler.COMPLETE_FLAG_LIST
         self.remaining_flags = None
-        self.free_index = -1
+        self.free_index = 0
+        self.buttons = []
+
+    def reset_instance(self):
+        print("Initializing GameHandler...")
+
+        self.current_flag = None
+        self.score = 0
+        self.round = 0
+        self.lives = 0
+        self.streak = 0
+        self.highest_streak = 0
+        self.game_mode = -1
+        self.all_flags = flaghandler.COMPLETE_FLAG_LIST
+        self.remaining_flags = None
+        self.free_index = 0
         self.buttons = []
 
     def __str__(self):
@@ -52,11 +64,10 @@ class GameHandler():
         # remove .png suffix
         self.current_flag = self.current_flag[:-4]
 
-        # start timer if needed
-        if self.game_mode in (1, 2):
-            timerlogic.clock.run_classic_timer()
+        # run timer always for stats recording
+        timerlogic.clock.run_classic_timer()
 
-        # timer function called anyway as it also resets the view
+        # timer function called as it also resets the view
         # (reverts back to plain text "Timer")
         gui.display_timer()
 
@@ -73,7 +84,11 @@ class GameHandler():
             history.game_terminated(
                 [self.game_mode, self.score, self.highest_streak, self.lives])
 
+            if self.round > 1:
+                csvhandler.write_game(self.game_mode)
+
             gui.history_update()
+            gui.stats_update()
 
     # reset counters
     def reset(self, desired_lives: int):
@@ -86,6 +101,8 @@ class GameHandler():
         self.streak = 0
         self.highest_streak = 0
         self.lives = desired_lives
+
+        csvhandler.new_game()
 
         gui.display_score(self.score)
         gui.display_streak(self.streak)
@@ -177,11 +194,12 @@ class GameHandler():
             if self.streak > self.highest_streak:
                 self.highest_streak = self.streak
 
+            round_time = timerlogic.clock.read_accurate()
+
             # change score depending on the game mode
             # advanced score (details in rulebook)
             if self.game_mode == 1:
                 gui.change_status("correct")
-                round_time = timerlogic.clock.read_accurate()
 
                 if round_time < 5.0000:
                     points_gained = 180 + ((-4 * (round_time ** 2)) / 1.25)
@@ -190,19 +208,15 @@ class GameHandler():
                     points_gained = 100
 
                 points_gained = points_gained * (log(self.streak, 20) + 1)
-                self.score += int(points_gained)
 
             # time trial score (details in rulebook)
             elif self.game_mode == 2:
-                round_time = timerlogic.clock.read_accurate()
-
                 # time trial game ends if round took more than 5 seconds
                 # gui forces any dummy answer, round time checked nonetheless
                 # here once again for accurate and fair gameplay
                 if round_time <= 5.0000:
                     gui.change_status("correct")
                     points_gained = 180 + ((-4 * (round_time ** 2)) / 1.25)
-                    self.score += int(points_gained)
 
                 else:
                     gui.change_status("time's up")
@@ -211,12 +225,19 @@ class GameHandler():
             # classic, one life and free mode score (details in rulebook)
             else:
                 gui.change_status("correct")
-                self.score += 100
+                points_gained = 100
+
+            self.score += int(points_gained)
+            csvhandler.write_round(int(points_gained), round_time)
 
         # wrong answer handling
         else:
+            round_time = timerlogic.clock.read_accurate()
+
             gui.change_status(self.current_flag.upper().replace("_", " "))
             self.lives -= 1
+
+            csvhandler.write_streak(self.streak)
             self.streak = 0
 
             # time trial ends in a wrong answer too
@@ -228,6 +249,8 @@ class GameHandler():
                     gui.change_status("time's up")
                     self.lives = 0
 
+            csvhandler.write_round(0, round_time)
+
         # round is over, update game status for player
         gui.display_score(self.score)
         gui.display_streak(self.streak)
@@ -237,10 +260,12 @@ class GameHandler():
         if self.lives == 0:
             history.game_over(
                 [self.game_mode, self.score, self.highest_streak])
+            csvhandler.write_game(self.game_mode)
             gui.change_title("Game Over!")
             self.game_mode = -1
 
             gui.history_update()
+            gui.stats_update()
             gui.inactive_buttons()
 
         # launch next round
@@ -301,6 +326,56 @@ class GameHandler():
 
         gui.next_buttons(self.buttons)
 
+    # debugging to reset GameHandler completely
+    def reset_game_handler(self):
+        self.terminated_game()
+        self.reset_instance()
+
 
 # launch the Master Game Handler
 MASTER_GAME_HANDLER = GameHandler()
+
+
+def receive_terminated_game():
+    MASTER_GAME_HANDLER.terminated_game()
+
+
+def receive_flag_slide_show(direction: int):
+    MASTER_GAME_HANDLER.flag_slide_show(direction)
+
+
+def receive_input(button: int):
+    MASTER_GAME_HANDLER.player_answered(button)
+
+
+def return_current_flag():
+    return MASTER_GAME_HANDLER.current_flag.upper().replace("_", " ")
+
+
+def return_current_game_mode():
+    return MASTER_GAME_HANDLER.game_mode
+
+
+def launch_game(game: int):
+    if game == 0:
+        MASTER_GAME_HANDLER.classic()
+
+    elif game == 1:
+        MASTER_GAME_HANDLER.advanced()
+
+    elif game == 2:
+        MASTER_GAME_HANDLER.time_trial()
+
+    elif game == 3:
+        MASTER_GAME_HANDLER.one_life()
+
+    else:
+        MASTER_GAME_HANDLER.free()
+
+
+def reset_game():
+    MASTER_GAME_HANDLER.reset_game_handler()
+
+    gui.inactive_buttons()
+    gui.change_title("GAMEHANDLER RESET")
+    gui.change_status("Start a new game from File > New Game.")
