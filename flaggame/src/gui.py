@@ -289,7 +289,7 @@ def change_status(status):
         answer_label.configure(text="")
 
     elif status == "Start a new game from File > New Game.":
-        answer_label.configure(text="Start a new game from File > New Game.")
+        answer_label.configure(text="Start a new game from File > New Game.", fg="#ffffff")
 
     elif status == "time's up":
         correct_flag = read_current_flag()
