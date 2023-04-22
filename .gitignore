@@ -3,3 +3,5 @@ __pycache__
 .coverage
 htmlcov
 history.txt
+rounds.csv
+stats.csv
