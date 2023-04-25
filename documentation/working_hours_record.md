@@ -20,4 +20,4 @@
 | 22.4. | 2    | created first functionality to stats and updated gui accordingly |
 | 24.4. | 3    | added more stats functionality and wrote csv file handling |
 | 25.4. | 5    | improved statistics logic, implemented stats as gui element, polished the software a lot |
-| total | 0   | |
+| total | 39   | |
