@@ -30,7 +30,7 @@ git clone https://github.com/joonarafael/ohte.git
 
 ### 2. Navigate to `./flaggame/`.
 
-This folder is the root folder for the Poetry project. Not the github repository `/ohte/` folder.
+This folder is the root folder for the Poetry project. Not the github repository master folder `/ohte/`.
 
 ### 3. Resolve Poetry dependencies by executing:
 
@@ -70,7 +70,7 @@ poetry run invoke start
 
 ## PYTEST, PYLINT & COVERAGE
 
-Pytest ignores `main` and `gui` modules. Main module is almost empty (only dodging the circular import error), and `gui` is responsible for the graphical interface:
+Run the pytest ignoring `main` and `gui` modules by executing:
 
 ```bash
 poetry run invoke test
