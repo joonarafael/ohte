@@ -18,7 +18,7 @@ current ver **0.2.3** (*25.4.2023*)
 
 ## VERSIONS
 
-Flag Quiz Game has been built with **Python 3.10** and **Poetry 1.4.0**. Software might not run on other versions. Installation guide [provides possible solutions](.#troubleshooting-some-possible-poetry-errors) for two common errors encountered with other Poetry versions.
+Flag Quiz Game has been built with **Python 3.10** and **Poetry 1.4.0**. Software might not run on other versions. Installation guide [provides possible solutions](./readme.md#troubleshooting-some-possible-poetry-errors) for two common errors encountered with other Poetry versions.
 
 ## INSTALLATION GUIDE
 
