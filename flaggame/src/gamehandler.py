@@ -256,7 +256,7 @@ class GameHandler():
             self.score += int(points_gained)
             csvhandler.MASTER_RUNNING_GAME.write_new_round(
                 int(points_gained), round_time)
-            
+
             if self.streak > self.highest_streak:
                 self.highest_streak = self.streak
 
