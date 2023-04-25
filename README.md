@@ -44,9 +44,17 @@ poetry install
 
 **SOLUTION A**: Manually edit the `pyproject.toml` at `./flaggame/pyproject.toml` by moving all developer dependencies to the "regular" group. You may also just remove them altogether if you don't need developer dependencies (e.g. pylint and pytest).
 
+```bash
+nano pyproject.toml
+```
+
 **PROBLEM B**: *The lock file is not compatible with the current version of Poetry. Upgrade Poetry to be able to read the lock file or, alternatively, regenerate the lock file with the poetry lock command.*
 
 **SOLUTION B**: Your Poetry installation is too old/new. Lock file has been generated with Poetry version 1.4.0. You could try to match your Poetry version, but this issue can also be resolved by first removing `poetry.lock` file entirely, and then regenerating it again by executing:
+
+```bash
+rm -r poetry.lock
+```
 
 ```bash
 poetry lock --no-update
