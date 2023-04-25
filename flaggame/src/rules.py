@@ -24,7 +24,7 @@ try:
         if file_len != 70:
             print("Game rule book file 'gamerules.txt' integrity compromised.")
             print(f"Please replace {GAME_RULES_PATH} with correct file.")
-        
+
         else:
             MASTER_ERROR = False
 
