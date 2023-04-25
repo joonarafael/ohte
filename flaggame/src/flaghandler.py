@@ -1,13 +1,19 @@
-# os imported to read and manage flags directory
-import os
+# MODULE DESCRIPTION
+
+# flaghandler is responsible for all the flag images
+
+# it reads the png files and manages (calculates) flags overall (informs if missing)
+
+import os           # os imported to read and manage flags directory
 from os import walk
 
-# PLACE TO CHANGE CORRECT FLAG AMOUNT
+# PLACE TO CHANGE THE CORRECT FLAG AMOUNT
 CORRECT_AMOUNT = 198
 
 # determine current working directory
 WORKING_DIR = os.getcwd()
 
+# (during developing, handle main.py & poetry run invoke starts)
 if WORKING_DIR[-3:] != "src":
     WORKING_DIR = WORKING_DIR + "/src"
 
@@ -28,7 +34,7 @@ COMPLETE_FLAG_LIST.sort()
 
 def flag_import(correct_amount):
     # add correct flag list to memory
-    with open(WORKING_DIR + "/correctflags.txt", 'r', encoding="utf-8") as flag_file:
+    with open(WORKING_DIR + "/logs/correctflags.txt", 'r', encoding="utf-8") as flag_file:
         correct_flags = [line.strip() for line in flag_file]
 
     # check if found flags match the correct flag list
@@ -63,6 +69,7 @@ flag_import(CORRECT_AMOUNT)
 
 
 def list_every_flag():
+    print()
     print("Debugging information about flag source files:")
     print("SOURCE Path:", WORKING_DIR)
     print("FLAGS  Path:", FLAG_DIR)

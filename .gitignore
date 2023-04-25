@@ -4,4 +4,5 @@ __pycache__
 htmlcov
 history.txt
 rounds.csv
+streaks.csv
 stats.csv

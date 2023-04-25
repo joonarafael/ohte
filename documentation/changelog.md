@@ -15,3 +15,5 @@
 | 16.4. | 0.2.0 | more window scaling issues fixed, all general game logic finished, time trial clock counts down |
 | 17.4. | 0.2.1 | 1 life and time running out now highlighted in red, more bug fixes, game logic improved and software polished |
 | 22.4. | 0.2.2 | first implemention of stats functionality, BETA, needs still a lot of polishing |
+| 25.4. | 0.2.3 | player game statistics now functional and implemented as a gui element |
+

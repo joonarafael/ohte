@@ -18,4 +18,6 @@
 | 18.4. | 1    | wrote the software architecure |
 | 21.4. | 3    | started to implement the statistics recording system, studied Python csv library |
 | 22.4. | 2    | created first functionality to stats and updated gui accordingly |
-| total | 31   | |
+| 24.4. | 3    | added more stats functionality and wrote csv file handling |
+| 25.4. | 5    | improved statistics logic, implemented stats as gui element, polished the software a lot |
+| total | 0   | |

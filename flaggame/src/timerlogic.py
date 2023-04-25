@@ -1,5 +1,10 @@
-# timeit libary used for accurate readings
-import timeit
+# MODULE DESCRIPTION
+
+# timerlogic enables a master instance for game timings
+
+# both gamehandler and gui can therefore utilize same clock
+
+import timeit  # timeit libary used for accurate readings
 
 # use a class structue for timer
 
@@ -10,7 +15,7 @@ class MasterClock():
         self.displayed = 0.0
         self.accurate = 0.0000
 
-    # timer start (round start point) stored in self.start variable
+    # timer start (round start point)
     def run_classic_timer(self):
         self.start = timeit.default_timer()
 

@@ -1,7 +1,15 @@
-# system imported for file handling
+# MODULE DESCRIPTION
+
+# history is responsible for reading & writing the history file
+
+# this includes the software start times and started / finished game times
+
+# sys imported to handle files and exit call
 import sys
+# determine working directory with getcwd
 from os import getcwd
-from datetime import datetime
+from datetime import datetime                 # read current time & date
+# send request to delete stats also
 from csvhandler import clear_stats_and_rounds
 
 
@@ -9,10 +17,11 @@ from csvhandler import clear_stats_and_rounds
 WORKING_DIR = getcwd()
 MASTER_ERROR = True
 
+# (during developing, handle main.py & poetry run invoke starts)
 if WORKING_DIR[-3:] != "src":
     WORKING_DIR = WORKING_DIR + "/src"
 
-HISTORY_PATH = WORKING_DIR + "/history.txt"
+HISTORY_PATH = WORKING_DIR + "/logs/history.txt"
 
 # current time is read with minutes accuracy for session starts
 
@@ -91,7 +100,7 @@ def console_print():
             print(file.read())
 
 # Master Game Handler calls all history changes
-# game start recorded
+# - game start recorded
 
 
 def game_start(mode: str):
@@ -100,7 +109,7 @@ def game_start(mode: str):
             game_start_file.write(
                 f"\n\n    {mode} Game start off at {curr_time()}.")
 
-# game is over, game info & score recorded
+# - game is over, game info & score recorded
 
 
 def game_over(info: list):
@@ -126,7 +135,7 @@ def game_over(info: list):
             game_over_file.write(
                 f"\n    Score: {info[1]} - Longest Continuous Streak: {info[2]}.")
 
-# game is terminated, game info & score recorded
+# - game is terminated, game info & score recorded
 
 
 def game_terminated(info: list):
