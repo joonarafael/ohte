@@ -20,4 +20,6 @@
 | 22.4. | 2    | created first functionality to stats and updated gui accordingly |
 | 24.4. | 3    | added more stats functionality and wrote csv file handling |
 | 25.4. | 5    | improved statistics logic, implemented stats as gui element, polished the software a lot |
-| total | 39   | |
+| 29.4. | 3    | started to disassemble the gui module to different sub modules, wrote Docstring documentation |
+| 30.4. | 4    | graphical user interface now split into 8 different sub modules and class structures, software working again |
+| total | 46   | |

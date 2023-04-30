@@ -1,36 +1,19 @@
-# MODULE DESCRIPTION
-
-# history is responsible for reading & writing the history file
-
-# this includes the software start times and started / finished game times
-
-# sys imported to handle files and exit call
 import sys
-# determine working directory with getcwd
 from os import getcwd
-from datetime import datetime                 # read current time & date
-# send request to delete stats also
+from datetime import datetime
 from csvhandler import clear_stats_and_rounds
 
-
-# determine directory for the history file
 WORKING_DIR = getcwd()
 MASTER_ERROR = True
 
-# (during developing, handle main.py & poetry run invoke starts)
 if WORKING_DIR[-3:] != "src":
     WORKING_DIR = WORKING_DIR + "/src"
 
 HISTORY_PATH = WORKING_DIR + "/logs/history.txt"
 
-# current time is read with minutes accuracy for session starts
-
 
 def curr_date():
     return datetime.now().isoformat(sep=" ", timespec="minutes")
-
-
-# only HH:MM:SS recorded for game start
 
 
 def curr_time():
@@ -39,7 +22,6 @@ def curr_time():
 
 print("Opening (creating if it doesn't exist) the game history file 'history.txt'...")
 
-# check history file
 try:
     with open(HISTORY_PATH, 'r+', encoding="utf-8") as launch_file:
         file_len = len(launch_file.readlines())
@@ -69,15 +51,20 @@ if MASTER_ERROR:
     print("If continuing, no history will be recorded.")
     print("Software relaunch is required to record history again.")
 
-# define a function to clear all history
 
+def clear_history(remove_statistics: bool):
+    """
+    function to remove recorded game history
 
-def clear_history(statistics: bool):
+    Args:
+        remove_statistics (bool): whether to remove the statistics also
+    """
+
     if not MASTER_ERROR:
         with open(HISTORY_PATH, 'w+', encoding="utf-8"):
             print("Deleting all recorded history...")
 
-        if statistics:
+        if remove_statistics:
             clear_stats_and_rounds()
 
         else:
@@ -88,10 +75,12 @@ def clear_history(statistics: bool):
         print("Recorded history cannot be erased as software is",
               f" unable to locate file '{HISTORY_PATH}'.")
 
-# define a function to print history file to console (debug option)
-
 
 def console_print():
+    """
+    debugging option to print the game history file to console
+    """
+
     if not MASTER_ERROR:
         print()
         print("Contents of file 'history.txt':")
@@ -99,20 +88,30 @@ def console_print():
         with open(HISTORY_PATH, 'r', encoding="utf-8") as file:
             print(file.read())
 
-# Master Game Handler calls all history changes
-# - game start recorded
-
 
 def game_start(mode: str):
+    """
+    function to write a new game start to file
+
+    Args:
+        mode (str): game mode as a string
+    """
+
     if not MASTER_ERROR:
         with open(HISTORY_PATH, 'a+', encoding="utf-8") as game_start_file:
             game_start_file.write(
                 f"\n\n    {mode} Game start off at {curr_time()}.")
 
-# - game is over, game info & score recorded
-
 
 def game_over(info: list):
+    """
+    function to record game end
+
+    Args:
+        info (list): relevant information about the game is received in a list
+                     [game mode, score, longest streak]
+    """
+
     if not MASTER_ERROR:
         with open(HISTORY_PATH, 'a+', encoding="utf-8") as game_over_file:
             if info[0] == 0:
@@ -135,10 +134,16 @@ def game_over(info: list):
             game_over_file.write(
                 f"\n    Score: {info[1]} - Longest Continuous Streak: {info[2]}.")
 
-# - game is terminated, game info & score recorded
-
 
 def game_terminated(info: list):
+    """
+    function to record a cancelled game
+
+    Args:
+        info (list): relevant information about the game is received in a list
+                     [game mode, score, longest streak, lives at termination]
+    """
+
     if not MASTER_ERROR:
         with open(HISTORY_PATH, 'a+', encoding="utf-8") as game_terminated_file:
             if info[0] == 0:
@@ -168,11 +173,15 @@ def game_terminated(info: list):
                     f"\n    Score: {info[1]} - Longest Continuous Streak: {info[2]}."
                     f" {info[3]} lives left at termination."))
 
-# define a function to read the history and return it for the gui
-# to display it visually for the player
-
 
 def update():
+    """
+    function to read the history file and return the content to gui
+
+    Returns:
+        list / None: every row of history file is a separate list item
+    """
+
     if not MASTER_ERROR:
         with open(HISTORY_PATH, 'r', encoding="utf-8") as update_file:
             return_list = update_file.read().splitlines()
@@ -186,9 +195,11 @@ def update():
     return None
 
 
-# define a function to print history file directories (debug option)
-
 def print_directories():
+    """
+    debugging option to print the working directories as well as the history file path
+    """
+
     print("Main working directory path received from os.getcwd():")
     print(getcwd() + "/")
     print("Source folder path:")

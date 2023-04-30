@@ -1,26 +1,15 @@
-# MODULE DESCRIPTION
-
-# flaghandler is responsible for all the flag images
-
-# it reads the png files and manages (calculates) flags overall (informs if missing)
-
-import os           # os imported to read and manage flags directory
+import os
 from os import walk
 
-# PLACE TO CHANGE THE CORRECT FLAG AMOUNT
 CORRECT_AMOUNT = 198
 
-# determine current working directory
 WORKING_DIR = os.getcwd()
 
-# (during developing, handle main.py & poetry run invoke starts)
 if WORKING_DIR[-3:] != "src":
     WORKING_DIR = WORKING_DIR + "/src"
 
-# establish path to flags
 FLAG_DIR = WORKING_DIR + "/flags"
 
-# ask os to list every file inside flag directory, remove any non .png files
 COMPLETE_FLAG_LIST = next(walk(FLAG_DIR), (None, None, []))[2]
 
 for flags in reversed(COMPLETE_FLAG_LIST):
@@ -29,15 +18,18 @@ for flags in reversed(COMPLETE_FLAG_LIST):
 
 COMPLETE_FLAG_LIST.sort()
 
-# define the flag import function to enable later importing for debugging purposes
 
+def flag_import(correct_amount: int):
+    """
+    flag importing defined as a function for debugging purposes (mostly during developing)
 
-def flag_import(correct_amount):
-    # add correct flag list to memory
+    Args:
+        correct_amount (int): function receives information about the expected flag amount
+    """
+
     with open(WORKING_DIR + "/logs/correctflags.txt", 'r', encoding="utf-8") as flag_file:
         correct_flags = [line.strip() for line in flag_file]
 
-    # check if found flags match the correct flag list
     if COMPLETE_FLAG_LIST != correct_flags or len(COMPLETE_FLAG_LIST) != correct_amount:
         print()
         print("ERROR")
@@ -62,13 +54,11 @@ def flag_import(correct_amount):
         print("All 198 flags have been found.")
 
 
-# call function immediately at launch
-flag_import(CORRECT_AMOUNT)
-
-# debugging option
-
-
 def list_every_flag():
+    """
+    debugging option to print every flag source file
+    """
+
     print()
     print("Debugging information about flag source files:")
     print("SOURCE Path:", WORKING_DIR)
@@ -80,3 +70,6 @@ def list_every_flag():
 
     for individual_flag in COMPLETE_FLAG_LIST:
         print(individual_flag)
+
+
+flag_import(CORRECT_AMOUNT)

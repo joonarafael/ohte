@@ -16,4 +16,5 @@
 | 17.4. | 0.2.1 | 1 life and time running out now highlighted in red, more bug fixes, game logic improved and software polished |
 | 22.4. | 0.2.2 | first implemention of stats functionality, BETA, needs still a lot of polishing |
 | 25.4. | 0.2.3 | player game statistics now functional and implemented as a gui element |
+| 30.4. | 0.2.4 | source code rewritten, docstring documentation implemented |
 

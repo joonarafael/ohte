@@ -1,9 +1,4 @@
-# SEPARATE ALMOST EMPTY MAIN FILE
-# NEEDED TO CIRCUMVENT THE IMPORT
-# ISSUE:
+from gui import GameWindow
 
-# GAME HANDLER AND GUI MODULES
-# WILL RAISE AN CIRCULAR ERROR
-# WITHOUT THIS MAIN FILE!
-
-import gui  # pylint: disable=unused-import
+masterWindow = GameWindow()
+masterWindow.start()

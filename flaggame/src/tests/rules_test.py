@@ -3,6 +3,7 @@ import unittest
 import pytest
 from rules import update, GAME_RULES_PATH
 
+
 class TestRules(unittest.TestCase):
     @pytest.fixture(autouse=True)
     def _pass_fixtures(self, tmpdir):
