@@ -2,7 +2,7 @@
 
 current ver **0.2.5** (*2.5.2023*)
 
-ISSUES WITH COVERAGE! SEE [KNOWN COVERAGE ISSUES](./README.md#software-testing-with-pytest--coverage).
+POSSIBLE ISSUES WITH COVERAGE! SEE [KNOWN COVERAGE ISSUES](./README.md#software-testing-with-pytest--coverage).
 
 ## DOCUMENTATION
 
@@ -80,7 +80,7 @@ poetry run invoke test
 
 The test will take approximately 38 seconds. It is checking how the pointing mechanisms and statistics calculations work with different round times.
 
-**The automated coverage report algorithm is currently** (2.5.2023 with Flag Game 0.2.5) **providing some inconsistent results**. The coverage report states, for example, that not all print statements are executed within the flaghandler module, although the tests do actually test this functionality and do pass successfully. Please study the provided Coverage report thoroughly and check especially details about flaghandler and gamehandler modules. To generate this Coverage report (web browser version) for your local machine, execute:
+**The automate Coverage report is currently** (2.5.2023 with Flag Game 0.2.5) **providing some inconsistent results on some runs**. *Sometimes* the coverage report states, for example, that not all print statements are executed within the flaghandler module, although the tests do actually test this functionality and do pass successfully. Please study the provided Coverage report thoroughly and check especially details about flaghandler and gamehandler modules. To generate this Coverage report (web browser version) for your local machine, execute:
 
 ```bash
 poetry run invoke coverage-report
