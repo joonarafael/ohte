@@ -32,7 +32,7 @@ git clone https://github.com/joonarafael/ohte.git
 
 ### 2. Navigate to `./flaggame`.
 
-This folder is the root folder for the Poetry project. Not the github repository master folder `/ohte`.
+This folder is the root folder for the Poetry project. Not the Github repository "master folder".
 
 ### 3. Resolve Poetry dependencies by executing:
 
