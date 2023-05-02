@@ -1,4 +1,4 @@
-from gui import GameWindow
+from gui import MasterGameWindow
 
-masterWindow = GameWindow()
+masterWindow = MasterGameWindow()
 masterWindow.start()

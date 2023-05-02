@@ -4,17 +4,17 @@ import csvhandler
 
 class StatsTab:
     """
-    class is responsible for showing the second tab within the game master window
-    it displays the player lifelong statistics
+    handle the second tab within the game master window
+    displays the player lifelong statistics
     """
 
     def __init__(self, root: Tk, frame: Frame):
         """
-        constructor sets all neccessary elements for the player statistics to be displayed
+        initialize all neccessary elements for the player statistics to be displayed
 
         Args:
             root (Tk): master game window instance
-            frame (Frame): the notebook tab element within the master window
+            frame (Frame): notebook tab element within the master window
         """
 
         self.root = root
@@ -36,13 +36,14 @@ class StatsTab:
 
     def stats_update(self):
         """
-        function updates the content within the text element always when changes are made
-        to statistics
-        it also writes statistics again if player wishes to include/ignore free moode games in stats
+        update the content within the text element always when statistics change
+        also writes statistics again if player wishes to include/ignore
+        free moode games in calculations
         """
 
         self.stats_text.config(state='normal')
         self.stats_text.delete('1.0', END)
+
         content = csvhandler.MASTER_RUNNING_GAME.calculate_true_stats(
             self.ignore_free_mode_games)
 

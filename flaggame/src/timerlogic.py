@@ -3,46 +3,42 @@ import timeit
 
 class MasterClock():
     """
-    class is responsible for timing every round
+    master clock instance
     """
 
     def __init__(self):
         """
-        constructor initializes neccessary variables
+        initialize all neccessary variables
         """
 
         self.start = 0.0
-        self.displayed = 0.0
-        self.accurate = 0.0000
 
     def run_timer(self):
         """
-        function to start the timer
+        start the timer (every round)
         """
 
         self.start = timeit.default_timer()
 
     def read_displayed(self):
         """
-        function to read timer for gui
+        read the timer for gui
 
         Returns:
             float: one decimal float of current timer value
         """
 
-        self.displayed = round(timeit.default_timer() - self.start, 1)
-        return self.displayed
+        return round(timeit.default_timer() - self.start, 1)
 
     def read_accurate(self):
         """
-        function to read timer for gamehandler
+        read the timer for gamehandler
 
         Returns:
             float: four decimal float of current timer value
         """
 
-        self.accurate = round(timeit.default_timer() - self.start, 4)
-        return self.accurate
+        return round(timeit.default_timer() - self.start, 4)
 
 
 clock = MasterClock()

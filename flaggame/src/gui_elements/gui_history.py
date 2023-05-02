@@ -4,17 +4,17 @@ import history
 
 class HistoryTab:
     """
-    class is responsible for showing the third tab within the game master window
-    it displays the game history with dynamic updating
+    handle the third tab within the game master window
+    displays the game history with dynamic updating
     """
 
     def __init__(self, root: Tk, frame: Frame):
         """
-        constructor sets all neccessary elements for the game history to be displayed
+        initialize all neccessary elements for the game history to be displayed
 
         Args:
             root (Tk): master game window instance
-            frame (Frame): the notebook tab element within the master window
+            frame (Frame): notebook tab element within the master window
         """
 
         self.root = root
@@ -40,12 +40,12 @@ class HistoryTab:
 
     def history_update(self):
         """
-        function updates the content within the text element always when changes are made to history
+        update the content within the text element (write whole page from scratch)
         """
 
         self.history_text.config(state='normal')
         self.history_text.delete('1.0', END)
-        content = history.update()
+        content = history.MASTER_HISTORY_HANDLER.update()
 
         for row in content:
             self.history_text.insert(END, f"{row}\n")

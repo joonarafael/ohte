@@ -5,23 +5,23 @@ from gui_elements import gui_stats, gui_history, gui_rules, gui_game
 from gui_elements import gui_file_menu, gui_debug_menu
 from gui_elements import gui_stats_menu, gui_about_menu
 
-from gamehandler import GameHandler
+from gamehandler import MasterGameHandler
 
 print("Necessary libraries for GUI imported, drawing interface...")
 
 
-class GameWindow:
+class MasterGameWindow:
     """
-    class is responsible for the master game window
+    master game window instance
     """
 
     def __init__(self):
         """
-        constructor sets all master window settings
-        it also generates the main menu and the 4-tab notebook system
+        initialize all master window settings
+        generate the main menu and the 4-tab notebook system
         """
 
-        self.current_version = "0.2.4"
+        self.current_version = "0.2.5"
         self.launch_resolution = (663, 700)
 
         self.window = Tk()
@@ -63,7 +63,7 @@ class GameWindow:
         self.history_tab.history_update()
         self.rules_tab = gui_rules.RulesTab(self.window, self.tab3)
 
-        self.game_handler = GameHandler(
+        self.game_handler = MasterGameHandler(
             self.game_tab, self.stats_tab, self.history_tab)
 
         self.game_tab.set_game_handler(self.game_handler)
@@ -93,7 +93,7 @@ class GameWindow:
 
     def start(self):
         """
-        function to run the Tk mainloop
+        run the Tkinter mainloop
         """
 
         self.window.protocol("WM_DELETE_WINDOW", self.file_menu.exit_game)

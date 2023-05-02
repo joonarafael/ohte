@@ -22,4 +22,5 @@
 | 25.4. | 5    | improved statistics logic, implemented stats as gui element, polished the software a lot |
 | 29.4. | 3    | started to disassemble the gui module to different sub modules, wrote Docstring documentation |
 | 30.4. | 4    | graphical user interface now split into 8 different sub modules and class structures, software working again |
-| total | 46   | |
+| 2.5. | 5    | wrote a ton of new pytests, polished the source code a lot, removed unnecessary code |
+| total | 51   | |

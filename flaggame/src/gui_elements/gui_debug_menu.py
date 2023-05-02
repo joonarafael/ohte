@@ -1,25 +1,24 @@
 from tkinter import *  # pylint: disable=wildcard-import disable=unused-wildcard-import
 import flaghandler
 import csvhandler
-from history import print_directories, console_print
+import history
 from rules import GAME_RULES_PATH
 
 
 class DebugMenu:
     """
-    class is responsible for the 'Debug' drop-down menu within the game master window
+    'Debug' drop-down menu within the game master window (main menu)
     """
 
     def __init__(self, root: Tk, master_menu: Menu, menu_tearoff: int, stats_tab):
         """
-        constructor initializes both the parent 'Debug' menu and child drop-down
-        (the menu for print selection)
+        initialize both the parent 'Debug' menu and the child drop-down 'Print to console...'
 
         Args:
             root (Tk): master game window instance
             master_menu (Menu): main menu instance within root
-            menu_tearoff (int): integer to determine menu tearoff
-            stats_tab: receive the stats tab gui element from master window (for function calling)
+            menu_tearoff (int): integer for menu tearoff
+            stats_tab: stats tab gui element from master window (needed for function calling)
         """
 
         self.root = root
@@ -50,41 +49,66 @@ class DebugMenu:
 
     def directories(self):
         """
-        debug option to print all critical directories and file paths used by the software
+        print all critical directories and file paths used by the software to console
         """
 
         print("\nCRITICAL DIRECTORIES:")
-        print_directories()
+        history.print_directories()
         print("Flag directory:")
-        print(flaghandler.FLAG_DIR + "/")
+        print(flaghandler.FLAG_DIR)
         print("Rulebook directory:")
         print(GAME_RULES_PATH)
         print("Statistics files paths:")
         print(csvhandler.ROUNDS_PATH)
         print(csvhandler.STREAKS_PATH)
         print(csvhandler.STATS_PATH)
+        print()
 
     def flag_list(self):
-        flaghandler.list_every_flag()
+        """
+        print every flag file name to console
+        """
+
+        flaghandler.MASTER_FLAGHANDLER.list_every_flag()
 
     def retry_import(self):
-        flaghandler.flag_import(flaghandler.CORRECT_AMOUNT)
+        """
+        retry the flag import sequence
+        """
+
+        flaghandler.MASTER_FLAGHANDLER.flag_import()
 
     def history_print(self):
-        console_print()
+        """
+        print the history.txt file to console
+        """
+
+        history.MASTER_HISTORY_HANDLER.console_print()
 
     def rounds_print(self):
+        """
+        print the rounds.csv file to console
+        """
+
         csvhandler.MASTER_RUNNING_GAME.print_round_file()
 
     def streaks_print(self):
+        """
+        print the streaks.csv history file to console
+        """
+
         csvhandler.MASTER_RUNNING_GAME.print_streaks_file()
 
     def games_print(self):
+        """
+        print all played games (stats.csv) to console
+        """
+
         csvhandler.MASTER_RUNNING_GAME.print_stats()
 
     def stats_print(self):
         """
-        player lifelong statistics need formatting before printed to console
+        print the player lifelong statistics to console
         """
 
         ignore_status = self.stats_tab.ignore_free_mode_games

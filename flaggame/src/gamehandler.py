@@ -7,19 +7,19 @@ import history
 import csvhandler
 
 
-class GameHandler():
+class MasterGameHandler():
     """
-    class is reponsible for all game logic and handles every game mode
+    manage all core game logic and handle every game mode
     """
 
     def __init__(self, game_tab, stats_tab, history_tab):
         """
-        constructor initializes all variables and establishes a connection to specific gui elements
+        initialize all variables and establish a connection to specific gui elements
 
         Args:
-            game_tab: receive the game tab gui element from master window (for function calling)
-            stats_tab: receive the stats tab gui element
-            history_tab: receive the history tab gui element
+            game_tab: game tab gui element from master window (for function calling)
+            stats_tab: stats tab gui element
+            history_tab: history tab gui element
         """
 
         print("Initializing GameHandler...")
@@ -31,7 +31,7 @@ class GameHandler():
         self.streak = 0
         self.highest_streak = 0
         self.game_mode = -1
-        self.all_flags = flaghandler.COMPLETE_FLAG_LIST
+        self.all_flags = flaghandler.MASTER_FLAGHANDLER.complete_flag_list
         self.remaining_flags = None
         self.free_index = 0
         self.buttons = []
@@ -42,7 +42,7 @@ class GameHandler():
 
     def reset_instance(self):
         """
-        function to cancel any ongoing game and reset the whole class instance for debugging
+        cancel any ongoing game and reset the whole class instance for debugging
         """
 
         print("Any ongoing game terminated, resetting GameHandler...")
@@ -54,7 +54,7 @@ class GameHandler():
         self.streak = 0
         self.highest_streak = 0
         self.game_mode = -1
-        self.all_flags = flaghandler.COMPLETE_FLAG_LIST
+        self.all_flags = flaghandler.MASTER_FLAGHANDLER.complete_flag_list
         self.remaining_flags = None
         self.free_index = 0
         self.buttons = []
@@ -72,12 +72,11 @@ class GameHandler():
 
     def __str__(self):
         return (f"GameHandler Status: Game Mode {self.game_mode}; Round {self.round};"
-                f" Score {self.score}; Lives {self.lives}; Streak {self.streak}")
+                f" Score {self.score}; Lives {self.lives}; Streak {self.streak}.")
 
     def next_round(self):
         """
-        function to prepare for the next round
-        fetch a new flag and update the correct answer accordingly
+        prepare for the next round, pick a new flag and update the correct answer accordingly
         """
 
         self.game_tab.display_round(self.round)
@@ -99,13 +98,13 @@ class GameHandler():
 
     def terminated_game(self):
         """
-        function to record any cancelled game to history & statistics before other resetting
+        record any cancelled game to history & statistics before other resetting
         """
 
         self.game_tab.change_status("", "#000000")
 
         if self.game_mode >= 0:
-            history.game_terminated(
+            history.MASTER_HISTORY_HANDLER.game_terminated(
                 [self.game_mode, self.score, self.highest_streak, self.lives])
             self.history_tab.history_update()
 
@@ -119,11 +118,10 @@ class GameHandler():
 
     def reset(self, desired_lives: int):
         """
-        function to reset all game stats to 0
-        mainly utilized to not write duplicate code later
+        reset all game stats to 0, mainly used just not to write more duplicate code later
 
         Args:
-            desired_lives (int): amount of start lives for specific game modes as an integer
+            desired_lives (int): requested lives count at game start for specific game modes
         """
 
         self.terminated_game()
@@ -152,80 +150,100 @@ class GameHandler():
 
     def classic(self):
         """
-        function to initialize a classic game
+        initialize a classic game
         """
+
+        if (len(flaghandler.MASTER_FLAGHANDLER.complete_flag_list)
+            != flaghandler.MASTER_FLAGHANDLER.correct_amount):
+            return
 
         self.game_tab.change_title("CLASSIC", "#e6e6e6")
 
         self.reset(3)
         self.game_mode = 0
 
-        history.game_start("Classic")
+        history.MASTER_HISTORY_HANDLER.game_start("Classic")
         self.history_tab.history_update()
         self.next_round()
 
     def advanced(self):
         """
-        function to initialize an advanced game
+        initialize an advanced game
         """
+
+        if (len(flaghandler.MASTER_FLAGHANDLER.complete_flag_list)
+            != flaghandler.MASTER_FLAGHANDLER.correct_amount):
+            return
 
         self.game_tab.change_title("ADVANCED", "#e6e6e6")
 
         self.reset(3)
         self.game_mode = 1
 
-        history.game_start("Advanced")
+        history.MASTER_HISTORY_HANDLER.game_start("Advanced")
         self.history_tab.history_update()
         self.next_round()
 
     def time_trial(self):
         """
-        function to initialize a time trial game
+        initialize a time trial game
         """
+
+        if (len(flaghandler.MASTER_FLAGHANDLER.complete_flag_list)
+            != flaghandler.MASTER_FLAGHANDLER.correct_amount):
+            return
 
         self.game_tab.change_title("TIME TRIAL", "#e6e6e6")
 
         self.reset(3)
         self.game_mode = 2
 
-        history.game_start("Time Trial")
+        history.MASTER_HISTORY_HANDLER.game_start("Time Trial")
         self.history_tab.history_update()
         self.next_round()
 
     def one_life(self):
         """
-        function to initialize an one life game
+        initialize an one life game
         """
+
+        if (len(flaghandler.MASTER_FLAGHANDLER.complete_flag_list)
+            != flaghandler.MASTER_FLAGHANDLER.correct_amount):
+            return
 
         self.game_tab.change_title("ONE LIFE", "#e6e6e6")
 
         self.reset(1)
         self.game_mode = 3
 
-        history.game_start("One Life")
+        history.MASTER_HISTORY_HANDLER.game_start("One Life")
         self.history_tab.history_update()
         self.next_round()
 
     def free(self):
         """
-        function to initialize a free mode game
+        initialize a free mode game
         """
+
+        if (len(flaghandler.MASTER_FLAGHANDLER.complete_flag_list)
+            != flaghandler.MASTER_FLAGHANDLER.correct_amount):
+            return
 
         self.game_tab.change_title("FREE MODE", "#e6e6e6")
 
         self.reset(-1)
         self.game_mode = 4
 
-        history.game_start("Free")
+        history.MASTER_HISTORY_HANDLER.game_start("Free")
         self.history_tab.history_update()
         self.next_round()
 
     def player_answered(self, button: int):
         """
-        function to handle the player answer input
+        check & handle the player answer input
 
         Args:
-            button (int): pressed button as an integer
+            button (int): player input (button as an integer)
         """
 
         if self.game_mode == -1:
@@ -317,7 +335,7 @@ class GameHandler():
         self.game_tab.display_streak(self.streak)
 
         if self.lives == 0:
-            history.game_over(
+            history.MASTER_HISTORY_HANDLER.game_over(
                 [self.game_mode, self.score, self.highest_streak])
 
             csvhandler.MASTER_RUNNING_GAME.write_game_rounds_to_file(
@@ -336,10 +354,11 @@ class GameHandler():
 
     def update_gui(self):
         """
-        function to determine the path for the correct flag and generate texts for buttons
+        determine the path for the correct flag and choose the button options
         """
 
-        photo_path = flaghandler.FLAG_DIR + '/' + self.current_flag + ".png"
+        photo_path = flaghandler.MASTER_FLAGHANDLER.flag_dir + \
+            '/' + self.current_flag + ".png"
 
         self.game_tab.next_flag(photo_path)
 
@@ -359,11 +378,15 @@ class GameHandler():
 
     def flag_slide_show(self, direction: int):
         """
-        option to browse all flags freely
+        initialize the free flag browsing
 
         Args:
             direction (int): flag rotation direction, back & forth, (steps 1 or 10)
         """
+
+        if (len(flaghandler.MASTER_FLAGHANDLER.complete_flag_list)
+            != flaghandler.MASTER_FLAGHANDLER.correct_amount):
+            return
 
         self.terminated_game()
 
@@ -376,7 +399,7 @@ class GameHandler():
         if self.free_index < 0:
             self.free_index = 198 - abs(self.free_index)
 
-        flag_path = flaghandler.FLAG_DIR
+        flag_path = flaghandler.MASTER_FLAGHANDLER.flag_dir
         curr_flag = self.all_flags[self.free_index]
 
         self.game_tab.next_flag(flag_path + '/' + curr_flag)
@@ -390,7 +413,7 @@ class GameHandler():
 
     def reset_game_handler(self):
         """
-        function to initiatize the complete GameHandler instance reset
+        initiatize the complete GameHandler reset sequence (game cancelling)
         """
 
         self.terminated_game()

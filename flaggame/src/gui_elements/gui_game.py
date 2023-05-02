@@ -1,23 +1,23 @@
 from tkinter import *  # pylint: disable=wildcard-import disable=unused-wildcard-import
 from PIL import Image, ImageTk
 import timerlogic
-from gamehandler import GameHandler
+from gamehandler import MasterGameHandler
 from flaghandler import WORKING_DIR
 
 
 class GameTab:
     """
-    class is responsible for showing the first tab within the game master window
-    it displays all relevant content for the actual game
+    handle the first tab within the game master window
+    displays all relevant content for the actual game
     """
 
     def __init__(self, root: Tk, frame: Frame):
         """
-        constructor sets all neccessary elements for the actual game to be displayed
+        initialize all neccessary ui elements for the actual game to be displayed
 
         Args:
             root (Tk): master game window instance
-            frame (Frame): the notebook tab element within the master window
+            frame (Frame): notebook tab element within the master window
         """
 
         self.root = root
@@ -75,25 +75,24 @@ class GameTab:
                               command=self.button_3_function)
         self.button3.grid(row=5, column=3, columnspan=2)
 
-    def set_game_handler(self, game_handler: GameHandler):
+    def set_game_handler(self, game_handler: MasterGameHandler):
         """
-        game tab needs to access master gamehandler properties & functions
+        game tab (gui element) needs to access master gamehandler properties & functions
         however, this gamehandler instance can be only passed after game tab (this class)
         has been first initialized
 
         Args:
-            game_handler (GameHandler): receive the master gamehandler instance from
-                                        master game window
+            game_handler (GameHandler): master gamehandler instance from master game window
         """
 
         self.game_handler = game_handler  # pylint: disable=attribute-defined-outside-init
 
     def next_flag(self, path: str):
         """
-        function to update the next flag to player through the viewport
+        update the next flag to player through the viewport
 
         Args:
-            path (str): string containing the full path to next flag (source file on disk)
+            path (str): full path to the next flag (source file on disk)
         """
 
         img2 = Image.open(path)
@@ -104,18 +103,18 @@ class GameTab:
 
     def change_title(self, new_text: str, new_color: str):
         """
-        function to update the game title (e.g. game modes or 'Game Over!')
+        update the game title (different game modes or e.g. 'Game Over!' etc.)
 
         Args:
-            new_text (str): new displayed text as a string
-            new_color (str): new color for the text (hex value in str as '#12AB56')
+            new_text (str): new displayed text
+            new_color (str): new color for the text (hex value in string as '#12AB56')
         """
 
         self.game_label.configure(text=new_text, fg=new_color)
 
     def change_status(self, new_text: str, new_color: str):
         """
-        function to update the game status (e.g. 'Correct!' or what was the right answer)
+        update the game status (what was the right answer or e.g. 'Correct!' etc.)
 
         Args:
             new_text (str): new displayed text as a string
@@ -126,27 +125,28 @@ class GameTab:
 
     def display_round(self, current_round: int):
         """
-        function to update current round number
+        update current round number
 
         Args:
-            current_round (int): new round as an integer
+            current_round (int): new round (number)
         """
 
         self.round_label.config(text=f"Round: {current_round}")
 
     def display_score(self, score: int):
         """
-        function to update current score number
+        update current score
 
         Args:
-            score (int): new score as an integer
+            score (int): new score
         """
 
         self.score_label.config(text=f"Score: {score}")
 
     def display_timer(self):
         """
-        function to update the timer
+        update the timer
+        determines the current time and game modes by itself
         """
 
         game_mode = self.game_handler.game_mode
@@ -181,43 +181,60 @@ class GameTab:
 
     def display_lives(self, lives: int, color: str):
         """
-        function to update current lives count
+        update current lives count
 
         Args:
-            lives (int): new lives count as an integer
-            color (str): new color for the text (hex value in str as '#12AB56')
+            lives (int): new lives count
+            color (str): new color for the text (hex value in string as '#12AB56')
         """
 
         self.lives_label.config(text=f"Lives: {lives}", fg=color)
 
     def display_streak(self, streak: int):
         """
-        function to update current streak length
+        update current streak length
 
         Args:
-            streak (int): new streak length as an integer
+            streak (int): new streak length
         """
 
         self.streak_label.config(text=f"Streak: {streak}")
 
     def button_0_function(self):
+        """
+        pass the user input button 0 to gamehandler
+        """
+
         self.game_handler.player_answered(0)
 
     def button_1_function(self):
+        """
+        pass the user input button 1 to gamehandler
+        """
+
         self.game_handler.player_answered(1)
 
     def button_2_function(self):
+        """
+        pass the user input button 2 to gamehandler
+        """
+
         self.game_handler.player_answered(2)
 
     def button_3_function(self):
+        """
+        pass the user input button 3 to gamehandler
+        """
+
         self.game_handler.player_answered(3)
 
     def next_buttons(self, options: list):
         """
-        function to update button texts
+        update all 4 buttons (displayed text & state)
 
         Args:
             options (list): 4-item list containing 4 new country names to display
+            ['option 1', 'option 2', 'option 3', 'option 4']
         """
 
         self.button0.configure(text=options[0], state=NORMAL)
@@ -227,7 +244,7 @@ class GameTab:
 
     def inactive_buttons(self):
         """
-        function to disable buttons and to make them look 'inactive'
+        disable buttons
         """
 
         self.button0.configure(text="OPTION 1", state=DISABLED)

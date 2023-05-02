@@ -1,3 +1,6 @@
 [run]
 source = src
 omit = src/**/__init__.py,src/tests/**,src/main.py,src/gui.py,src/gui_elements/**
+
+[pytest]
+addopts = --cov=src

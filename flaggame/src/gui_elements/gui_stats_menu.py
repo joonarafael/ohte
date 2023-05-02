@@ -3,18 +3,18 @@ from tkinter import *  # pylint: disable=wildcard-import disable=unused-wildcard
 
 class StatsMenu:
     """
-    class is responsible for the 'Stats' drop-down menu within the game master window
+    'Stats' drop-down menu within the game master window (main menu)
     """
 
     def __init__(self, root: Tk, master_menu: Menu, menu_tearoff: int, stats_tab):
         """
-        constructor initializes the 'Stats' menu
+       initialize the 'Stats' menu
 
         Args:
             root (tkinter.Tk): master game window instance
             master_menu (tkinter.Menu): main menu instance within root
-            menu_tearoff (int): integer to determine menu tearoff
-            stats_tab: receive the stats tab gui element from master window (for function calling)
+            menu_tearoff (int): integer for menu tearoff
+            stats_tab: stats tab gui element from master window (for function calling)
         """
 
         self.root = root
@@ -29,6 +29,10 @@ class StatsMenu:
             label="Ignore / Include Free Mode Games", command=self.ignore_free_games)
 
     def refresh_stats(self):
+        """
+        force the statistics update (more of a debug option)
+        """
+
         self.stats_tab.stats_update()
 
     def ignore_free_games(self):

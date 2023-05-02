@@ -1,6 +1,8 @@
 # FLAG QUIZ GAME
 
-current ver **0.2.4** (*30.4.2023*)
+current ver **0.2.5** (*2.5.2023*)
+
+ISSUES WITH COVERAGE! SEE [KNOWN COVERAGE ISSUES](./README.md#sotware-testing-with-pylint-&-coverage).
 
 ## DOCUMENTATION
 
@@ -28,9 +30,9 @@ Flag Quiz Game has been built with **Python 3.10** and **Poetry 1.4.0**. Softwar
 git clone https://github.com/joonarafael/ohte.git
 ```
 
-### 2. Navigate to `./flaggame/`.
+### 2. Navigate to `./flaggame`.
 
-This folder is the root folder for the Poetry project. Not the github repository master folder `/ohte/`.
+This folder is the root folder for the Poetry project. Not the github repository master folder `/ohte`.
 
 ### 3. Resolve Poetry dependencies by executing:
 
@@ -50,7 +52,7 @@ nano pyproject.toml
 
 **PROBLEM B**: *The lock file is not compatible with the current version of Poetry. Upgrade Poetry to be able to read the lock file or, alternatively, regenerate the lock file with the poetry lock command.*
 
-**SOLUTION B**: Your Poetry installation is too old/new. Lock file has been generated with Poetry version 1.4.0. You could try to match your Poetry version, but this issue can also be resolved by first removing `poetry.lock` file entirely, and then regenerating it again by executing:
+**SOLUTION B**: Your Poetry installation is too old/new. The original lock file has been generated with Poetry version 1.4.0. You could try to match your Poetry version, but this issue can also be resolved by first removing `poetry.lock` file at `./flaggame/poetry.lock` entirely, and then regenerating it again by executing:
 
 ```bash
 rm -r poetry.lock
@@ -62,27 +64,31 @@ poetry lock --no-update
 
 This command regenerates a new working `poetry.lock` file for your system without changing the actual dependencies and their corresponding versions within the `pyproject.toml`.
 
-### 4. Run the game in Poetry project master folder `./flaggame/` by executing:
+### 4. Run the game in Poetry project master folder `./flaggame` by executing:
 
 ```bash
 poetry run invoke start
 ```
 
-## PYTEST, PYLINT & COVERAGE
+## SOFTWARE TESTING WITH PYTEST & COVERAGE
 
-Run the pytest ignoring `main` and `gui` modules by executing:
+Run the pytest ignoring `main` and all graphical user interface modules by executing:
 
 ```bash
 poetry run invoke test
 ```
 
-To generate the Pytest coverage report (web browser version) for your local machine, execute:
+The test will take approximately 38 seconds. It is checking how the pointing mechanisms and statistics calculations work with different round times.
+
+**The automated coverage report algorithm is currently** (2.5.2023 with Flag Game 0.2.5) **providing some inconsistent results**. The coverage report states, for example, that not all print statements are executed within the flaghandler module, although the tests do actually test this functionality and do pass successfully. Please study the provided Coverage report thoroughly and check especially details about flaghandler and gamehandler modules. To generate this Coverage report (web browser version) for your local machine, execute:
 
 ```bash
 poetry run invoke coverage-report
 ```
 
-To run the code review algorithm with parameters defined in [pylintrc](./flaggame/.pylintrc), execute:
+## PYLINT AUTOMATED CODE REVIEW
+
+To run the automated code review algorithm with parameters defined in [pylintrc](./flaggame/.pylintrc), execute:
 
 ```bash
 poetry run invoke lint

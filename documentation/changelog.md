@@ -1,4 +1,5 @@
 
+
 # Flag Quiz Game Changelog
 
 | date  | ver  | desc |
@@ -17,4 +18,4 @@
 | 22.4. | 0.2.2 | first implemention of stats functionality, BETA, needs still a lot of polishing |
 | 25.4. | 0.2.3 | player game statistics now functional and implemented as a gui element |
 | 30.4. | 0.2.4 | source code rewritten, docstring documentation implemented |
-
+| 2.5. | 0.2.5 | game logic improved, a lot of unnecessary code removed, added approx. 30 new pytests, backups made of player logs before pytests |

@@ -1,26 +1,26 @@
 from tkinter import *  # pylint: disable=wildcard-import disable=unused-wildcard-import
 import tkinter.messagebox
-from history import clear_history
-from gamehandler import GameHandler
-from flaghandler import COMPLETE_FLAG_LIST, CORRECT_AMOUNT
+import history
+from gamehandler import MasterGameHandler
 
 
 class FileMenu:
     """
-    class is responsible for the 'File' drop-down menu within the game master window
+    'File' drop-down menu within the game master window (main menu)
     """
 
     def __init__(self, root: tkinter.Tk, master_menu: tkinter.Menu,
-                 menu_tearoff: int, game_handler: GameHandler):
+                 menu_tearoff: int, game_handler: MasterGameHandler):
         """
-        constructor initializes both the parent 'File' menu and child drop-downs
-        (the menu for game mode selection and history clearing)
+        initialize both the parent 'File' menu and the child drop-downs
+        'New game...' and 'Clear history...'
 
         Args:
             root (tkinter.Tk): master game window instance
             master_menu (tkinter.Menu): main menu instance within root
-            menu_tearoff (int): integer to determine menu tearoff
-            game_handler (GameHandler): receive the master gamehandler instance from master window
+            menu_tearoff (int): integer for menu tearoff
+            game_handler (GameHandler): master gamehandler instance from
+            master window (for function calling)
         """
 
         self.root = root
@@ -60,11 +60,15 @@ class FileMenu:
             label="Free Mode", command=self.start_free_game)
 
     def reset_gamehandler(self):
+        """
+        request game termination and gamehandler reset
+        """
+
         self.game_handler.reset_game_handler()
 
     def unlock_resolution(self):
         """
-        function locks and unlocks the master window resolution when called
+        lock and unlock the master window resolution
         """
 
         if self.resolution_locked:
@@ -88,7 +92,7 @@ class FileMenu:
 
     def clear_history(self):
         """
-        function requests history deletion
+        request history deletion and quit software
         """
 
         result = tkinter.messagebox.askyesno(
@@ -98,11 +102,11 @@ class FileMenu:
         if not result:
             return
 
-        clear_history(False)
+        history.MASTER_HISTORY_HANDLER.clear_history(False)
 
     def clear_stats(self):
         """
-        function requests full history & stats deletion
+        request full history & stats deletion and quit software
         """
 
         result = tkinter.messagebox.askyesno(
@@ -113,15 +117,19 @@ class FileMenu:
         if not result:
             return
 
-        clear_history(True)
+        history.MASTER_HISTORY_HANDLER.clear_history(True)
 
     def flag_slide_show(self):
-        if len(COMPLETE_FLAG_LIST) == CORRECT_AMOUNT:
-            self.game_handler.flag_slide_show(0)
+        """
+        request the free flag browsing
+        """
+
+        self.game_handler.flag_slide_show(0)
 
     def exit_game(self):
         """
-        function to ask 'are you sure?' when exiting
+        ask 'are you sure?' to quit the software
+        this is also the master window Tkinter exit protocol
         """
 
         ans = tkinter.messagebox.askyesno(
@@ -135,16 +143,36 @@ class FileMenu:
             self.root.destroy()
 
     def start_classic_game(self):
+        """
+        request to launch a classic game
+        """
+
         self.game_handler.classic()
 
     def start_advanced_game(self):
+        """
+        request to launch an advanced game
+        """
+
         self.game_handler.advanced()
 
     def start_time_game(self):
+        """
+        request to launch a time trial game
+        """
+
         self.game_handler.time_trial()
 
     def start_one_life_game(self):
+        """
+        request to launch an one life game
+        """
+
         self.game_handler.one_life()
 
     def start_free_game(self):
+        """
+        request to launch a free mode game
+        """
+
         self.game_handler.free()

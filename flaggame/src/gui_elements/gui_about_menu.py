@@ -4,19 +4,19 @@ import tkinter.messagebox
 
 class AboutMenu:
     """
-    class is responsible for the 'About' drop-down menu within the game master window
+    'About' drop-down menu within the game master window (main menu)
     """
 
     def __init__(self, root: tkinter.Tk, master_menu: tkinter.Menu,
                  menu_tearoff: int, version: str):
         """
-        constructor initializes the 'About' menu
+        initialize the 'About' menu
 
         Args:
             root (tkinter.Tk): master game window instance
             master_menu (tkinter.Menu): main menu instance within root
-            menu_tearoff (int): integer to determine menu tearoff
-            version (str): current software version to be displayed in 'about' pop-up
+            menu_tearoff (int): integer for menu tearoff
+            version (str): current software version
         """
 
         self.root = root
@@ -30,7 +30,7 @@ class AboutMenu:
 
     def show_about(self):
         """
-        function to display the 'about' pop-up when called
+        display the 'about' pop-up screen
         """
 
         tkinter.messagebox.showinfo(
