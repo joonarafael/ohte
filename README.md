@@ -78,7 +78,7 @@ Run the tests ignoring all graphical user interface modules by executing:
 poetry run invoke test
 ```
 
-The tests will take approximately 38 seconds. It is checking how the pointing mechanisms and statistics calculations work with different round times.
+The tests will take approximately 38 seconds. It is checking how the points rewarding algorithms and statistics calculations work with different round times.
 
 ## SOFTWARE TEST COVERAGE REPORT
 
