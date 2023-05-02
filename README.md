@@ -24,7 +24,7 @@ Flag Quiz Game has been built with **Python 3.10** and **Poetry 1.4.0**. Softwar
 
 ## INSTALLATION GUIDE
 
-### 1. Clone this github repository to your local machine by executing:
+### 1. Clone this Github repository to your local machine by executing:
 
 ```bash
 git clone https://github.com/joonarafael/ohte.git
