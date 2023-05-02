@@ -6,6 +6,7 @@ authors = ["joonarafael <joona.kettunen21@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+coverage = "^7.2.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.2"

@@ -1,0 +1,2 @@
+file to update this directory to Github
+critical for player log files backup during pytesting
