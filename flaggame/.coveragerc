@@ -1,3 +1,3 @@
 [run]
 source = src
-omit = src/tests/**,src/main.py,src/gui.py,src/gui_elements/**
+omit = src/**/__init__.py,src/tests/**,src/main.py,src/gui.py,src/gui_elements/**

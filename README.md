@@ -70,7 +70,7 @@ This command regenerates a new working `poetry.lock` file for your system withou
 poetry run invoke start
 ```
 
-## SOFTWARE TESTING WITH PYTEST & COVERAGE
+## SOFTWARE TESTING WITH PYTEST
 
 Run the pytest ignoring `main` and all graphical user interface modules by executing:
 
@@ -80,11 +80,19 @@ poetry run invoke test
 
 The test will take approximately 38 seconds. It is checking how the pointing mechanisms and statistics calculations work with different round times.
 
-**The automate Coverage report is currently** (2.5.2023 with Flag Game 0.2.5) **providing some inconsistent results on some runs**. *Sometimes* the coverage report states, for example, that not all print statements are executed within the flaghandler module, although the tests do actually test this functionality and do pass successfully. Please study the provided Coverage report thoroughly and check especially details about flaghandler and gamehandler modules. To generate this Coverage report (web browser version) for your local machine, execute:
+## SOFTWARE TEST COVERAGE REPORT
+
+To generate the Coverage report (web browser version) for your local machine, execute:
 
 ```bash
 poetry run invoke coverage-report
 ```
+
+### POSSIBLE COVERAGE ISSUES WITH FLAG QUIZ GAME 0.2.5 PUBLISHED 2.5.2023
+
+1) Coverage won't **sometimes** write the html report at all. Currently working on this trying to get it fixed. Coverage writes it on my desktop machine, but fails to do so on the Cubbli school laptop, I don't know why.
+
+2) **Sometimes** the coverage report states, for example, that not all print statements are executed within the *flaghandler* module, although the tests do actually try out this functionality and they pass successfully. Please study the provided Coverage report thoroughly and check especially the details covering *flaghandler* and *gamehandler* modules.
 
 ## PYLINT AUTOMATED CODE REVIEW
 
