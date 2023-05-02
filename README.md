@@ -2,7 +2,7 @@
 
 current ver **0.2.5** (*2.5.2023*)
 
-POSSIBLE ISSUES WITH COVERAGE! SEE [KNOWN COVERAGE ISSUES](./README.md#possible-coverage-issues-with-flag-quiz-game-0.2.5-published-2.5.2023).
+POSSIBLE ISSUES WITH COVERAGE! SEE [KNOWN COVERAGE ISSUES](./README.md#possible-coverage-issues-with-flag-quiz-game-025-published-252023)).
 
 ## DOCUMENTATION
 
