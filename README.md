@@ -72,13 +72,13 @@ poetry run invoke start
 
 ## SOFTWARE TESTING WITH PYTEST
 
-Run the pytest ignoring `main` and all graphical user interface modules by executing:
+Run the tests ignoring all graphical user interface modules by executing:
 
 ```bash
 poetry run invoke test
 ```
 
-The test will take approximately 38 seconds. It is checking how the pointing mechanisms and statistics calculations work with different round times.
+The tests will take approximately 38 seconds. It is checking how the pointing mechanisms and statistics calculations work with different round times.
 
 ## SOFTWARE TEST COVERAGE REPORT
 
@@ -90,7 +90,7 @@ poetry run invoke coverage-report
 
 ### POSSIBLE COVERAGE ISSUES WITH FLAG QUIZ GAME 0.2.5 PUBLISHED 2.5.2023
 
-1) Coverage won't **sometimes** write the html report at all. Currently working on this trying to get it fixed. Coverage writes it on my desktop machine ([see the screenshot of the report](./documentation/coverage-report-release-02.png)), but fails to do so on the Cubbli school laptop, I don't know why.
+1) Coverage won't **sometimes** write the html report at all. Currently working on this trying to get it fixed. Coverage writes it on my desktop machine ([see the screenshot of the report](./documentation/coverage-report-release-02.png)), but fails to do so on my Cubbli school laptop, I don't know why.
 
 2) **Sometimes** the coverage report states, for example, that not all print statements are executed within the *flaghandler* module, although the tests do actually try out this functionality and they pass successfully. Please study the provided Coverage report thoroughly and check especially the details covering *flaghandler* and *gamehandler* modules.
 
