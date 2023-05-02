@@ -2,7 +2,7 @@
 
 current ver **0.2.5** (*2.5.2023*)
 
-ISSUES WITH COVERAGE! SEE [KNOWN COVERAGE ISSUES](./README.md#sotware-testing-with-pylint-&-coverage).
+ISSUES WITH COVERAGE! SEE [KNOWN COVERAGE ISSUES](./README.md#software-testing-with-pytest--coverage).
 
 ## DOCUMENTATION
 
