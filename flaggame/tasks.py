@@ -7,22 +7,63 @@ def create_backups():
     print("Creating backups of player log files...")
 
     logs_dir = "src/logs"
+    empty_dir = "src/logs/empty"
     backup_dir = "src/logs/backup"
 
-    shutil.copy(f"{logs_dir}/history.txt", f"{backup_dir}/history_backup.txt")
-    shutil.copy(f"{logs_dir}/rounds.csv", f"{backup_dir}/rounds_backup.csv")
-    shutil.copy(f"{logs_dir}/stats.csv", f"{backup_dir}/stats_backup.csv")
-    shutil.copy(f"{logs_dir}/streaks.csv", f"{backup_dir}/streaks_backup.csv")
+    try:
+        shutil.copy(f"{logs_dir}/history.txt", f"{backup_dir}/history_backup.txt")
+    
+    except FileNotFoundError:
+        shutil.copy(f"{empty_dir}/history.txt", f"{backup_dir}/history_backup.txt")
+
+    try:
+        shutil.copy(f"{logs_dir}/rounds.csv", f"{backup_dir}/rounds_backup.csv")
+    
+    except FileNotFoundError:
+        shutil.copy(f"{empty_dir}/rounds.csv", f"{backup_dir}/rounds_backup.csv")
+    
+    try:
+        shutil.copy(f"{logs_dir}/stats.csv", f"{backup_dir}/stats_backup.csv")
+    
+    except FileNotFoundError:
+        shutil.copy(f"{empty_dir}/stats.csv", f"{backup_dir}/stats_backup.csv")
+
+    try:
+        shutil.copy(f"{logs_dir}/streaks.csv", f"{backup_dir}/streaks_backup.csv")
+    
+    except FileNotFoundError:
+        shutil.copy(f"{empty_dir}/streaks.csv", f"{backup_dir}/streaks_backup.csv")
 
 def restore_backups():
     print("Restoring player logs from backup files...")
+
     logs_dir = "src/logs"
+    empty_dir = "src/logs/empty"
     backup_dir = "src/logs/backup"
 
-    shutil.copy(f"{backup_dir}/history_backup.txt", f"{logs_dir}/history.txt")
-    shutil.copy(f"{backup_dir}/rounds_backup.csv", f"{logs_dir}/rounds.csv")
-    shutil.copy(f"{backup_dir}/stats_backup.csv", f"{logs_dir}/stats.csv")
-    shutil.copy(f"{backup_dir}/streaks_backup.csv", f"{logs_dir}/streaks.csv")
+    try:
+        shutil.copy(f"{backup_dir}/history_backup.txt", f"{logs_dir}/history.txt")
+    
+    except FileNotFoundError:
+        shutil.copy(f"{empty_dir}/history_backup.txt", f"{logs_dir}/history.txt")
+
+    try:
+        shutil.copy(f"{backup_dir}/rounds_backup.csv", f"{logs_dir}/rounds.csv")
+    
+    except FileNotFoundError:
+        shutil.copy(f"{empty_dir}/rounds_backup.csv", f"{logs_dir}/rounds.csv")
+    
+    try:
+        shutil.copy(f"{backup_dir}/stats_backup.csv", f"{logs_dir}/stats.csv")
+    
+    except FileNotFoundError:
+        shutil.copy(f"{empty_dir}/stats_backup.csv", f"{logs_dir}/stats.csv")
+
+    try:
+        shutil.copy(f"{backup_dir}/streaks_backup.csv", f"{logs_dir}/streaks.csv")
+    
+    except FileNotFoundError:
+        shutil.copy(f"{empty_dir}/streaks_backup.csv", f"{logs_dir}/streakscsv")
 
 
 @task
