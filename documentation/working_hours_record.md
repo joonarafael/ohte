@@ -23,4 +23,5 @@
 | 29.4. | 3    | started to disassemble the gui module to different sub modules, wrote Docstring documentation |
 | 30.4. | 4    | graphical user interface now split into 8 different sub modules and class structures, software working again |
 | 2.5. | 5    | wrote a ton of new pytests, polished the source code a lot, removed unnecessary code |
-| total | 51   | |
+| 3.5. | 1    | troubleshooting coverage issues |
+| total | 52   | |
