@@ -24,5 +24,5 @@
 | 30.4. | 4    | graphical user interface now split into 8 different sub modules and class structures, software working again |
 | 2.5. | 5    | wrote a ton of new pytests, polished the source code a lot, removed unnecessary code |
 | 3.5. | 1    | troubleshooting coverage issues |
-| 6.5. | 2    | software code rewritten and polished, added functionality to see every recorded game in stats tab |
+| 6.5. | 2    | software code polished even more, added functionality to see every recorded game in stats tab |
 | total | 54   | |
