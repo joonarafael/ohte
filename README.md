@@ -2,8 +2,6 @@
 
 current ver **0.2.5** (*2.5.2023*)
 
-POSSIBLE ISSUES WITH COVERAGE! SEE [KNOWN COVERAGE ISSUES](./README.md#possible-coverage-issues-with-flag-quiz-game-025-published-252023).
-
 ## DOCUMENTATION
 
 (suoritan kurssia suomeksi mutta dokumentaatio on englanniksi)
@@ -87,12 +85,6 @@ To generate the Coverage report (web browser version) for your local machine, ex
 ```bash
 poetry run invoke coverage-report
 ```
-
-### POSSIBLE COVERAGE ISSUES WITH FLAG QUIZ GAME 0.2.5 PUBLISHED 2.5.2023
-
-1) Coverage won't **sometimes** write the html report at all. Currently working on this trying to get it fixed. Coverage writes it on my desktop machine ([see the screenshot of the report](./documentation/coverage-report-release-02.png)), but fails to do so on my Cubbli school laptop, I don't know why.
-
-2) **Sometimes** the coverage report states, for example, that not all print statements are executed within the *flaghandler* module, although the tests do actually try out this functionality and they pass successfully. Please study the provided Coverage report thoroughly and check especially the details covering *flaghandler* and *gamehandler* modules.
 
 ## PYLINT AUTOMATED CODE REVIEW
 
