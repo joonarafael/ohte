@@ -18,7 +18,7 @@ current ver **0.2.5** (*2.5.2023*)
 
 ## VERSIONS
 
-Flag Quiz Game has been built with **Python 3.10** and **Poetry 1.4.0**. Software might not run on other versions. Installation guide [provides possible solutions](./README.md#troubleshooting-some-possible-poetry-errors) for two common errors encountered with other Poetry versions.
+Flag Quiz Game has been built with **Python 3.10** and **Poetry 1.4.0**. Software might not run on other versions. Installation guide [provides possible solutions](./README.md#troubleshooting-some-possible-poetry-errors) for two common errors encountered with other Poetry versions. A solution for the SQLite error: `database is locked`, is also provied [down below](./README.md#software-test-coverage-report).
 
 ## INSTALLATION GUIDE
 
@@ -85,6 +85,8 @@ To generate the Coverage report (web browser version) for your local machine, ex
 ```bash
 poetry run invoke coverage-report
 ```
+
+Please note: if running the Coverage tool on a Horizon virtual desktop, execution might halt to a SQLite error: `database is locked`. This is due to the insufficient speed of the virtual disk (see [this page](https://ohjelmistotekniikka-hy.github.io/python/toteutus#sqlite-tietokanta-lukkiutuminen-virtuaality%C3%B6asemalla) for details). To fix this issue, the whole repository needs to be cloned in to the `/tmp` system folder for execution. Move to this folder with `cd /tmp` and follow the instructions from the [beginning](./README.md#installation-guide) again.
 
 ## PYLINT AUTOMATED CODE REVIEW
 
