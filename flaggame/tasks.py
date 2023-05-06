@@ -104,7 +104,7 @@ def coverage_report(ctx):
     create_backups()
 
     try:
-        ctx.run("pytest src", pty=True)
+        ctx.run("coverage run --branch -m pytest src", pty=True)
         ctx.run("coverage html", pty=True)
         restore_backups()
     
