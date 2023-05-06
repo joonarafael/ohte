@@ -21,7 +21,7 @@ class MasterGameWindow:
         generate the main menu and the 4-tab notebook system
         """
 
-        self.current_version = "0.2.5"
+        self.current_version = "0.2.6"
         self.launch_resolution = (663, 700)
 
         self.window = Tk()

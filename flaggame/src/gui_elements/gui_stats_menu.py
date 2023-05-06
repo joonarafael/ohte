@@ -24,9 +24,18 @@ class StatsMenu:
         self.print_selection = Menu(self.stats_menu, tearoff=0)
 
         self.stats_menu.add_command(
+            label="Switch Game Browse View", command=self.switch_view)
+        self.stats_menu.add_command(
             label="Force refresh stats", command=self.refresh_stats)
         self.stats_menu.add_command(
             label="Ignore / Include Free Mode Games", command=self.ignore_free_games)
+
+    def switch_view(self):
+        """
+        change the view layout of the stats tab between lifelong stats / game browsing
+        """
+
+        self.stats_tab.view_switching()
 
     def refresh_stats(self):
         """

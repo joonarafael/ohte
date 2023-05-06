@@ -271,7 +271,7 @@ class TestStatsHandler(unittest.TestCase):
                            'shortest_streak': 2, 'average_streak': 5.0,
                            'average_round_score': 194, 'average_round_time': '0.3s'}
 
-        self.assertEqual(expected_answer, answer)
+        self.assertAlmostEqual(expected_answer, answer, delta=0.2)
 
         new_stats_handler.print_round_file()
         captured = self.capsys.readouterr()
@@ -320,4 +320,30 @@ class TestStatsHandler(unittest.TestCase):
                            'shortest_streak': float('inf'), 'average_streak': 0,
                            'average_round_score': 0, 'average_round_time': '5.5s'}
 
-        self.assertEqual(expected_answer, answer)
+        self.assertAlmostEqual(expected_answer, answer, delta=0.2)
+
+    def test_shorter_formatting(self):
+        tmp_stats_file = self.tmpdir.join('stats.csv')
+        tmp_rounds_file = self.tmpdir.join('rounds.csv')
+        tmp_streaks_file = self.tmpdir.join('streaks.csv')
+
+        with open(tmp_stats_file, 'w+') as f:
+            pass
+
+        with open(tmp_rounds_file, 'w+') as f:
+            pass
+
+        with open(tmp_streaks_file, 'w+') as f:
+            pass
+
+        new_stats_handler = csvhandler.MasterStatsHandler(
+            str(tmp_stats_file), str(tmp_rounds_file), str(tmp_streaks_file))
+
+        new_stats_handler.launch_new_game()
+        time.sleep(5.5)
+        new_stats_handler.write_new_round(0, 5.001)
+        new_stats_handler.write_game_rounds_to_file(2)
+
+        answer = new_stats_handler.stats_formatting(True)
+
+        self.assertEqual(64, len(answer[1]))

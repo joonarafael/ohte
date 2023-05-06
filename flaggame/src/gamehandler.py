@@ -154,7 +154,7 @@ class MasterGameHandler():
         """
 
         if (len(flaghandler.MASTER_FLAGHANDLER.complete_flag_list)
-            != flaghandler.MASTER_FLAGHANDLER.correct_amount):
+                != flaghandler.MASTER_FLAGHANDLER.correct_amount):
             return
 
         self.game_tab.change_title("CLASSIC", "#e6e6e6")
@@ -172,7 +172,7 @@ class MasterGameHandler():
         """
 
         if (len(flaghandler.MASTER_FLAGHANDLER.complete_flag_list)
-            != flaghandler.MASTER_FLAGHANDLER.correct_amount):
+                != flaghandler.MASTER_FLAGHANDLER.correct_amount):
             return
 
         self.game_tab.change_title("ADVANCED", "#e6e6e6")
@@ -190,7 +190,7 @@ class MasterGameHandler():
         """
 
         if (len(flaghandler.MASTER_FLAGHANDLER.complete_flag_list)
-            != flaghandler.MASTER_FLAGHANDLER.correct_amount):
+                != flaghandler.MASTER_FLAGHANDLER.correct_amount):
             return
 
         self.game_tab.change_title("TIME TRIAL", "#e6e6e6")
@@ -208,7 +208,7 @@ class MasterGameHandler():
         """
 
         if (len(flaghandler.MASTER_FLAGHANDLER.complete_flag_list)
-            != flaghandler.MASTER_FLAGHANDLER.correct_amount):
+                != flaghandler.MASTER_FLAGHANDLER.correct_amount):
             return
 
         self.game_tab.change_title("ONE LIFE", "#e6e6e6")
@@ -226,7 +226,7 @@ class MasterGameHandler():
         """
 
         if (len(flaghandler.MASTER_FLAGHANDLER.complete_flag_list)
-            != flaghandler.MASTER_FLAGHANDLER.correct_amount):
+                != flaghandler.MASTER_FLAGHANDLER.correct_amount):
             return
 
         self.game_tab.change_title("FREE MODE", "#e6e6e6")
@@ -385,7 +385,7 @@ class MasterGameHandler():
         """
 
         if (len(flaghandler.MASTER_FLAGHANDLER.complete_flag_list)
-            != flaghandler.MASTER_FLAGHANDLER.correct_amount):
+                != flaghandler.MASTER_FLAGHANDLER.correct_amount):
             return
 
         self.terminated_game()
