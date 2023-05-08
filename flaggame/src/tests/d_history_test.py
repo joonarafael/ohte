@@ -27,7 +27,7 @@ class TestHistory(unittest.TestCase):
         new_history_handler.console_print()
 
         captured = self.capsys.readouterr()
-        self.assertEqual(140, len(captured.out))
+        self.assertEqual(62, len(captured.out))
 
     def test_write_to_nonempty_history_file(self):
         tmp_history_file = self.tmpdir.join('history.txt')
@@ -51,7 +51,7 @@ class TestHistory(unittest.TestCase):
         new_history_handler.console_print()
 
         captured = self.capsys.readouterr()
-        self.assertEqual(140, len(captured.out))
+        self.assertEqual(62, len(captured.out))
 
     def test_print_directories(self):
         history.print_directories()

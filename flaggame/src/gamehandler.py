@@ -109,7 +109,7 @@ class MasterGameHandler():
             self.history_tab.history_update()
 
             if self.streak > 0:
-                csvhandler.MASTER_RUNNING_GAME.write_new_streak(self.streak)
+                csvhandler.MASTER_RUNNING_GAME.record_new_streak(self.streak)
 
             if self.round > 1:
                 csvhandler.MASTER_RUNNING_GAME.write_game_rounds_to_file(
@@ -298,7 +298,7 @@ class MasterGameHandler():
                 self.streak += 1
 
             self.score += int(points_gained)
-            csvhandler.MASTER_RUNNING_GAME.write_new_round(
+            csvhandler.MASTER_RUNNING_GAME.record_new_round(
                 int(points_gained), round_time)
 
             if self.streak > self.highest_streak:
@@ -319,7 +319,7 @@ class MasterGameHandler():
                 f"WRONG! CORRECT ANSWER WAS {formatted}.", "#ff7c78")
 
             if self.streak > 0:
-                csvhandler.MASTER_RUNNING_GAME.write_new_streak(self.streak)
+                csvhandler.MASTER_RUNNING_GAME.record_new_streak(self.streak)
 
             self.streak = 0
 
@@ -329,7 +329,7 @@ class MasterGameHandler():
                         f"TIME'S UP! CORRECT ANSWER WAS {formatted}.", "#ff7c78")
                     self.lives = 0
 
-            csvhandler.MASTER_RUNNING_GAME.write_new_round(0, round_time)
+            csvhandler.MASTER_RUNNING_GAME.record_new_round(0, round_time)
 
         self.game_tab.display_score(self.score)
         self.game_tab.display_streak(self.streak)

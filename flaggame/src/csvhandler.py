@@ -1,7 +1,7 @@
 import csv
 from os import getcwd
 import timeit
-import statscalc
+from stats import stats_calc, game_calc
 
 WORKING_DIR = getcwd()
 
@@ -27,8 +27,16 @@ class MasterStatsHandler():
         self.stats_path = stats_path
         self.rounds_path = rounds_path
         self.streaks_path = streaks_path
+        self.rounds = []
+        self.streaks = []
+        self.game_start = 0
 
-        print("Opening (creating if it doesn't exist) the game stats file 'stats.csv'...")
+        self.check_or_create_files()
+
+    def check_or_create_files(self):
+        """
+        check the integrity of the statistics files, create new ones if missing
+        """
 
         try:
             with open(self.stats_path, 'r+', encoding="utf-8") as _:
@@ -54,10 +62,6 @@ class MasterStatsHandler():
             with open(self.streaks_path, 'w+', newline='', encoding="utf-8") as _:
                 pass
 
-        self.rounds = []
-        self.streaks = []
-        self.game_start = 0
-
     def launch_new_game(self):
         """
         reset variables for a new game
@@ -67,7 +71,7 @@ class MasterStatsHandler():
         self.streaks = []
         self.game_start = timeit.default_timer()
 
-    def write_new_round(self, r_score: int, r_time: float):
+    def record_new_round(self, r_score: int, r_time: float):
         """
         every single round is recorded & timed
 
@@ -78,7 +82,7 @@ class MasterStatsHandler():
 
         self.rounds.append((r_score, r_time))
 
-    def write_new_streak(self, s_length: int):
+    def record_new_streak(self, s_length: int):
         """
         streak length recorded each time it ends (or when game is terminated)
 
@@ -112,58 +116,10 @@ class MasterStatsHandler():
             game_mode (int): game mode as an integer
         """
 
-        if game_mode == 0:
-            game_mode = "Classic"
-
-        elif game_mode == 1:
-            game_mode = "Advanced"
-
-        elif game_mode == 2:
-            game_mode = "Time Trial"
-
-        elif game_mode == 3:
-            game_mode = "One Life"
-
-        else:
-            game_mode = "Free"
-
         game_time = round(timeit.default_timer() - self.game_start, 1)
-        rounds_total = len(self.rounds)
 
-        scores = []
-        non_zero_scores = []
-        times = []
-
-        for i_round in self.rounds:
-            scores.append(i_round[0])
-
-            if i_round[0] > 0:
-                non_zero_scores.append(i_round[0])
-
-            times.append(round(i_round[1], 2))
-
-        if len(non_zero_scores) > 0:
-            avg_earned_score = round(
-                sum(non_zero_scores) / len(non_zero_scores), 1)
-
-        else:
-            avg_earned_score = "n/a"
-
-        streaks_total = len(self.streaks)
-
-        if streaks_total > 0:
-            average_streak = round(sum(self.streaks) / streaks_total, 1)
-
-        else:
-            average_streak = "n/a"
-
-        full_stats_row = [game_mode, game_time, rounds_total, sum(scores),
-                          min(non_zero_scores, default='n/a'),
-                          max(non_zero_scores, default='n/a'), avg_earned_score,
-                          streaks_total, min(self.streaks, default='n/a'),
-                          max(self.streaks, default='n/a'),
-                          average_streak, min(times, default='n/a'),
-                          max(times, default='n/a'), round(sum(times) / rounds_total, 2)]
+        full_stats_row = game_calc.calculate_game_statistics(
+            game_mode, self.rounds, self.streaks, game_time)
 
         with open(self.stats_path, 'a+', newline='', encoding='utf-8') as stats_file:
             writer = csv.writer(stats_file, delimiter=' ',
@@ -179,7 +135,7 @@ class MasterStatsHandler():
 
             writer.writerow(self.streaks)
 
-    def read_stats(self, ignore_free: bool):
+    def read_stats_file(self, ignore_free: bool):
         """
         read the statistics file stats.csv (games)
 
@@ -205,7 +161,7 @@ class MasterStatsHandler():
 
         return all_rows
 
-    def read_streaks(self, ignore_free: bool):
+    def read_streaks_file(self, ignore_free: bool):
         """
         read the streaks file
 
@@ -243,19 +199,17 @@ class MasterStatsHandler():
             {'total_games': 4, 'total_playtime': 3.2min, ...}
         """
 
-        all_games = self.read_stats(ignore_free)
-        all_streaks = self.read_streaks(ignore_free)
+        all_games = self.read_stats_file(ignore_free)
+        all_streaks = self.read_streaks_file(ignore_free)
 
-        return statscalc.calculate_true_statistics(all_games, all_streaks)
+        return stats_calc.calculate_true_statistics(all_games, all_streaks)
 
-    def print_round_file(self):
+    def print_rounds_file(self):
         """
         print the rounds.csv file to console
         """
 
-        print()
-
-        print("Contents of file 'rounds.csv':")
+        print("\nContents of file 'rounds.csv':")
 
         with open(self.rounds_path, 'r+', encoding='utf-8') as rounds_file:
             file_reader = csv.reader(
@@ -270,9 +224,7 @@ class MasterStatsHandler():
         print the streaks.csv file to console
         """
 
-        print()
-
-        print("Contents of file 'streaks.csv':")
+        print("\nContents of file 'streaks.csv':")
 
         with open(self.streaks_path, 'r+', encoding='utf-8') as streaks_file:
             file_reader = csv.reader(
@@ -281,6 +233,31 @@ class MasterStatsHandler():
             for i, row in enumerate(file_reader):
                 print("row", i)
                 print(', '.join(row))
+
+    def shorter_stats_formatting(self):
+        """
+        create a shorter version of the games list for gui
+
+        Returns:
+            list: list of lists containing every game with some stats removed
+        """
+
+        all_prints = [["M", "tme", "rns", "scr", "hiS", "avS",
+                        "srs", "loE", "avE", "fsT", "avT"]]
+
+        content = self.read_stats_file(False)
+
+        for row in content:
+            unwanted = [4, 8, 12]
+
+            for ele in sorted(unwanted, reverse = True):
+                del row[ele]
+
+            row[0] = row[0][0].upper()
+
+            all_prints.extend([row])
+
+        return all_prints
 
     def stats_formatting(self, shorter: bool):
         """
@@ -302,25 +279,13 @@ class MasterStatsHandler():
             return col.ljust(max_width)
 
         if shorter:
-            all_prints = [["M", "tme", "rns", "scr", "hiS", "avS",
-                           "srs", "loE", "avE", "fsT", "avT"]]
-
-            content = self.read_stats(False)
-
-            for row in content:
-                del row[4]
-                del row[7]
-                del row[10]
-
-                row[0] = row[0][0].upper()
-
-                all_prints.extend([row])
+            all_prints = self.shorter_stats_formatting()
 
         else:
             all_prints = [["mde", "tme", "rns", "scr", "loS", "hiS", "avS",
                            "srs", "shE", "loE", "avE", "fsT", "slT", "avT"]]
 
-            all_prints.extend(self.read_stats(False))
+            all_prints.extend(self.read_stats_file(False))
 
         max_col_width = [0] * len(all_prints[0])
 
@@ -384,10 +349,8 @@ class MasterStatsHandler():
         print the games to console (contents of stats.csv)
         """
 
-        print()
-        print("!! WIDEN CONSOLE WINDOW AS MUCH AS POSSIBLE FOR PROPER VISIBILITY !!"
-              " THIS SHOULD BE JUST ONE LINE !!")
-        print()
+        print("\n!! WIDEN CONSOLE WINDOW AS MUCH AS POSSIBLE FOR PROPER VISIBILITY !!"
+              " THIS SHOULD BE JUST ONE LINE !!\n")
         print("Contents of file 'stats.csv':")
 
         content = self.stats_formatting(False)
@@ -398,7 +361,7 @@ class MasterStatsHandler():
     def clear_stats_and_rounds(self):
         """
         remove any recorded rounds, streaks, and games
-        exits the software
+        exit the software
         """
 
         with open(self.rounds_path, 'w+', newline='', encoding='utf-8'):

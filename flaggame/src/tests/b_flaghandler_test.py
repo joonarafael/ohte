@@ -41,7 +41,7 @@ class TestFlagHandler(unittest.TestCase):
                            "Error while trying to ensure integrity of flag image source files.\n"
                            f"Found a total of 0 out of 198 .png files in .\n"
                            "Please see flags subdirectory within src directory to ensure every flag file is present and in .png format.\n"
-                           "Software is trying to find a .png file for every 195 independent state listed at: https://www.worldometers.info/geography/how-many-countries-are-there-in-the-world/ and Taiwan, Western Sahara & Kosovo.\n"
+                           "Software is trying to find a .png file for every 195 independent state listed at: www.worldometers.info/geography/how-many-countries-are-there-in-the-world/ and Taiwan, Western Sahara & Kosovo.\n"
                            "Ensure directory integrity by fetching flags again from github.com/joonarafael/ohte/flaggame/src/flags.\n\n")
 
         self.assertEqual(expected_output, captured.out)

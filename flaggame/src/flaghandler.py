@@ -46,36 +46,27 @@ class MasterFlagHandler():
                       'r', encoding="utf-8") as flag_file:
                 correct_flags = [line.strip() for line in flag_file]
 
-            self.correct_amount = len(correct_flags)
+                self.correct_amount = len(correct_flags)
 
         except FileNotFoundError:
-            print()
-            print("ERROR")
-            print("Software is unable to find the file '/src/logs/correctflags.txt'"
-                  " listing the correct flags.")
-            print("Please ensure the integrity of this specified file or manually"
-                  " fetch it again from"
-                  " github.com/joonarafael/ohte/flaggame/src/logs/correctflags.txt.")
-            print()
+            print("\nERROR\nSoftware is unable to find the file '/src/logs/correctflags.txt'"
+                  " listing the correct flags.\nPlease ensure the integrity of this specified file"
+                  " or manually fetch it again from"
+                  " github.com/joonarafael/ohte/flaggame/src/logs/correctflags.txt.\n")
             self.correct_amount = -1
             return
 
         if self.complete_flag_list != correct_flags:
-            print()
-            print("ERROR")
-            print("Error while trying to ensure integrity of flag image source files.")
-            print(
-                f"Found a total of {len(self.complete_flag_list)} out of {self.correct_amount}"
-                f" .png files in {self.flag_dir}.")
-            print(("Please see flags subdirectory within src directory to ensure"
-                   " every flag file is present and in .png format."))
-            print("Software is trying to find a .png file for every 195 independent"
-                  " state listed at: https://www.worldometers.info/geography/"
-                  "how-many-countries-are-there-in-the-world/"
-                  " and Taiwan, Western Sahara & Kosovo.")
-            print("Ensure directory integrity by fetching flags again from"
-                  " github.com/joonarafael/ohte/flaggame/src/flags.")
-            print()
+            print(f"\nERROR\nError while trying to ensure integrity of flag image source files."
+                  f"\nFound a total of {len(self.complete_flag_list)} out of {self.correct_amount}"
+                  f" .png files in {self.flag_dir}."
+                   "\nPlease see flags subdirectory within src directory to ensure every flag file"
+                   " is present and in .png format.\nSoftware is trying to find a .png file for"
+                   " every 195 independent state listed at:"
+                   " www.worldometers.info/geography/how-many-countries-are-there-in-the-world/"
+                   " and Taiwan, Western Sahara & Kosovo."
+                   "\nEnsure directory integrity by fetching flags again from"
+                   " github.com/joonarafael/ohte/flaggame/src/flags.\n")
 
         else:
             print(f"All {self.correct_amount} flags have been found.")

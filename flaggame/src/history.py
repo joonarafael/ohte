@@ -26,9 +26,6 @@ class MasterHistoryHandler():
 
         self.history_path = history_path
 
-        print(
-            "Opening (creating if it doesn't exist) the game history file 'history.txt'...")
-
         try:
             with open(self.history_path, 'r+', encoding="utf-8") as launch_file:
                 file_len = len(launch_file.readlines())

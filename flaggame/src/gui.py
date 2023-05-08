@@ -15,13 +15,13 @@ class MasterGameWindow:
     master game window instance
     """
 
-    def __init__(self):
+    def __init__(self, version: str):
         """
         initialize all master window settings
         generate the main menu and the 4-tab notebook system
         """
 
-        self.current_version = "0.2.6"
+        self.current_version = version
         self.launch_resolution = (663, 700)
 
         self.window = Tk()

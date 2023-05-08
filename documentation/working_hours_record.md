@@ -25,4 +25,5 @@
 | 2.5. | 5    | wrote a ton of new pytests, polished the source code a lot, removed unnecessary code |
 | 3.5. | 1    | troubleshooting coverage issues |
 | 6.5. | 2    | software code polished even more, added functionality to see every recorded game in stats tab |
-| total | 54   | |
+| 8.5. | 1    | polishing the software more, statistics calculation split to multiple modules, assessed multiple pylint issues |
+| total | 55   | |

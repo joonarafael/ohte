@@ -30,7 +30,7 @@ class TestStatsHandler(unittest.TestCase):
         new_stats_handler = csvhandler.MasterStatsHandler(
             str(tmp_stats_file), str(tmp_rounds_file), str(tmp_streaks_file))
 
-        new_stats_handler.print_round_file()
+        new_stats_handler.print_rounds_file()
         captured = self.capsys.readouterr()
         self.assertEqual(2, len(captured))
 
@@ -46,7 +46,7 @@ class TestStatsHandler(unittest.TestCase):
         new_stats_handler = csvhandler.MasterStatsHandler(str(self.tmpdir.join('stats_wrong.csv')), str(
             self.tmpdir.join('rounds_wrong.csv')), str(self.tmpdir.join('streaks_wrong.csv')))
 
-        new_stats_handler.print_round_file()
+        new_stats_handler.print_rounds_file()
         captured = self.capsys.readouterr()
         self.assertEqual(2, len(captured))
 
@@ -111,10 +111,10 @@ class TestStatsHandler(unittest.TestCase):
         new_stats_handler.launch_new_game()
         new_stats_handler.write_game_rounds_to_file(0)
 
-        answer = new_stats_handler.read_streaks(False)
+        answer = new_stats_handler.read_streaks_file(False)
         self.assertEqual(0, len(answer))
 
-        answer = new_stats_handler.read_stats(False)
+        answer = new_stats_handler.read_stats_file(False)
         self.assertEqual(0, len(answer))
 
     def test_game_recording(self):
@@ -135,40 +135,40 @@ class TestStatsHandler(unittest.TestCase):
             str(tmp_stats_file), str(tmp_rounds_file), str(tmp_streaks_file))
 
         new_stats_handler.launch_new_game()
-        new_stats_handler.write_new_round(100, 1.5)
-        new_stats_handler.write_new_round(100, 7.0)
-        new_stats_handler.write_new_round(100, 3.25)
-        new_stats_handler.write_new_round(100, 2.75)
-        new_stats_handler.write_new_round(0, 3.5)
-        new_stats_handler.write_new_streak(4)
-        new_stats_handler.write_new_round(100, 5.75)
-        new_stats_handler.write_new_round(0, 0.5)
-        new_stats_handler.write_new_streak(1)
-        new_stats_handler.write_new_round(0, 6.25)
+        new_stats_handler.record_new_round(100, 1.5)
+        new_stats_handler.record_new_round(100, 7.0)
+        new_stats_handler.record_new_round(100, 3.25)
+        new_stats_handler.record_new_round(100, 2.75)
+        new_stats_handler.record_new_round(0, 3.5)
+        new_stats_handler.record_new_streak(4)
+        new_stats_handler.record_new_round(100, 5.75)
+        new_stats_handler.record_new_round(0, 0.5)
+        new_stats_handler.record_new_streak(1)
+        new_stats_handler.record_new_round(0, 6.25)
         new_stats_handler.write_game_rounds_to_file(0)
 
-        answer = new_stats_handler.read_streaks(False)
+        answer = new_stats_handler.read_streaks_file(False)
         self.assertEqual(1, len(answer))
         self.assertEqual(2, len(answer[0]))
 
-        answer = new_stats_handler.read_stats(False)
+        answer = new_stats_handler.read_stats_file(False)
         self.assertEqual(1, len(answer))
         self.assertEqual(14, len(answer[0]))
 
         new_stats_handler.launch_new_game()
-        new_stats_handler.write_new_round(176, 1.1)
-        new_stats_handler.write_new_round(182, 2.1)
-        new_stats_handler.write_new_round(135, 4.75)
-        new_stats_handler.write_new_round(198, 0.25)
-        new_stats_handler.write_new_round(0, 3.5)
-        new_stats_handler.write_new_streak(4)
+        new_stats_handler.record_new_round(176, 1.1)
+        new_stats_handler.record_new_round(182, 2.1)
+        new_stats_handler.record_new_round(135, 4.75)
+        new_stats_handler.record_new_round(198, 0.25)
+        new_stats_handler.record_new_round(0, 3.5)
+        new_stats_handler.record_new_streak(4)
         new_stats_handler.write_game_rounds_to_file(1)
 
-        answer = new_stats_handler.read_streaks(False)
+        answer = new_stats_handler.read_streaks_file(False)
         self.assertEqual(2, len(answer))
         self.assertEqual(1, len(answer[1]))
 
-        answer = new_stats_handler.read_stats(False)
+        answer = new_stats_handler.read_stats_file(False)
         self.assertEqual(2, len(answer))
         self.assertEqual(14, len(answer[1]))
 
@@ -190,29 +190,29 @@ class TestStatsHandler(unittest.TestCase):
             str(tmp_stats_file), str(tmp_rounds_file), str(tmp_streaks_file))
 
         new_stats_handler.launch_new_game()
-        new_stats_handler.write_new_round(100, 1.5)
-        new_stats_handler.write_new_round(100, 7.0)
-        new_stats_handler.write_new_round(100, 3.25)
-        new_stats_handler.write_new_round(100, 2.75)
-        new_stats_handler.write_new_round(0, 3.5)
-        new_stats_handler.write_new_streak(4)
-        new_stats_handler.write_new_round(100, 5.75)
-        new_stats_handler.write_new_round(0, 0.5)
-        new_stats_handler.write_new_streak(1)
-        new_stats_handler.write_new_round(0, 6.25)
+        new_stats_handler.record_new_round(100, 1.5)
+        new_stats_handler.record_new_round(100, 7.0)
+        new_stats_handler.record_new_round(100, 3.25)
+        new_stats_handler.record_new_round(100, 2.75)
+        new_stats_handler.record_new_round(0, 3.5)
+        new_stats_handler.record_new_streak(4)
+        new_stats_handler.record_new_round(100, 5.75)
+        new_stats_handler.record_new_round(0, 0.5)
+        new_stats_handler.record_new_streak(1)
+        new_stats_handler.record_new_round(0, 6.25)
         new_stats_handler.write_game_rounds_to_file(4)
 
-        answer = new_stats_handler.read_streaks(True)
+        answer = new_stats_handler.read_streaks_file(True)
+        self.assertEqual(1, len(answer))
+
+        answer = new_stats_handler.read_stats_file(True)
         self.assertEqual(0, len(answer))
 
-        answer = new_stats_handler.read_stats(True)
-        self.assertEqual(0, len(answer))
-
-        answer = new_stats_handler.read_streaks(False)
+        answer = new_stats_handler.read_streaks_file(False)
         self.assertEqual(1, len(answer))
         self.assertEqual(2, len(answer[0]))
 
-        answer = new_stats_handler.read_stats(False)
+        answer = new_stats_handler.read_stats_file(False)
         self.assertEqual(1, len(answer))
         self.assertEqual(14, len(answer[0]))
 
@@ -235,27 +235,27 @@ class TestStatsHandler(unittest.TestCase):
 
         new_stats_handler.launch_new_game()
         time.sleep(6)
-        new_stats_handler.write_new_round(175, 1.179)
-        new_stats_handler.write_new_round(213, 1.4798)
-        new_stats_handler.write_new_round(236, 1.4966)
-        new_stats_handler.write_new_round(260, 0.755)
-        new_stats_handler.write_new_round(269, 1.1812)
-        new_stats_handler.write_new_round(279, 1.2924)
-        new_stats_handler.write_new_round(254, 2.8456)
-        new_stats_handler.write_new_round(252, 3.1058)
-        new_stats_handler.write_new_round(292, 1.8773)
-        new_stats_handler.write_new_round(0, 0.8571)
-        new_stats_handler.write_new_streak(9)
-        new_stats_handler.write_new_round(176, 1.1043)
-        new_stats_handler.write_new_round(218, 0.8259)
-        new_stats_handler.write_new_round(235, 1.5436)
-        new_stats_handler.write_new_round(259, 0.9442)
-        new_stats_handler.write_new_round(0, 2.0903)
-        new_stats_handler.write_new_streak(4)
-        new_stats_handler.write_new_round(169, 1.8166)
-        new_stats_handler.write_new_round(213, 1.4055)
-        new_stats_handler.write_new_round(0, 0.8333)
-        new_stats_handler.write_new_streak(2)
+        new_stats_handler.record_new_round(175, 1.179)
+        new_stats_handler.record_new_round(213, 1.4798)
+        new_stats_handler.record_new_round(236, 1.4966)
+        new_stats_handler.record_new_round(260, 0.755)
+        new_stats_handler.record_new_round(269, 1.1812)
+        new_stats_handler.record_new_round(279, 1.2924)
+        new_stats_handler.record_new_round(254, 2.8456)
+        new_stats_handler.record_new_round(252, 3.1058)
+        new_stats_handler.record_new_round(292, 1.8773)
+        new_stats_handler.record_new_round(0, 0.8571)
+        new_stats_handler.record_new_streak(9)
+        new_stats_handler.record_new_round(176, 1.1043)
+        new_stats_handler.record_new_round(218, 0.8259)
+        new_stats_handler.record_new_round(235, 1.5436)
+        new_stats_handler.record_new_round(259, 0.9442)
+        new_stats_handler.record_new_round(0, 2.0903)
+        new_stats_handler.record_new_streak(4)
+        new_stats_handler.record_new_round(169, 1.8166)
+        new_stats_handler.record_new_round(213, 1.4055)
+        new_stats_handler.record_new_round(0, 0.8333)
+        new_stats_handler.record_new_streak(2)
         new_stats_handler.write_game_rounds_to_file(1)
 
         answer = new_stats_handler.calculate_true_stats(True)
@@ -273,7 +273,7 @@ class TestStatsHandler(unittest.TestCase):
 
         self.assertAlmostEqual(expected_answer, answer, delta=0.2)
 
-        new_stats_handler.print_round_file()
+        new_stats_handler.print_rounds_file()
         captured = self.capsys.readouterr()
         self.assertEqual(2, len(captured))
 
@@ -304,7 +304,7 @@ class TestStatsHandler(unittest.TestCase):
 
         new_stats_handler.launch_new_game()
         time.sleep(5.5)
-        new_stats_handler.write_new_round(0, 5.001)
+        new_stats_handler.record_new_round(0, 5.001)
         new_stats_handler.write_game_rounds_to_file(2)
 
         answer = new_stats_handler.calculate_true_stats(True)
@@ -341,7 +341,7 @@ class TestStatsHandler(unittest.TestCase):
 
         new_stats_handler.launch_new_game()
         time.sleep(5.5)
-        new_stats_handler.write_new_round(0, 5.001)
+        new_stats_handler.record_new_round(0, 5.001)
         new_stats_handler.write_game_rounds_to_file(2)
 
         answer = new_stats_handler.stats_formatting(True)

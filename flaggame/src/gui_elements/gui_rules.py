@@ -38,6 +38,9 @@ class RulesTab:
         self.frame.columnconfigure(0, minsize=20)
         self.frame.rowconfigure(0, weight=1)
 
+        self.write_rulebook()
+
+    def write_rulebook(self):
         self.rules_text.config(state='normal')
         self.rules_text.delete('1.0', END)
         rules_content = rules.RULES_READER.read_rules()

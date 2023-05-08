@@ -90,7 +90,7 @@ class DebugMenu:
         print the rounds.csv file to console
         """
 
-        csvhandler.MASTER_RUNNING_GAME.print_round_file()
+        csvhandler.MASTER_RUNNING_GAME.print_rounds_file()
 
     def streaks_print(self):
         """

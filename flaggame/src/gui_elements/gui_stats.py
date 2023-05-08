@@ -44,7 +44,7 @@ class StatsTab:
         """
         update the content within the text element always when statistics change
         also writes statistics again if player wishes to include/ignore
-        free moode games in calculations
+        free mode games in calculations
         """
 
         self.view = 0
@@ -66,21 +66,11 @@ class StatsTab:
         for key, value in content.items():
             text_line.append((key.replace("_", " "), value))
 
-        r_i = 0
-
-        while True:
-            if r_i <= len(text_line) - 2:
-                gui_row = (f"{text_line[r_i][0]:<30}{text_line[r_i][1]:<8}"
-                           f" | {text_line[r_i + 1][0]:<30}{text_line[r_i + 1][1]:<8}\n\n")
-
-            elif r_i == len(text_line) - 1:
-                gui_row = f"{text_line[r_i][0]:<30}{text_line[r_i][1]:<8}"
-
-            else:
-                break
+        for i in range(0, 19, 2):
+            gui_row = (f"{text_line[i][0]:<30}{text_line[i][1]:<8}"
+                       f" | {text_line[i + 1][0]:<30}{text_line[i + 1][1]:<8}\n\n")
 
             self.stats_text.insert(END, gui_row)
-            r_i += 2
 
         self.stats_text.config(state='disabled')
 

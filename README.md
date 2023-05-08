@@ -1,6 +1,6 @@
 # FLAG QUIZ GAME
 
-current ver **0.2.6** (*6.5.2023*)
+current ver **0.2.65** (*8.5.2023*)
 
 ## DOCUMENTATION
 

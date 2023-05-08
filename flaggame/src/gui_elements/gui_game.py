@@ -54,6 +54,7 @@ class GameTab:
         self.img = Image.open(WORKING_DIR + "/placeholder-image.png")
         self.img.thumbnail((500, 500), Image.LANCZOS)
         photo_image = ImageTk.PhotoImage(self.img)
+
         self.photo_label = Label(self.frame, image=photo_image, borderwidth=0,
                                  highlightthickness=0, relief="flat")
         self.photo_label.grid(row=3, column=0, columnspan=5)

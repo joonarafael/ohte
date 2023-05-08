@@ -32,8 +32,6 @@ class MasterRulesReader():
             ['RULEBOOK', '', '', 'CLASSIC', ...]
         """
 
-        print("Reading the game rule book file 'gamerules.txt'...")
-
         try:
             with open(self.rules_path, 'r+', encoding="utf-8") as update_file:
                 lines = update_file.readlines()

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Flag Game Quiz"
-version = "0.2.6"
+version = "0.2.65"
 description = "Flag Game Quiz built for Ohjelmistotekniikka K2023"
 authors = ["joonarafael <joona.kettunen21@gmail.com>"]
 readme = "README.md"
