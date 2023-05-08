@@ -6,6 +6,8 @@ current ver **0.2.65** (*8.5.2023*)
 
 (suoritan kurssia suomeksi mutta dokumentaatio on englanniksi)
 
+- [User Manual](./documentation/user_manual.md)
+
 - [Software Requirements Specification](./documentation/requirements_specification.md)
 
 - [Software Architecture Layout](./documentation/architecture.md)
@@ -13,8 +15,6 @@ current ver **0.2.65** (*8.5.2023*)
 - [Changelog](./documentation/changelog.md)
 
 - [Working Hours Record](./documentation/working_hours_record.md)
-
-- [Game Rules](./flaggame/src/gamerules.txt)
 
 ## VERSIONS
 
