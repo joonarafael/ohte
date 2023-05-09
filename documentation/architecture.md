@@ -1,6 +1,5 @@
 # SOFTWARE REPOSITORY STRUCTURE
 
-![Software Repository Structure](./software_repository_structure.svg)
 <img src="./software_repository_structure.svg">
 
 # GAME HISTORY WRITING & READING
