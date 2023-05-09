@@ -10,7 +10,7 @@ current ver **0.2.65** (*8.5.2023*)
 
 - [Software Requirements Specification](./documentation/requirements_specification.md)
 
-- [Software Architecture Layout](./documentation/architecture.md)
+- [Software Repository Architecture](./documentation/architecture.md)
 
 - [Changelog](./documentation/changelog.md)
 
