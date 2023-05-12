@@ -1,8 +1,10 @@
-# SOFTWARE REPOSITORY STRUCTURE
+# SOFTWARE ARCHITECTURE
+
+## SOFTWARE REPOSITORY STRUCTURE
 
 <img src="./images/software_repository_structure.svg">
 
-# GAME HISTORY WRITING & READING
+## GAME HISTORY WRITING & READING
 
 ```mermaid
 ---
