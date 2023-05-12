@@ -1,6 +1,6 @@
 # SOFTWARE TESTING
 
-Software has been rigorously tested with automated testing. Wider software functionality including e.g. software installation and graphical user interface performance has been manually checked.
+Basic software logic has been rigorously tested with automated testing and wider software functionality, including e.g. software installation and graphical user interface performance, has been manually checked.
 
 All personal player logs (e.g. game history & statistics) are copied to a backup directory before any software testing is executed for safety reasons. This action is done by the `tasks.py` module, and more specifically, performed by the `shutil` library. No matter if the testing sequence is succesfull or not (e.g. halts due to an error), player logs will be copied back from these backups.
 
@@ -8,7 +8,7 @@ As the core game logic deals simultaneously with some GUI elements, the `MagicMo
 
 ## AUTOMATED TEST MODULES
 
-All automated test modules can be in [this folder](../flaggame/src/tests/).
+All automated test modules are located [here](../flaggame/src/tests/).
 
 ### GAMEHANDLER_TEST
 
@@ -24,7 +24,7 @@ The [TimerLogic](../flaggame/src/tests/c_timerlogic_test.py) test module perform
 
 ### HISTORY_TEST
 
-The [History](../flaggame/src/tests/d_history_test.py) test module performs mupltiple tests assessing the logic responsible for game history managing. These tests include, for example, how the software creates new files if old ones cannot be found, or what text is written to file when a game is terminated. It also checks that e.g. the history is correctly erased when requested.
+The [History](../flaggame/src/tests/d_history_test.py) test module performs multiple tests assessing the logic responsible for game history managing. These tests include, for example, how the software creates new files if old ones cannot be found, or what text is written to file when a game is terminated. It also checks that e.g. the history is correctly erased when requested.
 
 ### CSVHANDLER_TEST
 
@@ -32,11 +32,11 @@ The [CSVHandler](../flaggame/src/tests/e_csvhandler_test.py) test module perform
 
 ### RULES_TEST
 
-The [Rules](../flaggame/src/tests/f_rules_test.py) test module performs a few tests assessing the logic reading the [rulebook](../flaggame/src/logs/gamerules.txt). These tests include, for example, how the software acts if no rulebook can be found, or if the rulebook row count is not the expected (=70).
+The [Rules](../flaggame/src/tests/f_rules_test.py) test module performs a few tests assessing the logic reading the [rulebook](../flaggame/src/logs/gamerules.txt). These tests include, for example, how the software acts if no rulebook can be found, or if the rulebook row count is not the expected (70).
 
 ## TEST COVERAGE
 
-The automated pytest covers around 95% of software source code excluding all [graphical user interface modules](../flaggame/src/gui_elements/) along with `gui.py`. It also ignores the `main.py` module.
+The automated pytest covers around 95% of the software source code excluding all [graphical user interface modules](../flaggame/src/gui_elements/) along with `gui.py`. It also ignores the `main.py` module.
 
 <img src="./images/coverage_report.png">
 
@@ -48,7 +48,7 @@ Software installation and graphical user interface functionality has been checke
 
 Software installation has been tried on Horizon virtual desktop and on school laptop (both Cubbli environments). **Software has not been tested on a MacOS machine**.
 
-Along with the basic installation procedure, different execution order of invoke tasks has been also tested (error handling within `tasks.py` located [here](../flaggame/tasks.py)). Previously the execution halted if no player logs yet existed when pytests were launched.
+Along with the basic installation procedure, different execution order of invoke tasks has been also tested (error handling within `tasks.py`). Previously the execution halted if no player logs yet existed when pytests were launched.
 
 ### GRAPHICAL USER INTERFACE
 
