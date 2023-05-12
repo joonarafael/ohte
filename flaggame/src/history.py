@@ -50,7 +50,7 @@ class MasterHistoryHandler():
         software launch is recorded within minutes accuracy
 
         Returns:
-            _type_: date and hours:minutes '2023-05-02 14:20'
+            string: date and hours:minutes '2023-05-02 14:20'
         """
 
         return datetime.now().isoformat(sep=" ", timespec="minutes")
@@ -60,7 +60,7 @@ class MasterHistoryHandler():
         game starts and ends are recorded within seconds accuracy
 
         Returns:
-            _type_: time in hours:minutes:seconds '14:21:43'
+            string: time in hours:minutes:seconds '14:21:43'
         """
 
         return datetime.now().strftime('%H:%M:%S')

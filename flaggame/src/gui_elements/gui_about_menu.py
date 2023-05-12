@@ -13,9 +13,9 @@ class AboutMenu:
         initialize the 'About' menu
 
         Args:
-            root (tkinter.Tk): master game window instance
-            master_menu (tkinter.Menu): main menu instance within root
-            menu_tearoff (int): integer for menu tearoff
+            root (tkinter.Tk): master game window instance,
+            master_menu (tkinter.Menu): main menu instance within root,
+            menu_tearoff (int): integer for menu tearoff,
             version (str): current software version
         """
 

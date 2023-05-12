@@ -10,6 +10,10 @@ class TestFlagHandler(unittest.TestCase):
         self.maxDiff = None
 
     def test_flaghandler_successful(self):
+        """
+        test successful flag importing
+        """
+
         new_flaghandler = flaghandler.MasterFlagHandler(
             flaghandler.WORKING_DIR, flaghandler.FLAG_DIR)
         new_flaghandler.flag_import()
@@ -18,6 +22,10 @@ class TestFlagHandler(unittest.TestCase):
         self.assertEqual("All 198 flags have been found.\n", captured.out)
 
     def test_no_correctflags_file(self):
+        """
+        test if no reference for correct flags is found
+        """
+
         new_flaghandler = flaghandler.MasterFlagHandler(
             "", flaghandler.FLAG_DIR)
         new_flaghandler.flag_import()
@@ -31,6 +39,10 @@ class TestFlagHandler(unittest.TestCase):
         self.assertEqual(expected_output, captured.out)
 
     def test_no_flags(self):
+        """
+        test if correct amount of flags is not found
+        """
+
         new_flaghandler = flaghandler.MasterFlagHandler(
             flaghandler.WORKING_DIR, "")
         new_flaghandler.flag_import()
@@ -47,6 +59,10 @@ class TestFlagHandler(unittest.TestCase):
         self.assertEqual(expected_output, captured.out)
 
     def test_debug_option(self):
+        """
+        test retrying the flag import sequence
+        """
+
         new_flaghandler = flaghandler.MasterFlagHandler(
             flaghandler.WORKING_DIR, flaghandler.FLAG_DIR)
         new_flaghandler.flag_import()

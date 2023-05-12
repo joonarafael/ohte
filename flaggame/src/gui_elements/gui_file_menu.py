@@ -16,9 +16,9 @@ class FileMenu:
         'New game...' and 'Clear history...'
 
         Args:
-            root (tkinter.Tk): master game window instance
-            master_menu (tkinter.Menu): main menu instance within root
-            menu_tearoff (int): integer for menu tearoff
+            root (tkinter.Tk): master game window instance,
+            master_menu (tkinter.Menu): main menu instance within root,
+            menu_tearoff (int): integer for menu tearoff,
             game_handler (GameHandler): master gamehandler instance from
             master window (for function calling)
         """
@@ -128,7 +128,7 @@ class FileMenu:
 
     def exit_game(self):
         """
-        ask 'are you sure?' to quit the software
+        ask 'are you sure?' to quit the software,
         this is also the master window Tkinter exit protocol
         """
 

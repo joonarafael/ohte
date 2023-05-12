@@ -1,6 +1,6 @@
 def sum_games(all_games: list):
     """
-    initializes the fundamental statistics dictionary data structure
+    initializes the fundamental statistics dictionary data structure,
     every calculated statistic is a key, value pair
 
     Args:
@@ -33,7 +33,7 @@ def sum_games(all_games: list):
 
 def find_maximums(all_games: list):
     """
-    continues the statistics calculation by finding the maximums in the played games
+    continues the statistics calculation by finding the maximums in the played games,
     these include e.g. 'shortest game duration' and 'most rounds in a game'
 
     Args:
@@ -75,9 +75,10 @@ def find_maximums(all_games: list):
 
     return player
 
+
 def calculate_averages(all_games: list):
     """
-    continues the statistics calculation by calculating the averages
+    continues the statistics calculation by calculating the averages,
     these include e.g. 'average rounds in a game' and 'average round time'
 
     Args:
@@ -121,7 +122,7 @@ def calculate_true_statistics(all_games: list, all_streaks: list):
     function to call for all the necessary functions to calculate player all time statistics
 
     Args:
-        all_games (list): list of all played games
+        all_games (list): list of all played games,
         all_streaks (list): list of all streaks
 
     Returns:

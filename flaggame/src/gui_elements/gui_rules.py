@@ -4,7 +4,7 @@ import rules
 
 class RulesTab:
     """
-    handle the fourth tab within the game master window
+    handle the fourth tab within the game master window,
     displays the game rulebook
     """
 
@@ -13,7 +13,7 @@ class RulesTab:
         initialize all neccessary elements for the game rulebook to be displayed
 
         Args:
-            root (Tk): master game window instance
+            root (Tk): master game window instance,
             frame (Frame): notebook tab element within the master window
         """
 
@@ -41,6 +41,10 @@ class RulesTab:
         self.write_rulebook()
 
     def write_rulebook(self):
+        """
+        write the rulebook
+        """
+
         self.rules_text.config(state='normal')
         self.rules_text.delete('1.0', END)
         rules_content = rules.RULES_READER.read_rules()

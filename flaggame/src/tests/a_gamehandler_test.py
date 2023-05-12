@@ -8,12 +8,20 @@ import time
 
 class TestGameHandler(unittest.TestCase):
     def test_gamehandler_init(self):
+        """
+        test the class __init__ function
+        """
+
         new_gamehandler = gamehandler.MasterGameHandler(None, None, None)
 
         self.assertEqual(str(
             new_gamehandler), "GameHandler Status: Game Mode -1; Round 0; Score 0; Lives 0; Streak 0.")
 
     def test_gamehandler_instance_reset(self):
+        """
+        test the game cancellation logic and gamehandler reset
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -39,7 +47,11 @@ class TestGameHandler(unittest.TestCase):
         assert mock_history_tab.history_update.call_count == 2
         assert mock_stats_tab.stats_update.call_count == 1
 
-    def test_classic_launch(self):
+    def test_function_calls_launch(self):
+        """
+        test to ensure all necessary function calls are made after game launch
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -61,6 +73,10 @@ class TestGameHandler(unittest.TestCase):
         assert mock_game_tab.change_title.call_count == 1
 
     def test_classic_launch(self):
+        """
+        test classic game mode launch
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -73,6 +89,10 @@ class TestGameHandler(unittest.TestCase):
             new_gamehandler), "GameHandler Status: Game Mode 0; Round 1; Score 0; Lives 3; Streak 0.")
 
     def test_advanced_launch(self):
+        """
+        test advanced game mode launch
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -85,6 +105,10 @@ class TestGameHandler(unittest.TestCase):
             new_gamehandler), "GameHandler Status: Game Mode 1; Round 1; Score 0; Lives 3; Streak 0.")
 
     def test_time_trial_launch(self):
+        """
+        test time trial game mode launch
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -97,6 +121,10 @@ class TestGameHandler(unittest.TestCase):
             new_gamehandler), "GameHandler Status: Game Mode 2; Round 1; Score 0; Lives 3; Streak 0.")
 
     def test_one_life_launch(self):
+        """
+        test one life game mode launch
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -109,6 +137,10 @@ class TestGameHandler(unittest.TestCase):
             new_gamehandler), "GameHandler Status: Game Mode 3; Round 1; Score 0; Lives 1; Streak 0.")
 
     def test_free_mode_launch(self):
+        """
+        test free mode game launch
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -121,6 +153,10 @@ class TestGameHandler(unittest.TestCase):
             new_gamehandler), "GameHandler Status: Game Mode 4; Round 1; Score 0; Lives -1; Streak 0.")
 
     def test_flag_slide_show_launch(self):
+        """
+        test the free flag browsing mode
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -152,6 +188,10 @@ class TestGameHandler(unittest.TestCase):
         self.assertEqual(new_gamehandler.free_index, 0)
 
     def test_failsafe_answer(self):
+        """
+        test if gamehandler notices that no game has yet been launched when input is given
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -163,6 +203,10 @@ class TestGameHandler(unittest.TestCase):
         assert mock_game_tab.display_score.call_count == 0
 
     def test_classic_score(self):
+        """
+        check score awarding in a classic game mode
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -196,6 +240,10 @@ class TestGameHandler(unittest.TestCase):
         self.assertEqual(len(new_gamehandler.remaining_flags), 197)
 
     def test_advanced_score(self):
+        """
+        check score awarding in an advanced game mode
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -240,6 +288,10 @@ class TestGameHandler(unittest.TestCase):
             new_gamehandler), f"GameHandler Status: Game Mode 1; Round 4; Score {new_gamehandler.score}; Lives 2; Streak 1.")
 
     def test_time_trial_score(self):
+        """
+        check score awarding in a time trial game mode
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -300,6 +352,10 @@ class TestGameHandler(unittest.TestCase):
             new_gamehandler), f"GameHandler Status: Game Mode -1; Round 1; Score 0; Lives 0; Streak 0.")
 
     def test_one_life_score(self):
+        """
+        check score awarding in an one life game mode
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()
@@ -330,6 +386,10 @@ class TestGameHandler(unittest.TestCase):
             new_gamehandler), f"GameHandler Status: Game Mode -1; Round 2; Score 100; Lives 0; Streak 0.")
 
     def test_free_mode_score(self):
+        """
+        check score awarding in a free mode game
+        """
+
         mock_game_tab = MagicMock()
         mock_stats_tab = MagicMock()
         mock_history_tab = MagicMock()

@@ -1,4 +1,14 @@
 def find_gamemode(game_mode: int):
+    """
+    determine the game mode name from the given integer value
+
+    Args:
+        game_mode (int): game mode as an integer
+
+    Returns:
+        string: game mode as a string
+    """
+
     if game_mode == 0:
         return "Classic"
 
@@ -15,6 +25,19 @@ def find_gamemode(game_mode: int):
 
 
 def calculate_game_statistics(game_mode: int, rounds: list, streaks: list, game_time: float):
+    """
+    calculate the statistics for a finished game
+
+    Args:
+        game_mode (int): game mode as an integer,
+        rounds (list): list of every single round,
+        streaks (list): list of all completed streaks,
+        game_time (float): complete game time as an float value
+
+    Returns:
+        list: list containing all the appropriate game statistics ready for file writing
+    """
+
     rounds_total = len(rounds)
     scores = []
     non_zero_scores = []
@@ -44,11 +67,11 @@ def calculate_game_statistics(game_mode: int, rounds: list, streaks: list, game_
         average_streak = "n/a"
 
     full_stats_row = [find_gamemode(game_mode), game_time, rounds_total, sum(scores),
-                        min(non_zero_scores, default='n/a'),
-                        max(non_zero_scores, default='n/a'), avg_earned_score,
-                        streaks_total, min(streaks, default='n/a'),
-                        max(streaks, default='n/a'),
-                        average_streak, min(times, default='n/a'),
-                        max(times, default='n/a'), round(sum(times) / rounds_total, 2)]
+                      min(non_zero_scores, default='n/a'),
+                      max(non_zero_scores, default='n/a'), avg_earned_score,
+                      streaks_total, min(streaks, default='n/a'),
+                      max(streaks, default='n/a'),
+                      average_streak, min(times, default='n/a'),
+                      max(times, default='n/a'), round(sum(times) / rounds_total, 2)]
 
     return full_stats_row

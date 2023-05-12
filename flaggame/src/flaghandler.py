@@ -19,7 +19,7 @@ class MasterFlagHandler():
         initialize the critical directories, fetch trough the flag source files
 
         Args:
-            working_dir (str): main working directory path
+            working_dir (str): main working directory path,
             flag_dir (str): flag source files directory path
         """
 
@@ -60,13 +60,13 @@ class MasterFlagHandler():
             print(f"\nERROR\nError while trying to ensure integrity of flag image source files."
                   f"\nFound a total of {len(self.complete_flag_list)} out of {self.correct_amount}"
                   f" .png files in {self.flag_dir}."
-                   "\nPlease see flags subdirectory within src directory to ensure every flag file"
-                   " is present and in .png format.\nSoftware is trying to find a .png file for"
-                   " every 195 independent state listed at:"
-                   " www.worldometers.info/geography/how-many-countries-are-there-in-the-world/"
-                   " and Taiwan, Western Sahara & Kosovo."
-                   "\nEnsure directory integrity by fetching flags again from"
-                   " github.com/joonarafael/ohte/flaggame/src/flags.\n")
+                  "\nPlease see flags subdirectory within src directory to ensure every flag file"
+                  " is present and in .png format.\nSoftware is trying to find a .png file for"
+                  " every 195 independent state listed at:"
+                  " www.worldometers.info/geography/how-many-countries-are-there-in-the-world/"
+                  " and Taiwan, Western Sahara & Kosovo."
+                  "\nEnsure directory integrity by fetching flags again from"
+                  " github.com/joonarafael/ohte/flaggame/src/flags.\n")
 
         else:
             print(f"All {self.correct_amount} flags have been found.")

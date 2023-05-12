@@ -15,9 +15,9 @@ class DebugMenu:
         initialize both the parent 'Debug' menu and the child drop-down 'Print to console...'
 
         Args:
-            root (Tk): master game window instance
-            master_menu (Menu): main menu instance within root
-            menu_tearoff (int): integer for menu tearoff
+            root (Tk): master game window instance,
+            master_menu (Menu): main menu instance within root,
+            menu_tearoff (int): integer for menu tearoff,
             stats_tab: stats tab gui element from master window (needed for function calling)
         """
 

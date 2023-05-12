@@ -4,7 +4,7 @@ import history
 
 class HistoryTab:
     """
-    handle the third tab within the game master window
+    handle the third tab within the game master window,
     displays the game history with dynamic updating
     """
 
@@ -13,7 +13,7 @@ class HistoryTab:
         initialize all neccessary elements for the game history to be displayed
 
         Args:
-            root (Tk): master game window instance
+            root (Tk): master game window instance,
             frame (Frame): notebook tab element within the master window
         """
 

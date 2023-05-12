@@ -15,8 +15,8 @@ STREAKS_PATH = WORKING_DIR + '/logs/streaks.csv'
 
 class MasterStatsHandler():
     """
-    manage all statistics recording and other general handling
-    it calculates the statistics, writes to file, and returns data to gui elements
+    manage all statistics recording and other general handling,
+    calculates the statistics, writes to file, and returns data to gui elements
     """
 
     def __init__(self, stats_path, rounds_path, streaks_path):
@@ -234,6 +234,20 @@ class MasterStatsHandler():
                 print("row", i)
                 print(', '.join(row))
 
+    def print_stats(self):
+        """
+        print the games to console (contents of stats.csv)
+        """
+
+        print("\n!! WIDEN CONSOLE WINDOW AS MUCH AS POSSIBLE FOR PROPER VISIBILITY !!"
+              " THIS SHOULD BE JUST ONE LINE !!\n")
+        print("Contents of file 'stats.csv':")
+
+        content = self.stats_formatting(False)
+
+        for row in content:
+            print(row)
+
     def shorter_stats_formatting(self):
         """
         create a shorter version of the games list for gui
@@ -243,14 +257,14 @@ class MasterStatsHandler():
         """
 
         all_prints = [["M", "tme", "rns", "scr", "hiS", "avS",
-                        "srs", "loE", "avE", "fsT", "avT"]]
+                       "srs", "loE", "avE", "fsT", "avT"]]
 
         content = self.read_stats_file(False)
 
         for row in content:
             unwanted = [4, 8, 12]
 
-            for ele in sorted(unwanted, reverse = True):
+            for ele in sorted(unwanted, reverse=True):
                 del row[ele]
 
             row[0] = row[0][0].upper()
@@ -343,20 +357,6 @@ class MasterStatsHandler():
         formatted_text.append(legend)
 
         return formatted_text
-
-    def print_stats(self):
-        """
-        print the games to console (contents of stats.csv)
-        """
-
-        print("\n!! WIDEN CONSOLE WINDOW AS MUCH AS POSSIBLE FOR PROPER VISIBILITY !!"
-              " THIS SHOULD BE JUST ONE LINE !!\n")
-        print("Contents of file 'stats.csv':")
-
-        content = self.stats_formatting(False)
-
-        for row in content:
-            print(row)
 
     def clear_stats_and_rounds(self):
         """

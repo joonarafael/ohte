@@ -64,3 +64,9 @@ sequenceDiagram
     end
 
 ```
+
+# REMAINING ISSUES WITH SOURCE CODE QUALITY & SOFTWARE LOGIC
+
+There are some underlying issues still with the source code & game logic. While I think some areas of the software have been succesfully split into multiple Python modules and the responsibility has been divided in a good way (like the different [gui elements](../flaggame/src/gui_elements/)), there is a great deal of work to remain.
+
+Pylint will currently raise some notes regarding too many statements, too many branches, and too many instance attributes. In particular, the [gamehandler](../flaggame/src/gamehandler.py) module is poorly designed and way too complex of a module to work with. It handles all the game logic, deals with user input, requests UI updates and sends calls for history & statistics recording. That's too much work from a single module. And while the actual calculation of the statistics is outsourced to other submodules, the [csvhandler](../flaggame/src/csvhandler.py) has too many tasks to perform.

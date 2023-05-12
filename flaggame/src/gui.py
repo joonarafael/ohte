@@ -17,8 +17,11 @@ class MasterGameWindow:
 
     def __init__(self, version: str):
         """
-        initialize all master window settings
+        initialize all master window settings,
         generate the main menu and the 4-tab notebook system
+
+        Args:
+            version (str): software version
         """
 
         self.current_version = version

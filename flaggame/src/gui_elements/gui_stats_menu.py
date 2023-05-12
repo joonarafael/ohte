@@ -11,9 +11,9 @@ class StatsMenu:
        initialize the 'Stats' menu
 
         Args:
-            root (tkinter.Tk): master game window instance
-            master_menu (tkinter.Menu): main menu instance within root
-            menu_tearoff (int): integer for menu tearoff
+            root (tkinter.Tk): master game window instance,
+            master_menu (tkinter.Menu): main menu instance within root,
+            menu_tearoff (int): integer for menu tearoff,
             stats_tab: stats tab gui element from master window (for function calling)
         """
 

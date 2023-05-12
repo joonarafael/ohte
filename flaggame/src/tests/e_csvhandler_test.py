@@ -14,6 +14,10 @@ class TestStatsHandler(unittest.TestCase):
         self.maxDiff = None
 
     def test_write_to_empty_files(self):
+        """
+        test if writing to empty files works
+        """
+
         tmp_stats_file = self.tmpdir.join('stats.csv')
         tmp_rounds_file = self.tmpdir.join('rounds.csv')
         tmp_streaks_file = self.tmpdir.join('streaks.csv')
@@ -43,6 +47,10 @@ class TestStatsHandler(unittest.TestCase):
         self.assertEqual(2, len(captured))
 
     def test_create_empty_files(self):
+        """
+        test to create new files if no files are found
+        """
+
         new_stats_handler = csvhandler.MasterStatsHandler(str(self.tmpdir.join('stats_wrong.csv')), str(
             self.tmpdir.join('rounds_wrong.csv')), str(self.tmpdir.join('streaks_wrong.csv')))
 
@@ -59,6 +67,10 @@ class TestStatsHandler(unittest.TestCase):
         self.assertEqual(2, len(captured))
 
     def test_clear_stats(self):
+        """
+        test clearing the stats
+        """
+
         tmp_stats_file = self.tmpdir.join('stats.csv')
         tmp_rounds_file = self.tmpdir.join('rounds.csv')
         tmp_streaks_file = self.tmpdir.join('streaks.csv')
@@ -92,6 +104,10 @@ class TestStatsHandler(unittest.TestCase):
             self.assertEqual(contents, '')
 
     def test_failsafes(self):
+        """
+        test what happens if game record is requested with no stats
+        """
+
         tmp_stats_file = self.tmpdir.join('stats.csv')
         tmp_rounds_file = self.tmpdir.join('rounds.csv')
         tmp_streaks_file = self.tmpdir.join('streaks.csv')
@@ -118,6 +134,10 @@ class TestStatsHandler(unittest.TestCase):
         self.assertEqual(0, len(answer))
 
     def test_game_recording(self):
+        """
+        test the actual game statistics recording sequence
+        """
+
         tmp_stats_file = self.tmpdir.join('stats.csv')
         tmp_rounds_file = self.tmpdir.join('rounds.csv')
         tmp_streaks_file = self.tmpdir.join('streaks.csv')
@@ -173,6 +193,10 @@ class TestStatsHandler(unittest.TestCase):
         self.assertEqual(14, len(answer[1]))
 
     def test_free_mode_ignore(self):
+        """
+        test how the free games ignore functionality works
+        """
+
         tmp_stats_file = self.tmpdir.join('stats.csv')
         tmp_rounds_file = self.tmpdir.join('rounds.csv')
         tmp_streaks_file = self.tmpdir.join('streaks.csv')
@@ -217,6 +241,10 @@ class TestStatsHandler(unittest.TestCase):
         self.assertEqual(14, len(answer[0]))
 
     def test_calculate_true_stats(self):
+        """
+        test calculating the complete player lifelong statistics
+        """
+
         tmp_stats_file = self.tmpdir.join('stats.csv')
         tmp_rounds_file = self.tmpdir.join('rounds.csv')
         tmp_streaks_file = self.tmpdir.join('streaks.csv')
@@ -286,6 +314,10 @@ class TestStatsHandler(unittest.TestCase):
         self.assertEqual(2, len(captured))
 
     def test_na_game(self):
+        """
+        test the zero division avoiding mechanisms
+        """
+
         tmp_stats_file = self.tmpdir.join('stats.csv')
         tmp_rounds_file = self.tmpdir.join('rounds.csv')
         tmp_streaks_file = self.tmpdir.join('streaks.csv')
@@ -323,6 +355,10 @@ class TestStatsHandler(unittest.TestCase):
         self.assertAlmostEqual(expected_answer, answer, delta=0.2)
 
     def test_shorter_formatting(self):
+        """
+        test the shorter formatting option for gui
+        """
+
         tmp_stats_file = self.tmpdir.join('stats.csv')
         tmp_rounds_file = self.tmpdir.join('rounds.csv')
         tmp_streaks_file = self.tmpdir.join('streaks.csv')

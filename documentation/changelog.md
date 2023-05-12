@@ -21,3 +21,4 @@
 | 2.5. | 0.2.5 | a lot of unnecessary code removed, added approx. 30 new pytests, backups made of player logs before pytests |
 | 6.5. | 0.2.6 | player can view every individual recorded game in stats tab |
 | 8.5. | 0.2.65 | performance optimization, more bug fixes & polishing |
+| 12.5. | 0.2.7 | final bug fixes & polishing, software ready for final release |

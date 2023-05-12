@@ -1,4 +1,4 @@
 from gui import MasterGameWindow
 
-masterWindow = MasterGameWindow("0.2.65")
+masterWindow = MasterGameWindow("0.2.7")
 masterWindow.start()

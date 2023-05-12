@@ -17,8 +17,8 @@ class MasterGameHandler():
         initialize all variables and establish a connection to specific gui elements
 
         Args:
-            game_tab: game tab gui element from master window (for function calling)
-            stats_tab: stats tab gui element
+            game_tab: game tab gui element from master window (for function calling),
+            stats_tab: stats tab gui element,
             history_tab: history tab gui element
         """
 
@@ -266,7 +266,10 @@ class MasterGameHandler():
 
         round_time = timerlogic.clock.read_accurate()
 
+        # check if answer was correct
         if self.buttons[button] == self.current_flag.upper().replace("_", " "):
+
+            # advanced
             if self.game_mode == 1:
                 self.streak += 1
                 self.game_tab.change_status("CORRECT!", "#bbff78")
@@ -279,12 +282,14 @@ class MasterGameHandler():
 
                 points_gained = points_gained * (log(self.streak, 20) + 1)
 
+            # time trial
             elif self.game_mode == 2:
                 if round_time <= 5.0000:
                     self.game_tab.change_status("CORRECT!", "#bbff78")
                     points_gained = 180 + ((-4 * (round_time ** 2)) / 1.25)
                     self.streak += 1
 
+                # game over in time trial if round time > 5s
                 else:
                     formatted = self.current_flag.upper().replace("_", " ")
                     self.game_tab.change_status(
@@ -292,6 +297,7 @@ class MasterGameHandler():
                     points_gained = 0
                     self.lives = 0
 
+            # other game modes
             else:
                 self.game_tab.change_status("CORRECT!", "#bbff78")
                 points_gained = 100
@@ -304,7 +310,10 @@ class MasterGameHandler():
             if self.streak > self.highest_streak:
                 self.highest_streak = self.streak
 
+        # wrong answer
         else:
+
+            # reduce lives if other game mode than free
             if self.game_mode != 4:
                 self.lives -= 1
 
@@ -323,17 +332,18 @@ class MasterGameHandler():
 
             self.streak = 0
 
-            if self.game_mode == 2:
-                if round_time > 5.0000:
-                    self.game_tab.change_status(
-                        f"TIME'S UP! CORRECT ANSWER WAS {formatted}.", "#ff7c78")
-                    self.lives = 0
+            # time trial ends if round time > 5s even with a wrong answer
+            if self.game_mode == 2 and round_time > 5.0000:
+                self.game_tab.change_status(
+                    f"TIME'S UP! CORRECT ANSWER WAS {formatted}.", "#ff7c78")
+                self.lives = 0
 
             csvhandler.MASTER_RUNNING_GAME.record_new_round(0, round_time)
 
         self.game_tab.display_score(self.score)
         self.game_tab.display_streak(self.streak)
 
+        # check if game is over
         if self.lives == 0:
             history.MASTER_HISTORY_HANDLER.game_over(
                 [self.game_mode, self.score, self.highest_streak])

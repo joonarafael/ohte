@@ -13,6 +13,10 @@ class TestHistory(unittest.TestCase):
         self.maxDiff = None
 
     def test_write_to_empty_history_file(self):
+        """
+        test logic with an empty file
+        """
+
         tmp_history_file = self.tmpdir.join('history.txt')
 
         with open(tmp_history_file, 'w+') as f:
@@ -30,6 +34,10 @@ class TestHistory(unittest.TestCase):
         self.assertEqual(62, len(captured.out))
 
     def test_write_to_nonempty_history_file(self):
+        """
+        test logic with a non-empty file
+        """
+
         tmp_history_file = self.tmpdir.join('history.txt')
 
         with open(tmp_history_file, 'w+') as f:
@@ -42,6 +50,10 @@ class TestHistory(unittest.TestCase):
         self.assertEqual(len(answer), 12)
 
     def test_create_history_file(self):
+        """
+        test file creation
+        """
+
         new_history_handler = history.MasterHistoryHandler(
             str(self.tmpdir.join('history_wrong.txt')))
         answer = new_history_handler.update()
@@ -54,6 +66,10 @@ class TestHistory(unittest.TestCase):
         self.assertEqual(62, len(captured.out))
 
     def test_print_directories(self):
+        """
+        test printing out the directories
+        """
+
         history.print_directories()
 
         expected_length = 97 + \
@@ -64,6 +80,10 @@ class TestHistory(unittest.TestCase):
         self.assertEqual(expected_length, len(captured.out))
 
     def test_write_game_start(self):
+        """
+        test game start writing
+        """
+
         tmp_history_file = self.tmpdir.join('history.txt')
 
         with open(tmp_history_file, 'w+') as f:
@@ -89,6 +109,10 @@ class TestHistory(unittest.TestCase):
         self.assertEqual(len(answer), 14)
 
     def test_write_game_over(self):
+        """
+        test game over writing
+        """
+
         tmp_history_file = self.tmpdir.join('history.txt')
 
         with open(tmp_history_file, 'w+') as f:
@@ -113,6 +137,10 @@ class TestHistory(unittest.TestCase):
         self.assertEqual(len(answer), 12)
 
     def test_write_game_terminated(self):
+        """
+        test game termination writing
+        """
+
         tmp_history_file = self.tmpdir.join('history.txt')
 
         with open(tmp_history_file, 'w+') as f:
@@ -138,6 +166,10 @@ class TestHistory(unittest.TestCase):
         self.assertEqual(len(answer), 14)
 
     def test_clear_history(self):
+        """
+        test if history is correctly cleared
+        """
+
         tmp_history_file = self.tmpdir.join('history.txt')
 
         with open(tmp_history_file, 'w+') as f:

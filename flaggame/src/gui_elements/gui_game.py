@@ -7,7 +7,7 @@ from flaghandler import WORKING_DIR
 
 class GameTab:
     """
-    handle the first tab within the game master window
+    handle the first tab within the game master window,
     displays all relevant content for the actual game
     """
 
@@ -16,7 +16,7 @@ class GameTab:
         initialize all neccessary ui elements for the actual game to be displayed
 
         Args:
-            root (Tk): master game window instance
+            root (Tk): master game window instance,
             frame (Frame): notebook tab element within the master window
         """
 
@@ -78,7 +78,7 @@ class GameTab:
 
     def set_game_handler(self, game_handler: MasterGameHandler):
         """
-        game tab (gui element) needs to access master gamehandler properties & functions
+        game tab (gui element) needs to access master gamehandler properties & functions,
         however, this gamehandler instance can be only passed after game tab (this class)
         has been first initialized
 
@@ -107,7 +107,7 @@ class GameTab:
         update the game title (different game modes or e.g. 'Game Over!' etc.)
 
         Args:
-            new_text (str): new displayed text
+            new_text (str): new displayed text,
             new_color (str): new color for the text (hex value in string as '#12AB56')
         """
 
@@ -118,7 +118,7 @@ class GameTab:
         update the game status (what was the right answer or e.g. 'Correct!' etc.)
 
         Args:
-            new_text (str): new displayed text as a string
+            new_text (str): new displayed text as a string,
             new_color (str): new color for the text (hex value in str as '#12AB56')
         """
 
@@ -146,8 +146,10 @@ class GameTab:
 
     def display_timer(self):
         """
-        update the timer
-        determines the current time and game modes by itself
+        update the timer,
+        determines the current time and game modes by itself,
+        timer counts up in an advanced game, down in a time trial,
+        function calls itself after 100ms, if game is terminated the clock stops
         """
 
         game_mode = self.game_handler.game_mode
@@ -185,7 +187,7 @@ class GameTab:
         update current lives count
 
         Args:
-            lives (int): new lives count
+            lives (int): new lives count,
             color (str): new color for the text (hex value in string as '#12AB56')
         """
 
@@ -245,7 +247,7 @@ class GameTab:
 
     def inactive_buttons(self):
         """
-        disable buttons
+        disable buttons (grey them out)
         """
 
         self.button0.configure(text="OPTION 1", state=DISABLED)

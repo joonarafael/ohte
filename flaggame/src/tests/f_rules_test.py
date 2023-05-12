@@ -9,6 +9,10 @@ class TestRules(unittest.TestCase):
         self.tmpdir = tmpdir
 
     def test_valid_rules_file(self):
+        """
+        test successful rules reading
+        """
+
         tmp_rules_file = self.tmpdir.join('gamerules.txt')
 
         with open(tmp_rules_file, 'w+') as f:
@@ -20,6 +24,10 @@ class TestRules(unittest.TestCase):
         self.assertEqual(len(answer), 70)
 
     def test_invalid_rules_file(self):
+        """
+        test what happens if rulebook is modified
+        """
+
         tmp_rules_file = self.tmpdir.join('gamerules.txt')
 
         with open(tmp_rules_file, 'w+') as f:
@@ -31,6 +39,10 @@ class TestRules(unittest.TestCase):
         self.assertEqual(answer, None)
 
     def test_missing_rules_file(self):
+        """
+        test what happens if file cannot be found
+        """
+
         tmp_rules_file = self.tmpdir.join('gamerules.txt')
 
         with open(tmp_rules_file, 'w+') as f:
