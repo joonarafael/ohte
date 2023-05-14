@@ -34,27 +34,39 @@ For the full installation guide, see [README.md](../README.md). It also includes
 
 ## GRAPHICAL USER INTERFACE & SOFTWARE NAVIGATION
 
+<img src="./images/um_launch.png">
+
 The game window is split into **4 different tabs**:
 
 ### Game
+
+<img src="./images/um_game_going.png">
 
 **Game tab includes the main game**. Current game mode (or e.g. a cancelled game), answer feedback (whether user's answer was right/wrong), and the game status bar (current round, score, etc.) are displayed at the top of the tab. Viewport beneath shows the current flag. Player answer is communicated with the 4 buttons located at the bottom of the tab. During free flag browsing (see [Free Flag Browsing](./user_manual.md#free-flag-browsing)) player can shuffle through the flags with these 4 buttons.
 
 ### Stats
 
+<img src="./images/um_stats.png">
+
 **Stats tab contains the Player Lifelong Statistics** and by switching the view from the [Stats menu](./user_manual.md#switch-game-browse-view), it shows the complete record of all games played. *Every system/machine has its own local database containing the statistics*. They're not synced through Github. **To ensure proper functionality of the statistics system, please do not manually modify/move/remove any of the data files within** `./flaggame/src/logs`. This applies to history recording as well. Software might run into errors if these files are modified externally by the user. Statistics and history can be erased from within the software. See [Clear history... menu](./user_manual.md#clear-history).
 
 ### History
 
+<img src="./images/um_history.png">
+
 **Complete software usage history is displayed in the history tab**. In addition to all game events, it's also possible to view the software launch times from this tab. *Every system/machine has its own local history*. It's not synced through Github.
 
 ### Rules
+
+<img src="./images/um_rules.png">
 
 **The [game rulebook](../flaggame/src/logs/gamerules.txt) is constantly displayed in the Rules tab**. It includes detailed information about every game mode.
 
 ## MENUS
 
 ### FILE
+
+<img src="./images/um_file_menu.png">
 
 #### **New Game...**
 
@@ -82,9 +94,13 @@ Exit software. **Any ongoing game will be terminated** (see [Cancel Game](./user
 
 ### STATS
 
+<img src="./images/um_stats_menu.png">
+
 #### **Switch Game Browse View**
 
 Toggle the view between "*Player Lifelong Statistics*" and "*All Recorded Games*".
+
+<img src="./images/um_recorded_games.png">
 
 #### **Force Refresh Stats**
 
@@ -94,7 +110,11 @@ Option to force the statistic refresh sequence (mainly for debugging purposes).
 
 Select whether to include the Free Mode games in the statistics calculations or not. **Current preference is indicated in the title of the content (tab first row).
 
+<img src="./images/um_ignore_free.png">
+
 ### DEBUG
+
+<img src="./images/um_debug_menu.png">
 
 #### **Print to Console...**
 
@@ -105,6 +125,8 @@ Wide selection of different *game file paths*, *critical directories* and *stati
 **Flag import sequence can be retried** still after software start. Games can't be launched if the total amount of flags found is not equal to 198.
 
 ### ABOUT
+
+<img src="./images/um_about_menu.png">
 
 #### **Show About**
 
