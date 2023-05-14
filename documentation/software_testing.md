@@ -58,6 +58,6 @@ The overall functionality and appearance of the graphical user interface has bee
 
 Software does not handle well situations where it lacks the proper read/write permissions to e.g. flag source directories or exisiting player statistics files.
 
-History doesn't pick up the change of date during software execution (e.g. software launched 23:57 and session lasts for more than 3 minutes). This could be addressed to get more accurate history logbook.
+History doesn't pick up the change of date during software execution (e.g. software launched at 23:57 and session lasts for more than 3 minutes). This could be addressed to get a more accurate history logbook.
 
 For more information regarding source code quality, see [remaining issues with source code quality](./architecture.md#remaining-issues-with-source-code-quality--software-logic).
