@@ -1,7 +1,12 @@
+# python caches
 .pytest_cache
 __pycache__
+
+# coverage & html reports
 .coverage
 htmlcov
+
+# player personal data files
 history.txt
 history_backup.txt
 rounds.csv

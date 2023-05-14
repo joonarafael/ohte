@@ -1,10 +1,12 @@
 # FLAG QUIZ GAME
 
-current ver **0.2.7** (*12.5.2023*)
+(suoritan kurssia suomeksi mutta dokumentaatio on englanniksi)
+
+current ver **0.2.7** (*12.5.2023*), **latest release of the software source code** can be found [here](https://github.com/joonarafael/ohte/releases).
+
+This is a **Flag Quiz Game** including *all 195 fully recognized independent states* listed at [state.gov](https://www.state.gov/independent-states-in-the-world/), and *Taiwan*, *Kosovo* & *Western Sahara*. Flag Quiz Game has 5 different game modes; *Classic*, *Advanced*, *Time Trial*, *One Life*, and *Free Mode*. See the [rulebook](./flaggame/src/logs/gamerules.txt) for details. The game also records *all user activity* and *played games*! Player may look previous games and study their **own lifelong statistics**, such as *total playtime* or *average streak length*!
 
 ## DOCUMENTATION
-
-(suoritan kurssia suomeksi mutta dokumentaatio on englanniksi)
 
 - [User Manual](./documentation/user_manual.md)
 
@@ -18,7 +20,7 @@ current ver **0.2.7** (*12.5.2023*)
 
 ## VERSIONS
 
-Software has not been tested in a MacOS environment. Flag Quiz Game has been built with **Python 3.10** and **Poetry 1.4.0**. Software might not run on other versions. This installation guide [provides some possible solutions](./README.md#troubleshooting-some-possible-poetry-errors) for two common errors encountered with other Poetry versions. A solution for the SQLite error: `database is locked`, is also provied [down below](./README.md#software-test-coverage-report).
+**Software has not been tested in a MacOS environment**. Flag Quiz Game has been built with **Python 3.10** and **Poetry 1.4.0**. Software might not run on other versions. This installation guide [provides some possible solutions](./README.md#troubleshooting-some-possible-poetry-errors) for two common errors encountered with other Poetry versions. A solution for the SQLite error: `database is locked`, is also provied [down below](./README.md#software-test-coverage-report).
 
 ## INSTALLATION GUIDE
 
@@ -30,7 +32,7 @@ git clone https://github.com/joonarafael/ohte.git
 
 ### 2. Navigate to `./flaggame`.
 
-[This folder](./flaggame/) is the root folder for the Poetry project. Not the Github repository `ohte` (where this `README.md` file is located in).
+This is the root folder for the Poetry project. Not the Github repository `ohte` (where this `README.md` file is located in).
 
 ### 3. Resolve Poetry dependencies by executing:
 
@@ -72,13 +74,13 @@ Make sure to familiarize yourself with the [User Manual](./documentation/user_ma
 
 ## SOFTWARE TESTING WITH PYTEST
 
-Run the tests, configured with [pytest.ini](./flaggame/pytest.ini) and ignoring all graphical user interface modules, by executing:
+Run the tests configured with [pytest.ini](./flaggame/pytest.ini) (ignoring all graphical user interface modules) by executing:
 
 ```bash
 poetry run invoke test
 ```
 
-Navigate to [this](./flaggame/src/tests/) folder to find all the automated test source files. The tests will take approximately 38 seconds. They are testing e.g. how the points awarding algorithms and statistics calculations work with different round times and scores. See [Software Testing](./documentation/software_testing.md) for a more complete document detailing the software testing process.
+Navigate to [this folder](./flaggame/src/tests/) to find all the automated test source files. The tests will take approximately 38 seconds. They are testing e.g. how the points awarding algorithms and statistics calculations work with different round times and scores. See [Software Testing](./documentation/software_testing.md) for a more complete document detailing the software testing process.
 
 ## SOFTWARE TEST COVERAGE REPORT
 
@@ -90,7 +92,7 @@ poetry run invoke coverage-report
 
 The generated report can be found at `./flaggame/htmlcov/index.html`.
 
-Please note: if running the Coverage tool on a Horizon virtual desktop, execution might halt due to a SQLite error: `database is locked`. This is a direct consequence of the insufficient speed of the virtual disk (see [this page](https://ohjelmistotekniikka-hy.github.io/python/toteutus#sqlite-tietokanta-lukkiutuminen-virtuaality%C3%B6asemalla) for details). To fix this issue, the whole repository needs to be cloned in to the `/tmp` system folder for proper execution. Move to this folder and follow the instructions from the [beginning](./README.md#installation-guide) again.
+Please note: if running the Coverage tool on a Horizon virtual desktop, execution might halt due to a SQLite error: `database is locked`. This is a direct consequence of the insufficient speed of the virtual disk (see [this page](https://ohjelmistotekniikka-hy.github.io/python/toteutus#sqlite-tietokanta-lukkiutuminen-virtuaality%C3%B6asemalla) for details). To fix this issue, the whole repository needs to be cloned in to the `/tmp` system directory for proper execution. Move to this system directory and follow the instructions from the [beginning](./README.md#installation-guide) again.
 
 ```bash
 cd /tmp

@@ -20,11 +20,12 @@
 | 22.4. | 2    | created first functionality to stats and updated gui accordingly |
 | 24.4. | 3    | added more stats functionality and wrote csv file handling |
 | 25.4. | 5    | improved statistics logic, implemented stats as gui element, polished the software a lot |
-| 29.4. | 3    | started to disassemble the gui module to different sub modules, wrote Docstring documentation |
-| 30.4. | 4    | graphical user interface now split into 8 different sub modules and class structures, software working again |
+| 29.4. | 3    | started to disassemble the gui module to different submodules, wrote Docstring documentation |
+| 30.4. | 4    | graphical user interface now split into 8 different submodules and class structures, software working again |
 | 2.5. | 5    | wrote a ton of new pytests, polished the source code a lot, removed unnecessary code |
 | 3.5. | 1    | troubleshooting coverage issues |
 | 6.5. | 2    | software code polished even more, added functionality to see every recorded game in stats tab |
 | 8.5. | 1    | polishing the software more, statistics calculation split to multiple modules, assessed multiple pylint issues |
 | 12.5. | 4    | software polished for final release, finished the software documentation |
-| total | 59   | |
+| 14.5. | 2    | documentation still enhanced & polished, final release created |
+| total | 61   | |

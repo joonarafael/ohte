@@ -4,11 +4,11 @@ Basic software logic has been rigorously tested with automated testing and wider
 
 All personal player logs (e.g. game history & statistics) are copied to a backup directory before any software testing is executed for safety reasons. This action is done by the `tasks.py` module, and more specifically, performed by the `shutil` library. No matter if the testing sequence is succesfull or not (e.g. halts due to an error), player logs will be copied back from these backups.
 
-As the core game logic deals simultaneously with some GUI elements, the `MagicMock` library from `unittest.mock` is utilized to simulate e.g. the "[Stats](../flaggame/src/gui_elements/gui_stats.py)" tab from the graphical user interface. Similarly the `exit()` calls within the game source code are ignored with the help of `builtins` and `patch` libraries.
+As the core game logic deals simultaneously with some GUI elements, the `MagicMock` library from `unittest.mock` is utilized to simulate e.g. the [`Stats`](../flaggame/src/gui_elements/gui_stats.py) class from the graphical user interface. Similarly the `exit()` calls within the game source code are ignored with the help of `builtins` and `patch` libraries.
 
 ## AUTOMATED TEST MODULES
 
-All automated test modules are located [here](../flaggame/src/tests/).
+All automated test modules are located [here](../flaggame/src/tests/). Short descriptions of the test modules are provided down below:
 
 ### GAMEHANDLER_TEST
 
@@ -20,7 +20,7 @@ The [FlagHandler](../flaggame/src/tests/b_flaghandler_test.py) test module perfo
 
 ### TIMERLOGIC_TEST
 
-The [TimerLogic](../flaggame/src/tests/c_timerlogic_test.py) test module performs a couple of tests assessing the timer logic. These tests include, for example, how the timer returns different decimal-point values.
+The [TimerLogic](../flaggame/src/tests/c_timerlogic_test.py) test module performs a couple of tests assessing the timer logic. These tests include, for example, how the timer returns different decimal place values.
 
 ### HISTORY_TEST
 

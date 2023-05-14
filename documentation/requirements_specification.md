@@ -23,3 +23,7 @@ After the main functionalities and the core application is up and running, these
 - [x] One Life: Just one life but unlimited time
 - [ ] Custom Mode: Player can determine the game settings self
 - [x] Player Lifetime Statistics: Keep track of lifetime statistics, amount of games, accuracy, etc. ...
+
+## Custom Mode
+
+**Custom Mode was never added to the game** as time run out. It was not an easy task to implement this feature given the poor architecture of the core game logic. The 5 different game modes currently in the game are *hard coded* into the actual source code which makes any change/fix extremely difficult. If I'd do this now from the beginning, I'd create some kind of config files for the game modes out of which the game logic could read the game mode properties. For the custom game, player would just modify an additional config file located on disk.
