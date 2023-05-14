@@ -2,7 +2,7 @@
 
 Basic software logic has been rigorously tested with automated testing and wider software functionality, including e.g. software installation and graphical user interface performance, has been manually checked.
 
-All personal player logs (e.g. game history & statistics) are copied to a backup directory before any software testing is executed for safety reasons. This action is done by the `tasks.py` module, and more specifically, performed by the `shutil` library. No matter if the testing sequence is succesfull or not (e.g. halts due to an error), player logs will be copied back from these backups.
+All personal player logs (e.g. game history & statistics) are copied to a backup directory before any software testing is executed for safety reasons. This action is done by the `tasks.py` module, and more specifically, performed by the `shutil` library. No matter if the testing sequence is succesful or not (e.g. halts due to an error), player logs will be copied back from these backups.
 
 As the core game logic deals simultaneously with some GUI elements, the `MagicMock` library from `unittest.mock` is utilized to simulate e.g. the [`Stats`](../flaggame/src/gui_elements/gui_stats.py) class from the graphical user interface. Similarly the `exit()` calls within the game source code are ignored with the help of `builtins` and `patch` libraries.
 
@@ -56,8 +56,8 @@ The overall functionality and appearance of the graphical user interface has bee
 
 ## REMAINING QUALITY CONCERNS
 
-Software does not handle well situations where it lacks the proper read/write permissions to e.g. flag source directories or exisiting player statistics files.
+Software does not handle well situations where it lacks the proper read/write permissions to e.g. flag source directories or existing player statistics files.
 
-History doesn't pick up the change of date during software execution (e.g. software launched at 23:57 and session lasts for more than 3 minutes). This could be addressed to get a more accurate history logbook.
+History doesn't pick up the change of date during software execution (e.g. software launched at 23:57 and session lasts for more than 3 minutes). This could be addressed better to get a more accurate history logbook.
 
 For more information regarding source code quality, see [remaining issues with source code quality](./architecture.md#remaining-issues-with-source-code-quality--software-logic).
