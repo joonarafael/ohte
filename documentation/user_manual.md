@@ -1,6 +1,6 @@
 # USER MANUAL
 
-Complete user manual for software usage. Updated May 12th (ver 0.2.7). Latest release of the software source code can be found [here](https://github.com/joonarafael/ohte/releases).
+Complete user manual for software usage. Updated May 14th (ver 0.2.7). Latest release of the software source code can be found [here](https://github.com/joonarafael/ohte/releases).
 
 ## INSTALLATION
 
@@ -42,13 +42,13 @@ The game window is split into **4 different tabs**:
 
 <img src="./images/um_game_going.png">
 
-**Game tab includes the main game**. Current game mode (or e.g. a cancelled game), answer feedback (whether user's answer was right/wrong), and the game status bar (current round, score, etc.) are displayed at the top of the tab. Viewport beneath shows the current flag. Player answer is communicated with the 4 buttons located at the bottom of the tab. During free flag browsing (see [Free Flag Browsing](./user_manual.md#free-flag-browsing)) player can shuffle through the flags with these 4 buttons.
+**Game tab includes the main game**. Current *game mode* (or e.g. a cancelled game), *answer feedback* (whether user's answer was right/wrong), and the *game status bar* (*current round*, *score*, etc.) are displayed at the top of the tab. *Viewport* beneath shows the *current flag*. Player answer is communicated with the 4 *buttons* located at the bottom of the tab. During *[Free Flag Browsing](./user_manual.md#free-flag-browsing)* player can shuffle through the flags with these 4 buttons.
 
 ### Stats
 
 <img src="./images/um_stats.png">
 
-**Stats tab contains the Player Lifelong Statistics** and by switching the view from the [Stats menu](./user_manual.md#switch-game-browse-view), it shows the complete record of all games played. *Every system/machine has its own local database containing the statistics*. They're not synced through Github. **To ensure proper functionality of the statistics system, please do not manually modify/move/remove any of the data files within** `./flaggame/src/logs`. This applies to history recording as well. Software might run into errors if these files are modified externally by the user. Statistics and history can be erased from within the software. See [Clear history... menu](./user_manual.md#clear-history).
+**Stats tab contains the Player Lifelong Statistics** and by switching the view from the [Stats menu](./user_manual.md#switch-game-browse-view), it shows the complete record of all games played. *Every system/machine has its own local database containing the statistics*. They're not synced through Github. **To ensure proper functionality of the statistics system, please do not manually modify/move/remove any of the data files within** `./flaggame/src/logs`. This applies to history recording as well. Software might run into errors if these files are modified externally by the user. Statistics and history can be erased from within the software. See [Clear history](./user_manual.md#clear-history).
 
 ### History
 
@@ -70,11 +70,11 @@ The game window is split into **4 different tabs**:
 
 #### **New Game...**
 
-Start a new game by selecting the game mode. Game modes include Classic, Advanced, Time Trial, One Life, and Free Mode (See [rulebook](../flaggame/src/logs/gamerules.txt) for details). Every game start is recorded to history. Game will be recorded and calculated into statistics if more than one round is played (excluding Time Trial, which is recorded anyways).
+Start a new game by selecting the game mode. Game modes include *Classic*, *Advanced*, *Time Trial*, *One Life*, and *Free Mode* (See [rulebook](../flaggame/src/logs/gamerules.txt) for details). Every game start is recorded to history. Game will be recorded and calculated into statistics if more than one round is played (excluding Time Trial, which is recorded anyways).
 
 #### **Cancel Game**
 
-Cancel any ongoing game. If an ongoing game is terminated, the current game state will be recorded to history & statistics. The "Master GameHandler" instance (responsible for all core game logic) receives *a complete reset* when a game is cancelled (good for debugging purposes if game logic gets stuck).
+Cancel any ongoing game. If an ongoing game is terminated, the current game state will be recorded to history & statistics. The "*Master GameHandler*" instance (responsible for all core game logic) receives **a complete reset** when a game is cancelled (good for debugging purposes if game logic gets stuck).
 
 #### **Lock / Unlock Resolution**
 
@@ -104,11 +104,11 @@ Toggle the view between "*Player Lifelong Statistics*" and "*All Recorded Games*
 
 #### **Force Refresh Stats**
 
-Option to force the statistic refresh sequence (mainly for debugging purposes).
+Option to force the *statistic refresh sequence* (mainly for debugging purposes).
 
 #### **Ignore / Include Free Mode Games**
 
-Select whether to include the Free Mode games in the statistics calculations or not. **Current preference is indicated in the title of the content (tab first row).
+Select whether to include the Free Mode games in the statistics calculations or not. **Current preference is indicated in the title of the content (tab first row)**:
 
 <img src="./images/um_ignore_free.png">
 
@@ -118,7 +118,7 @@ Select whether to include the Free Mode games in the statistics calculations or 
 
 #### **Print to Console...**
 
-Wide selection of different *game file paths*, *critical directories* and *statistics files* to get printed out to console for debugging purposes.
+Wide selection of different software *file paths*, *critical directories* and *statistics files* to get printed out to console for debugging purposes.
 
 #### **Retry Flag Import...**
 
