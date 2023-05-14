@@ -4,7 +4,7 @@
 
 current ver **0.2.7** (*12.5.2023*), **latest release of the software source code** can be found [here](https://github.com/joonarafael/ohte/releases).
 
-This is a **Flag Quiz Game** including *all 195 fully recognized independent states* listed at [state.gov](https://www.state.gov/independent-states-in-the-world/), and *Taiwan*, *Kosovo* & *Western Sahara*. Flag Quiz Game has 5 different game modes; *Classic*, *Advanced*, *Time Trial*, *One Life*, and *Free Mode*. See the [rulebook](./flaggame/src/logs/gamerules.txt) for details. The game also records *all user activity* and *played games*! Player may look previous games and study their **own lifelong statistics**, such as *total playtime* or *average streak length*!
+This is a **Flag Quiz Game** including all 195 *fully recognized independent states* listed at [state.gov](https://www.state.gov/independent-states-in-the-world/), and *Taiwan*, *Kosovo* & *Western Sahara*. The game has 5 different game modes; *Classic*, *Advanced*, *Time Trial*, *One Life*, and *Free Mode*. See the [rulebook](./flaggame/src/logs/gamerules.txt) for details. The software also records *all user activity* and *played games*! Player may look previous games and study their **own lifelong statistics**, such as *total playtime* or *average streak length*!
 
 ## DOCUMENTATION
 
